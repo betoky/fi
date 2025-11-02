@@ -1,14 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
-import { Mail } from '../../components/icons/mail/mail';
-import { Lock } from '../../components/icons/lock/lock';
-import { ProgressActivity } from '../../components/icons/progress-activity/progress-activity';
+import { MaterialIcon } from '../../components/icons/material-icon/material-icon';
 import { Auth } from '../../services/auth';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, Mail, Lock, ProgressActivity],
+  imports: [FormsModule, MaterialIcon],
   templateUrl: './login.html',
 })
 export class Login {

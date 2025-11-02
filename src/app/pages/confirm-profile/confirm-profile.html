@@ -2,16 +2,24 @@
   <div
     class="p-6 lg:p-8 2xl:p-10 bg-white sm:rounded-2xl sm:shadow-xl w-full sm:w-4/5 md:w-2/3 md:max-w-lg min-h-dvh sm:min-h-fit"
   >
-    <h1 class="text-5xl lg:text-6xl text-center font-black text-branding my-auto pb-4 animate-pulse">Fi</h1>
+    <h1
+      class="text-5xl lg:text-6xl text-center font-black text-branding my-auto pb-4 animate-pulse"
+    >
+      Fi
+    </h1>
     <p class="text-sm text-center text-txt-secondary mb-4">
-      {{ isInvited ? 'Vous êtes invité à créer votre compte ici.' : 'Veuillez remplir le formulaire pour compléter votre profil.' }}
+      {{
+        isInvited
+          ? 'Vous êtes invité à créer votre compte ici.'
+          : 'Veuillez remplir le formulaire pour compléter votre profil.'
+      }}
     </p>
     <form class="space-y-4" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
       <div>
         <label for="name" class="block mb-2 form-label">Votre nom</label>
         <div class="relative text-icon">
           <span class="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
-            <icon-card />
+            <material-icon name="id_card" />
           </span>
           <input
             type="text"
@@ -27,7 +35,7 @@
         <label for="home" class="block mb-2 form-label">Nom de votre foyer</label>
         <div class="relative text-icon">
           <span class="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
-            <icon-home />
+            <material-icon name="home_and_garden" />
           </span>
           <input
             type="text"
@@ -39,10 +47,10 @@
         </div>
       </div>
       <div>
-        <label class='block mb-2 form-label'>Votre email</label>
+        <label class="block mb-2 form-label">Votre email</label>
         <div class="relative text-icon">
           <span class="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
-            <icon-mail />
+            <material-icon name="mail" />
           </span>
           <input
             type="email"
@@ -58,7 +66,7 @@
         <label for="password" class="block mb-2 form-label">Mot de passe</label>
         <div class="relative text-icon">
           <span class="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
-            <icon-lock />
+            <material-icon name="lock" />
           </span>
           <input
             type="password"
@@ -85,7 +93,7 @@
         >
         <div class="relative text-icon">
           <span class="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
-            <icon-lock />
+            <material-icon name="lock" />
           </span>
           <input
             type="password"
@@ -107,7 +115,7 @@
       >
         @if (isLoading()) {
         <span class="transform animate-spin">
-          <icon-progress-activity size="20px" />
+          <material-icon name='progress_activity' size="20px" />
         </span>
         } Enregistrer
       </button>
