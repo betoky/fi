@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { Auth } from '../../services/auth';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,5 +6,4 @@ import { Auth } from '../../services/auth';
   templateUrl: './dashboard.html',
 })
 export class Dashboard {
-  protected auth = inject(Auth);
 }

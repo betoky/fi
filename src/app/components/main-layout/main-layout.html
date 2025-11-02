@@ -1,1 +1,67 @@
-<router-outlet/>
+<main class="min-h-dvh px-3 pb-8 lg:pb-12">
+  <router-outlet />
+
+  <!-- Bottom bar navigation -->
+  @let item = 'text-txt-secondary hover:text-black transition-colors duration-300';
+  @let activeItem = 'text-primary-active! pointer-events-none';
+  @let linkItem = 'py-2 px-3 flex flex-col lg:flex-row items-center gap-0.5 lg:gap-2.5 w-18 sm:w-22 lg:w-fit';
+  <div class="fixed bottom-5 lg:bottom-8 left-0 right-0 z-20 px-3">
+    <div class="px-3 sm:px-6 lg:px-10 py-1.5 shadow-xs bg-white rounded-full w-full max-w-6xl mx-auto">
+      <div class="flex items-center gap-6 lg:gap-8">
+        <!-- Logo -->
+        <span class="hidden sm:inline-block text-4xl leading-none! font-black text-branding animate-pulse"> Fi </span>
+        <!-- Navigation -->
+        <nav class="flex-1 font-medium">
+          <ul class="flex justify-center sm:justify-start items-center gap-1.5">
+            <!-- Dashboard -->
+            <li [class]="item" [routerLinkActive]="activeItem">
+              <a [class]="linkItem" routerLink="dashboard">
+                <span class="text-[1.625rem] lg:text-3xl">
+                  <material-icon size="1em" name="analytics" />
+                </span>
+                <span class="text-[.625rem] lg:text-sm align-middle">Dashboard</span>
+              </a>
+            </li>
+            <!-- Expenses -->
+            <li [class]="item" [routerLinkActive]="activeItem">
+              <a [class]="linkItem" routerLink="expenses">
+                <span class="text-[1.625rem] lg:text-3xl">
+                  <material-icon size="1em" name="receipt" />
+                </span>
+                <span class="text-[.625rem] lg:text-sm align-middle">Dépenses</span>
+              </a>
+            </li>
+            <!-- Banking transactions -->
+            <li [class]="item" [routerLinkActive]="activeItem">
+              <a [class]="linkItem" routerLink="banking-transactions">
+                <span class="text-[1.625rem] lg:text-3xl">
+                  <material-icon size="1em" name="account_balance" />
+                </span>
+                <span class="text-[.625rem] lg:text-sm align-middle">Banque</span>
+              </a>
+            </li>
+            <!-- Investments -->
+            <li [class]="item" [routerLinkActive]="activeItem">
+              <a [class]="linkItem" routerLink="investments">
+                <span class="text-[1.625rem] lg:text-3xl">
+                  <material-icon size="1em" name="finance_mode" />
+                </span>
+                <span class="text-[.625rem] lg:text-sm align-middle">Investir</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <!-- Profile -->
+        <div class='hidden sm:flex items-center gap-3 ml-auto w-fit'>
+          <span class='font-medium text-sm text-black'>{{ loggedUser()?.name }}</span>
+          <button role='button' (click)="logout()"
+            class='w-8 h-8 rounded-full text-error bg-surface-error cursor-pointer relative'>
+            <span class="absolute top-2 left-2">
+              <material-icon name="logout" size="1.125em"/>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
