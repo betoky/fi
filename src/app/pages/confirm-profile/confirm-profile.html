@@ -1,0 +1,116 @@
+<div class="min-h-dvh sm:grid sm:place-items-center sm:p-3.5">
+  <div
+    class="p-6 lg:p-8 2xl:p-10 bg-white sm:rounded-2xl sm:shadow-xl w-full sm:w-4/5 md:w-2/3 md:max-w-lg min-h-dvh sm:min-h-fit"
+  >
+    <h1 class="text-5xl lg:text-6xl text-center font-black text-branding my-auto pb-4 animate-pulse">Fi</h1>
+    <p class="text-sm text-center text-txt-secondary mb-4">
+      {{ isInvited ? 'Vous êtes invité à créer votre compte ici.' : 'Veuillez remplir le formulaire pour compléter votre profil.' }}
+    </p>
+    <form class="space-y-4" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="name" class="block mb-2 form-label">Votre nom</label>
+        <div class="relative text-icon">
+          <span class="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
+            <icon-card />
+          </span>
+          <input
+            type="text"
+            id="name"
+            class="pl-11! block w-full form-input"
+            placeholder="Betoky"
+            autocomplete="given-name"
+            formControlName="name"
+          />
+        </div>
+      </div>
+      <div>
+        <label for="home" class="block mb-2 form-label">Nom de votre foyer</label>
+        <div class="relative text-icon">
+          <span class="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
+            <icon-home />
+          </span>
+          <input
+            type="text"
+            id="home"
+            class="pl-11! block w-full form-input"
+            placeholder="Betoky'House"
+            formControlName="home"
+          />
+        </div>
+      </div>
+      <div>
+        <label class='block mb-2 form-label'>Votre email</label>
+        <div class="relative text-icon">
+          <span class="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
+            <icon-mail />
+          </span>
+          <input
+            type="email"
+            class="pl-11! block w-full form-input"
+            autocomplete="email"
+            [value]="user()?.email"
+            readonly
+            disabled
+          />
+        </div>
+      </div>
+      <div>
+        <label for="password" class="block mb-2 form-label">Mot de passe</label>
+        <div class="relative text-icon">
+          <span class="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
+            <icon-lock />
+          </span>
+          <input
+            type="password"
+            id="password"
+            placeholder="••••••"
+            class="pl-11! block w-full form-input"
+            autocomplete="new-password"
+            formControlName="password"
+          />
+        </div>
+        @if (password.invalid && (password.touched)) { @if (password.hasError('minlength')) {
+        <span class="text-xs text-error font-medium">
+          il doit contenir au moins 6 caractères.
+        </span>
+        } @else if (password.hasError('pattern')) {
+        <span class="text-xs text-error font-medium">
+          Il doit contenir au moins une lettre minuscule, majuscule et un chiffre.
+        </span>
+        } }
+      </div>
+      <div>
+        <label for="confirm-password" class="block mb-2 form-label"
+          >Confirmer le mot de passe</label
+        >
+        <div class="relative text-icon">
+          <span class="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
+            <icon-lock />
+          </span>
+          <input
+            type="password"
+            id="confirm-password"
+            placeholder="••••••"
+            class="pl-11! block w-full form-input"
+            autocomplete="new-password"
+            formControlName="confirm"
+          />
+        </div>
+        @if ( registrationForm.hasError('passwordsNotMatching') && confirm.touched ) {
+        <span class="text-xs text-error font-medium">Les mots de passe ne correspondent pas.</span>
+        }
+      </div>
+      <button
+        type="submit"
+        class="mt-6 w-full btn btn-primary flex items-center justify-center gap-1.5"
+        [disabled]="registrationForm.invalid"
+      >
+        @if (isLoading()) {
+        <span class="transform animate-spin">
+          <icon-progress-activity size="20px" />
+        </span>
+        } Enregistrer
+      </button>
+    </form>
+  </div>
+</div>

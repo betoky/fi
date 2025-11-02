@@ -1,13 +1,72 @@
 /* You can add global styles to this file, and also import other style files */
-@import "tailwindcss";
-
+@import 'tailwindcss';
 
 @utility container {
-    @apply mx-auto px-4;
+  @apply mx-auto px-4;
+}
+
+@theme {
+  --font-poppins: 'Poppins', sans-serif;
+
+  /* COLORS */
+  --color-*: initial;
+  --color-white: oklch(100% 0 0);
+
+
+  --color-branding: oklch(66.19% 0.026 254.02);
+
+  --color-primary: oklch(73% 0.116 171.21);
+  --color-primary-focus: oklch(100% 0.085 180);
+  --color-primary-hover: oklch(60% 0.116 171.21);
+  --color-primary-disable: oklch(73% 0.116 171.21 / 50%);
+
+  --color-surface: oklch(97% 0 0);
+
+  --color-error: oklch(57.7% 0.245 27.325);
+  --color-surface-error: oklch(88.5% 0.062 18.334);
+  --color-border-error: oklch(70.4% 0.191 22.216);
+
+  --color-warning: oklch(64.6% 0.222 41.116);
+  --color-surface-warning: oklch(90.1% 0.076 70.697);
+
+  --color-txt-secondary: oklch(55% 0.023 264.36);
+
+  --color-label: oklch(20% 0.03 200);
+  --color-input-bg: oklch(98.5% 0.002 247.839);
+  --color-input-border: oklch(87.2% 0.01 258.338);
+  --color-input-focus: oklch(70.7% 0.022 261.325);
+  --color-input-text: oklch(27.8% 0.033 256.848);
+  --color-input-placeholder: oklch(70.7% 0.022 261.325);
+
+  --color-icon: oklch(70.7% 0.022 261.325);
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-    font-style: normal;
-    font-weight: 400;
+  @apply bg-surface font-poppins font-normal;
+}
+
+.form-label {
+  @apply text-sm font-medium text-label;
+}
+
+.form-input {
+  @apply bg-input-bg rounded-lg py-3 px-4 text-sm text-input-text placeholder:text-input-placeholder
+  border focus:border-transparent border-input-border
+  ring-3 ring-transparent focus:ring-1 focus:outline-hidden focus:ring-input-focus
+}
+.form-input.ng-touched.ng-dirty.ng-invalid,
+.form-input.ng-touched.ng-pristine.ng-invalid {
+  @apply border border-r-4 border-border-error focus:ring-surface-error;
+}
+
+.btn {
+  @apply cursor-pointer disabled:pointer-events-none
+  font-medium rounded-lg text-sm px-5 py-2.5
+  transition-colors duration-300;
+}
+
+.btn-primary {
+  @apply text-white bg-primary hover:bg-primary-hover
+  focus:ring-4 focus:outline-hidden focus:ring-primary-focus
+  disabled:bg-primary-disable;
 }

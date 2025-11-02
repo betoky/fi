@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invitation | Fi</title>
+  </head>
+  <body>
+    <h2>Vous avez été invité à rejoindre Fi</h2>
+    <p>
+      Vous avez été invité à créer un compte utilisateur sur
+      <a href="{{ .SiteURL }}" target="_blank" rel="noopener noreferrer">{{ .SiteURL }}</a>.
+      Suivez ce lien pour accepter l'invitation :
+    </p>
+    <p>
+      <a href="{{ .SiteURL }}/confirm?token={{ .TokenHash }}&type=invite">Acceptez l'invitation</a>
+    </p>
+  </body>
+</html>
