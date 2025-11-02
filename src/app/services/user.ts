@@ -13,4 +13,13 @@ export class User {
       throw error;
     }
   }
+
+  async hasProfile() {
+    const { error, count } = await this.supabase.from('users').select('*', { count: 'exact' });
+    if (error) {
+      throw error;
+    }
+
+    return count ? count > 0 : false;
+  }
 }

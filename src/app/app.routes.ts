@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { noAuthGuard } from './guards/no-auth-guard';
+import { profileGuard } from './guards/profile-guard';
 
 export const routes: Routes = [
   {
@@ -13,6 +14,7 @@ export const routes: Routes = [
   },
   {
     path: '',
+    canActivateChild: [profileGuard],
     loadComponent: () => import('./components/main-layout/main-layout').then(m => m.MainLayout),
     children: [
       {

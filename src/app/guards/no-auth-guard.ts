@@ -3,7 +3,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { Auth } from '../services/auth';
 
-export const noAuthGuard: CanActivateFn = (route, state) => {
+export const noAuthGuard: CanActivateFn = () => {
   const router = inject(Router);
   return inject(Auth).isAuthenticated$.pipe(
     map(isAuth => {

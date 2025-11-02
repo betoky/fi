@@ -13,4 +13,13 @@ export class Home {
       throw error;
     }
   }
+
+  async hasHome() {
+    const { error, count } = await this.supabase.from('homes').select('*', { count: 'exact' });
+    if (error) {
+      throw error;
+    }
+
+    return count ? count > 0 : false;
+  }
 }

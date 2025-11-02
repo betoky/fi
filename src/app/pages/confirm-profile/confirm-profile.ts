@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { take } from 'rxjs';
@@ -17,7 +17,7 @@ import { Home as HomeService } from '../../services/home';
   imports: [ReactiveFormsModule, Mail, Lock, ProgressActivity, Home],
   templateUrl: './confirm-profile.html',
 })
-export class ConfirmProfile {
+export class ConfirmProfile implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private auth = inject(Auth);
@@ -98,20 +98,26 @@ export class ConfirmProfile {
     });
   }
 
+  async ngOnInit(): Promise<void> {
+    const hasProfile = await this.userService.hasProfile();
+    const hasHome = await this.homeService.hasHome();
+
+    if (hasHome && hasProfile) {
+      this.router.navigate(['/'], { replaceUrl: true });
+    }
+  }
+
   async onSubmit() {
-    const {id, email} = this.user()!;
+    const { id, email } = this.user()!;
     const { name, home, password } = this.registrationForm.getRawValue();
     try {
       this.isLoading.set(true);
-      await Promise.all([
-        this.userService.saveUser(id, name),
-        this.homeService.saveHome(id, home),
-      ]);
+      await Promise.all([this.userService.saveUser(id, name), this.homeService.saveHome(id, home)]);
       await this.auth.updatePassword(email!, password);
       await this.auth.logout();
       this.router.navigate(['/login'], { replaceUrl: true });
-    } catch(error) {
-      console.debug(error)
+    } catch (error) {
+      console.debug(error);
     } finally {
       this.isLoading.set(false);
     }
