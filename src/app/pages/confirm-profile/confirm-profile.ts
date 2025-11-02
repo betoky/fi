@@ -74,11 +74,14 @@ export class ConfirmProfile implements OnInit {
         return;
       }
 
-      this.auth.getAuthUser().then(({ data: { user } }) => {
-        if (user) {
-          this.user.set(user);
-        }
-      });
+      this.auth
+        .getAuthUser()
+        .then((user) => {
+          if (user) {
+            this.user.set(user);
+          }
+        })
+        .catch((error) => console.debug(error));
 
       if (token) {
         this.auth
