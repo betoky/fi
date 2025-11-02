@@ -1,0 +1,84 @@
+<div class="min-h-dvh sm:grid sm:place-items-center sm:p-3.5">
+  <div
+    class="p-6 lg:p-8 2xl:p-10 bg-white sm:rounded-2xl sm:shadow-xl w-full sm:w-4/5 md:w-2/3 md:max-w-lg min-h-dvh sm:min-h-fit"
+  >
+    <h1 class="text-5xl lg:text-6xl text-center font-black text-branding my-auto pb-4 animate-pulse">
+      Fi
+    </h1>
+    <p class="text-sm text-center text-txt-secondary mb-8">Maitriser le budget de votre foyer</p>
+    @if(errorMsg) {
+    <div
+      class="py-3 px-4 mb-8 rounded-md text-center font-medium text-sm text-error bg-surface-error"
+    >
+      <p>{{ errorMsg }}</p>
+    </div>
+    } @if(warningMsg) {
+    <div
+      class="py-3 px-4 mb-8 rounded-md text-center font-medium text-sm text-warning bg-surface-warning"
+    >
+      <p>{{ warningMsg }}</p>
+    </div>
+    }
+    <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm" class="space-y-4">
+      <div>
+        <label for="email" class="block mb-2 form-label">Email</label>
+        <div class="relative text-icon">
+          <span class="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
+            <icon-mail />
+          </span>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            class="pl-12! block w-full form-input"
+            placeholder="betoky@gmail.com"
+            autocomplete="username"
+            ngModel #email='ngModel'
+            required
+            email
+          />
+        </div>
+        @if (email.invalid && (email.touched)) {
+        <span class="text-xs text-error font-medium"> L'email n'est pas valide. </span>
+        }
+      </div>
+      <div>
+        <label for="password" class="block mb-2 form-label">Mot de passe</label>
+        <div class="relative text-icon">
+          <span class="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
+            <icon-lock />
+          </span>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="••••••••••"
+            class="pl-12! block w-full form-input"
+            autocomplete="current-password"
+            required
+            ngModel
+          />
+        </div>
+      </div>
+      <button
+        type="submit"
+        [disabled]="!loginForm.form.valid"
+        class="my-6 w-full btn btn-primary flex items-center justify-center gap-1.5"
+      >
+        @if (isLoading()) {
+        <span class="transform animate-spin">
+          <icon-progress-activity size="20px" />
+        </span>
+        } Login
+      </button>
+      <div class="text-xs font-medium text-txt-secondary text-center">
+        Vous n'avez pas encore de compte ?<br />Contactez-moi à l'adresse
+        <a
+          class="font-medium text-primary outline-none focus:ring-2 focus:ring-primary-focus hover:underline"
+          href="mailto:mahefarisont@gmail.com"
+          >mahefarisont@gmail.com</a
+        >
+      </div>
+    </form>
+  </div>
+</div>
