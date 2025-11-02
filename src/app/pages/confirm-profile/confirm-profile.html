@@ -11,14 +11,14 @@
         <label for="name" class="block mb-2 form-label">Votre nom</label>
         <div class="relative text-icon">
           <span class="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
-            <icon-mail />
+            <icon-card />
           </span>
           <input
             type="text"
             id="name"
             class="pl-11! block w-full form-input"
             placeholder="Betoky"
-            autocomplete="off"
+            autocomplete="given-name"
             formControlName="name"
           />
         </div>
@@ -34,12 +34,26 @@
             id="home"
             class="pl-11! block w-full form-input"
             placeholder="Betoky'House"
-            autocomplete="off"
             formControlName="home"
           />
         </div>
       </div>
-      <input type="hidden" name="username" autocomplete="email" [value]="user()?.email" />
+      <div>
+        <label class='block mb-2 form-label'>Votre email</label>
+        <div class="relative text-icon">
+          <span class="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
+            <icon-mail />
+          </span>
+          <input
+            type="email"
+            class="pl-11! block w-full form-input"
+            autocomplete="email"
+            [value]="user()?.email"
+            readonly
+            disabled
+          />
+        </div>
+      </div>
       <div>
         <label for="password" class="block mb-2 form-label">Mot de passe</label>
         <div class="relative text-icon">
@@ -82,7 +96,7 @@
             formControlName="confirm"
           />
         </div>
-        @if ( registrationForm.hasError('passwordsNotMatching') && confirm.dirty ) {
+        @if ( registrationForm.hasError('passwordsNotMatching') && confirm.touched ) {
         <span class="text-xs text-error font-medium">Les mots de passe ne correspondent pas.</span>
         }
       </div>

@@ -11,10 +11,11 @@ import { Home } from '../../components/icons/home/home';
 import { passwordsMatching } from '../../validators/passwords-matching';
 import { User as UserService } from '../../services/user';
 import { Home as HomeService } from '../../services/home';
+import { Card } from "../../components/icons/card/card";
 
 @Component({
   selector: 'app-cofirm-profile',
-  imports: [ReactiveFormsModule, Mail, Lock, ProgressActivity, Home],
+  imports: [ReactiveFormsModule, Mail, Lock, ProgressActivity, Home, Card],
   templateUrl: './confirm-profile.html',
 })
 export class ConfirmProfile implements OnInit {
