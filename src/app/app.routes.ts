@@ -19,7 +19,7 @@ export const routes: Routes = [
     loadComponent: () => import('./components/main-layout/main-layout').then((m) => m.MainLayout),
     children: [
       {
-        path: 'dashboard', pathMatch: 'full',
+        path: 'dashboard',
         loadComponent: () => import('./pages/dashboard/dashboard').then((m) => m.Dashboard),
       },
       {
@@ -36,7 +36,7 @@ export const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: '/dashboard',
+        redirectTo: 'dashboard',
       },
     ],
   },

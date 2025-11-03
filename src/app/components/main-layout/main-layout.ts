@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { RouterOutlet, RouterLinkActive, Router } from '@angular/router';
+import { RouterOutlet, RouterLinkActive, Router, RouterLink } from '@angular/router';
 import { MaterialIcon } from "../icons/material-icon/material-icon";
 import { Auth } from '../../services/auth';
 import { User } from '../../services/user';
@@ -7,7 +7,7 @@ import { Tables } from '../../types/database.types';
 
 @Component({
   selector: 'app-main-layout',
-  imports: [RouterOutlet, RouterLinkActive, MaterialIcon],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, MaterialIcon],
   templateUrl: './main-layout.html',
 })
 export class MainLayout implements OnInit {

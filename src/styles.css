@@ -40,6 +40,8 @@
   --color-input-placeholder: oklch(70.7% 0.022 261.325);
 
   --color-icon: oklch(70.7% 0.022 261.325);
+
+  --color-border: oklch(0.872 0.01 258.338);
 }
 
 body {
