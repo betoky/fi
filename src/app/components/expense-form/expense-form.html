@@ -1,0 +1,65 @@
+<div class="px-3.5 py-2.5 space-y-3">
+  <div>
+    <h2 class="text-xl font-medium">Ajouter une dépense</h2>
+    <p>Enregistrer une nouvelle dépense avec les articles achetés</p>
+  </div>
+  <div class="columns-1 sm:columns-2 space-y-3">
+    <div class="">
+      <label class="form-label block" for="date">Date</label>
+      <input class="form-input w-full" type="date" id="date" />
+    </div>
+    <div class="">
+      <label class="form-label block" for="account">Compte</label>
+      <select class="form-input w-full" id="account">
+        <option value="account-1">Compte 1</option>
+        <option value="account-2">Compte 2</option>
+        <option value="account-3">Compte 3</option>
+      </select>
+    </div>
+  </div>
+  <div class="columns-1 sm:columns-2 space-y-3">
+    <div class="">
+      <label class="form-label block" for="category">Catégorie</label>
+      <select class="form-input w-full" id="category">
+        <option value="category-1">Catégorie 1</option>
+        <option value="category-2">Catégorie 2</option>
+        <option value="category-3">Catégorie 3</option>
+      </select>
+    </div>
+    <div class="">
+      <label class="form-label block" for="group">Nom du groupe (optionnel)</label>
+      <input class="form-input w-full" type="text" id="group" />
+    </div>
+  </div>
+  <div class="columns-1">
+    <div class="">
+      <label class="form-label block" for="description">Description (optionnel)</label>
+      <textarea class="form-input w-full" id="description"></textarea>
+    </div>
+  </div>
+  <!-- Items -->
+  <div class="space-y-4">
+    <div class="flex items-center justify-between">
+      <div>Articles</div>
+      <button type="button" class="btn btn-icon">
+        <material-icon name="add" size="1em" />
+        Ajouter un article
+      </button>
+    </div>
+    <div class="space-y-3">
+      <!-- Card -->
+    </div>
+
+    <div class="flex justify-end border-t pt-4">
+      <div class="text-right">
+        <p class="text-sm">Total de la dépense</p>
+        <p class="text-2xl font-bold">25 000 Ar</p>
+      </div>
+    </div>
+
+    <div class="text-end">
+      <button type="button" class="btn" (click)="closeModal()">Annuler</button>
+      <button type="button" class="btn">Enregistrer la dépense</button>
+    </div>
+  </div>
+</div>
