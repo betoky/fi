@@ -1,13 +1,11 @@
 <div class="min-h-dvh sm:grid sm:place-items-center sm:p-3.5">
-  <div
-    class="p-6 lg:p-8 2xl:p-10 bg-white sm:rounded-2xl sm:shadow-xl w-full sm:w-4/5 md:w-2/3 md:max-w-lg min-h-dvh sm:min-h-fit"
-  >
+  <p-card styleClass="pt-16 sm:pt-0 w-full sm:w-4/5 md:w-2/3 md:max-w-lg min-h-dvh sm:min-h-fit">
     <h1
-      class="text-5xl lg:text-6xl text-center font-black text-branding my-auto pb-4 animate-pulse"
+      class="text-5xl lg:text-6xl text-center font-black my-auto pb-4 animate-pulse"
     >
       Fi
     </h1>
-    <p class="text-sm text-center text-txt-secondary mb-4">
+    <p class="text-sm text-center mb-4">
       {{
         isInvited
           ? 'Vous êtes invité à créer votre compte ici.'
@@ -15,110 +13,93 @@
       }}
     </p>
     <form class="space-y-4" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-      <div>
-        <label for="name" class="block mb-2 form-label">Votre nom</label>
-        <div class="relative text-icon">
-          <span class="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
-            <material-icon name="id_card" />
-          </span>
+      <div class="space-y-1">
+        <label for="name" class="block font-medium">Votre nom</label>
+        <p-iconfield>
+          <p-inputicon class="pi pi-id-card" />
           <input
             type="text"
             id="name"
-            class="pl-11! block w-full form-input"
-            placeholder="Betoky"
             autocomplete="given-name"
             formControlName="name"
+            pInputText
+            fluid
           />
-        </div>
+        </p-iconfield>
       </div>
-      <div>
-        <label for="home" class="block mb-2 form-label">Nom de votre foyer</label>
-        <div class="relative text-icon">
-          <span class="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
-            <material-icon name="home_and_garden" />
-          </span>
+      <div class="space-y-1">
+        <label for="home" class="block font-medium">Nom de votre foyer</label>
+        <p-iconfield>
+          <p-inputicon class="pi pi-home" />
           <input
             type="text"
             id="home"
-            class="pl-11! block w-full form-input"
-            placeholder="Betoky'House"
             formControlName="home"
+            pInputText
+            fluid
           />
-        </div>
+        </p-iconfield>
       </div>
-      <div>
-        <label class="block mb-2 form-label">Votre email</label>
-        <div class="relative text-icon">
-          <span class="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
-            <material-icon name="mail" />
-          </span>
+      <div class="space-y-1">
+        <label class="block font-medium">Votre email</label>
+        <p-iconfield>
+          <p-inputicon class="pi pi-envelope" />
           <input
             type="email"
-            class="pl-11! block w-full form-input"
             autocomplete="email"
             [value]="user()?.email"
             readonly
             disabled
+            pInputText
+            fluid
           />
-        </div>
+        </p-iconfield>
       </div>
-      <div>
-        <label for="password" class="block mb-2 form-label">Mot de passe</label>
-        <div class="relative text-icon">
-          <span class="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
-            <material-icon name="lock" />
-          </span>
-          <input
+      <div class="space-y-1">
+        <label for="password" class="block font-medium">Mot de passe</label>
+        <p-iconfield>
+          <p-inputicon class="pi pi-lock" />
+          <p-password
             type="password"
-            id="password"
-            placeholder="••••••"
-            class="pl-11! block w-full form-input"
+            inputId="password"
             autocomplete="new-password"
             formControlName="password"
+            toggleMask="true"
+            fluid
+            [minlength]='6'
           />
-        </div>
-        @if (password.invalid && (password.touched)) { @if (password.hasError('minlength')) {
-        <span class="text-xs text-error font-medium">
-          il doit contenir au moins 6 caractères.
-        </span>
-        } @else if (password.hasError('pattern')) {
-        <span class="text-xs text-error font-medium">
-          Il doit contenir au moins une lettre minuscule, majuscule et un chiffre.
-        </span>
-        } }
+        </p-iconfield>
       </div>
-      <div>
-        <label for="confirm-password" class="block mb-2 form-label"
-          >Confirmer le mot de passe</label
-        >
-        <div class="relative text-icon">
-          <span class="absolute inset-y-0 left-0 flex items-center p-1 pl-3">
-            <material-icon name="lock" />
-          </span>
-          <input
+      <div class="space-y-1">
+        <label for="confirm-password" class="block font-medium">Confirmer le mot de passe</label>
+        <p-iconfield>
+          <p-inputicon class="pi pi-lock" />
+          @let incorrectPassword = registrationForm.hasError('passwordsNotMatching') && confirm.touched;
+          <p-password
             type="password"
-            id="confirm-password"
-            placeholder="••••••"
-            class="pl-11! block w-full form-input"
+            inputId="confirm-password"
             autocomplete="new-password"
             formControlName="confirm"
+            toggleMask="true"
+            fluid
+            [feedback]="false"
+            [invalid]="incorrectPassword"
           />
-        </div>
-        @if ( registrationForm.hasError('passwordsNotMatching') && confirm.touched ) {
-        <span class="text-xs text-error font-medium">Les mots de passe ne correspondent pas.</span>
+        </p-iconfield>
+        @if ( incorrectPassword ) {
+        <p-message size="small" severity="error" variant="simple"
+          >Mot de passe incorrect.</p-message
+        >
         }
       </div>
-      <button
+      <p-button
+        fluid
         type="submit"
-        class="mt-6 w-full btn btn-primary flex items-center justify-center gap-1.5"
+        severity="primary"
         [disabled]="registrationForm.invalid"
+        [loading]="isLoading()"
+        >Enregistrer</p-button
       >
-        @if (isLoading()) {
-        <span class="transform animate-spin">
-          <material-icon name='progress_activity' size="20px" />
-        </span>
-        } Enregistrer
-      </button>
     </form>
-  </div>
+  </p-card>
 </div>

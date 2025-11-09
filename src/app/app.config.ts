@@ -1,12 +1,34 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+  provideZonelessChangeDetection,
+} from '@angular/core';
+import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
 import { provideRouter } from '@angular/router';
+import { providePrimeNG } from 'primeng/config';
+import { fr } from 'primelocale/fr.json';
 
 import { routes } from './app.routes';
+import PrimePreset from './prime-preset';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideRouter(routes)
-  ]
+    provideRouter(routes),
+    provideAnimationsAsync(),
+    providePrimeNG({
+      theme: {
+        preset: PrimePreset,
+        options: {
+          darkModeSelector: '.dark-mode',
+          cssLayer: {
+            name: 'primeng',
+            order: 'theme, base, primeng',
+          },
+        },
+      },
+      translation: fr
+    }),
+  ],
 };

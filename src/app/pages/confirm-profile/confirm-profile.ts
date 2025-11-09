@@ -4,14 +4,14 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { take } from 'rxjs';
 import { User } from '@supabase/supabase-js';
 import { Auth } from '../../services/auth';
-import { MaterialIcon } from "../../components/icons/material-icon/material-icon";
 import { passwordsMatching } from '../../validators/passwords-matching';
 import { User as UserService } from '../../services/user';
 import { Home as HomeService } from '../../services/home';
+import AuthFormModule from '../../imports/auth-form';
 
 @Component({
   selector: 'app-cofirm-profile',
-  imports: [ReactiveFormsModule, MaterialIcon],
+  imports: [ReactiveFormsModule, ...AuthFormModule],
   templateUrl: './confirm-profile.html',
 })
 export class ConfirmProfile implements OnInit {

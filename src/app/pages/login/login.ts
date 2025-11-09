@@ -1,12 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
-import { MaterialIcon } from '../../components/icons/material-icon/material-icon';
+
 import { Auth } from '../../services/auth';
+import AuthFormModule from '../../imports/auth-form';
+
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, MaterialIcon],
+  imports: [FormsModule, ...AuthFormModule],
   templateUrl: './login.html',
 })
 export class Login {
