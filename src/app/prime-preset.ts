@@ -3,6 +3,11 @@ import Lara from '@primeuix/themes/lara';
 
 const PrimePreset = definePreset(Lara, {
   components: {
+    autocomplete: {
+      optionGroup: {
+        fontWeight: '900',
+      },
+    },
     menubar: {
       root: {
         borderRadius: '4rem',
@@ -14,9 +19,6 @@ const PrimePreset = definePreset(Lara, {
       },
       item: {
         gap: '0.625rem',
-      },
-      separator: {
-        borderColor: '{border.color}',
       },
     },
   },

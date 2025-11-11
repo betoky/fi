@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, filter } from 'rxjs';
 import { isAuthApiError, VerifyOtpParams } from '@supabase/supabase-js';
 import { Supabase } from './supabase';
-import { User } from './user';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +10,6 @@ import { User } from './user';
 export class Auth {
   private supabase = inject(Supabase).getInstance();
   private router = inject(Router);
-  private user = inject(User);
 
   private authenticated = new BehaviorSubject<boolean | undefined>(undefined);
 
@@ -21,7 +19,6 @@ export class Auth {
     this.supabase.auth.onAuthStateChange((_, session) => {
       const isAuthenticated = session ? true : false;
       this.authenticated.next(isAuthenticated);
-      !isAuthenticated && this.user.resetCurrentUser();
       console.log(_, session);
     });
   }

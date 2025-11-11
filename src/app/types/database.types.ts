@@ -34,6 +34,176 @@ export type Database = {
   }
   public: {
     Tables: {
+      expense_categories: {
+        Row: {
+          created_at: string
+          home_id: string
+          id: string
+          name: string
+          parent: string | null
+        }
+        Insert: {
+          created_at?: string
+          home_id: string
+          id?: string
+          name: string
+          parent?: string | null
+        }
+        Update: {
+          created_at?: string
+          home_id?: string
+          id?: string
+          name?: string
+          parent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expense_categories_home_id_fkey"
+            columns: ["home_id"]
+            isOneToOne: false
+            referencedRelation: "homes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expense_categories_parent_fkey"
+            columns: ["parent"]
+            isOneToOne: false
+            referencedRelation: "expense_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      expense_groups: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      expense_items: {
+        Row: {
+          category: string
+          created_at: string
+          home_id: string
+          id: string
+          name: string
+          unit: string | null
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          home_id?: string
+          id?: string
+          name: string
+          unit?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          home_id?: string
+          id?: string
+          name?: string
+          unit?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "articles_home_id_fkey"
+            columns: ["home_id"]
+            isOneToOne: false
+            referencedRelation: "homes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expense_items_category_fkey"
+            columns: ["category"]
+            isOneToOne: false
+            referencedRelation: "expense_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      expenses: {
+        Row: {
+          amount: number
+          article: string
+          category: string
+          created_at: string
+          date: string
+          description: string | null
+          group: string | null
+          home_id: string
+          id: string
+          quantity: number
+        }
+        Insert: {
+          amount: number
+          article: string
+          category: string
+          created_at?: string
+          date: string
+          description?: string | null
+          group?: string | null
+          home_id: string
+          id?: string
+          quantity?: number
+        }
+        Update: {
+          amount?: number
+          article?: string
+          category?: string
+          created_at?: string
+          date?: string
+          description?: string | null
+          group?: string | null
+          home_id?: string
+          id?: string
+          quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expenses_article_fkey"
+            columns: ["article"]
+            isOneToOne: false
+            referencedRelation: "expense_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expenses_category_fkey"
+            columns: ["category"]
+            isOneToOne: false
+            referencedRelation: "expense_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expenses_group_fkey"
+            columns: ["group"]
+            isOneToOne: false
+            referencedRelation: "expense_groups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expenses_home_id_fkey"
+            columns: ["home_id"]
+            isOneToOne: false
+            referencedRelation: "homes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       homes: {
         Row: {
           created_at: string

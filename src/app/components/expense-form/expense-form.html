@@ -1,65 +1,159 @@
-<div class="px-3.5 py-2.5 space-y-3">
-  <div>
-    <h2 class="text-xl font-medium">Ajouter une dépense</h2>
-    <p>Enregistrer une nouvelle dépense avec les articles achetés</p>
-  </div>
-  <div class="columns-1 sm:columns-2 space-y-3">
-    <div class="">
-      <label class="form-label block" for="date">Date</label>
-      <input class="form-input w-full" type="date" id="date" />
+@let grouped = !!form.get('isGrouped')?.value;
+<h2 class="text-2xl font-medium mb-1">Ajouter une dépense</h2>
+<p class="mb-6">Enregistrer une nouvelle dépense avec les articles achetés</p>
+<form [formGroup]="form" (submit)="save()" class="space-y-6">
+  <div class="space-y-3">
+    <!-- Expense group activation -->
+    <div class="flex items-center gap-3">
+      <p>Grouper les dépenses</p>
+      <p-toggleswitch formControlName="isGrouped">
+        <ng-template #handle let-checked="checked">
+          <i class="text-xs pi" [class]="checked ? 'pi-check' : 'pi-times'"></i>
+        </ng-template>
+      </p-toggleswitch>
     </div>
-    <div class="">
-      <label class="form-label block" for="account">Compte</label>
-      <select class="form-input w-full" id="account">
-        <option value="account-1">Compte 1</option>
-        <option value="account-2">Compte 2</option>
-        <option value="account-3">Compte 3</option>
-      </select>
+    <!-- Expense date -->
+    <div class="sm:w-1/2 *:space-y-0.5">
+      <label class="block font-medium" for="date">Date</label>
+      <p-datepicker
+        [maxDate]="now"
+        [showTime]="true"
+        [showIcon]="true"
+        hourFormat="24"
+        showOnFocus="false"
+        inputId="date"
+        fluid
+        formControlName="date"
+        appendTo="body"
+      />
     </div>
-  </div>
-  <div class="columns-1 sm:columns-2 space-y-3">
-    <div class="">
-      <label class="form-label block" for="category">Catégorie</label>
-      <select class="form-input w-full" id="category">
-        <option value="category-1">Catégorie 1</option>
-        <option value="category-2">Catégorie 2</option>
-        <option value="category-3">Catégorie 3</option>
-      </select>
+    <!-- Group title and category -->
+    @if(grouped) {
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div class="space-y-0.5">
+        <label class="block font-medium" for="group">Titre de la dépense</label>
+        <input
+          pInputText
+          fluid
+          type="text"
+          id="group"
+          formControlName="groupName"
+          [invalid]="isValid('groupName')"
+        />
+      </div>
+      <div class="space-y-0.5">
+        <label id="category" class="block font-medium">Catégorie</label>
+        <p-autocomplete
+          inputId="category"
+          [suggestions]="categorySrv.categories()"
+          (completeMethod)="categorySrv.filter($event.query)"
+          optionValue="id"
+          optionLabel="name"
+          optionGroupLabel="name"
+          optionGroupChildren="sub"
+          fluid
+          appendTo="body"
+          [group]="true"
+          [dropdown]="true"
+          [forceSelection]="true"
+          formControlName="groupCategory"
+          [invalid]="isValid('groupCategory')"
+        />
+      </div>
     </div>
-    <div class="">
-      <label class="form-label block" for="group">Nom du groupe (optionnel)</label>
-      <input class="form-input w-full" type="text" id="group" />
-    </div>
-  </div>
-  <div class="columns-1">
-    <div class="">
-      <label class="form-label block" for="description">Description (optionnel)</label>
-      <textarea class="form-input w-full" id="description"></textarea>
+    }
+    <!-- Expense description -->
+    <div class="space-y-0.5">
+      <label class="block font-medium" for="description">Description (optionnel)</label>
+      <textarea
+        pTextarea
+        rows="3"
+        fluid
+        [autoResize]="true"
+        id="description"
+        placeholder="Course de samedi"
+        formControlName="description"
+      ></textarea>
     </div>
   </div>
   <!-- Items -->
-  <div class="space-y-4">
+  <div class="space-y-2">
     <div class="flex items-center justify-between">
       <div>Articles</div>
-      <button type="button" class="btn btn-icon">
-        <material-icon name="add" size="1em" />
-        Ajouter un article
-      </button>
+      <p-button
+        size="small"
+        severity="contrast"
+        variant="outlined"
+        label="Ajouter un article"
+        (onClick)="addItem()"
+      />
     </div>
-    <div class="space-y-3">
-      <!-- Card -->
-    </div>
-
-    <div class="flex justify-end border-t pt-4">
-      <div class="text-right">
-        <p class="text-sm">Total de la dépense</p>
-        <p class="text-2xl font-bold">25 000 Ar</p>
+    <div formArrayName="items" class="space-y-3">
+      @for (item of items.controls; track $index) {
+      <div [formGroupName]="$index" class="grid grid-cols-1 sm:grid-cols-2 gap-x-2.5 gap-y-3">
+        <div class="space-y-0.5">
+          <label class="block font-medium" [for]="'item-' + $index">Article</label>
+          <p-select
+            [options]="expenseItems"
+            optionLabel="label"
+            optionValue="value"
+            fluid
+            [inputId]="'item-' + $index"
+            formControlName="item"
+          />
+        </div>
+        <div class="flex items-end gap-3">
+          <div class="space-y-0.5">
+            <label class="block font-medium" [for]="'quantity-' + $index">Quantité</label>
+            <p-inputnumber fluid [inputId]="'quantity-' + $index" formControlName="quantity" />
+          </div>
+          <div class="space-y-0.5">
+            <label class="block font-medium" [for]="'amount-' + $index">Prix (Ar)</label>
+            <p-inputnumber
+              mode="currency"
+              currency="MGA"
+              fluid
+              [inputId]="'amount-' + $index"
+              formControlName="amount"
+            />
+          </div>
+          @if (items.controls.length > 1) {
+          <p-button
+            icon="pi pi-trash"
+            text="true"
+            severity="danger"
+            (onClick)="removeItem($index)"
+          />
+          }
+        </div>
       </div>
-    </div>
-
-    <div class="text-end">
-      <button type="button" class="btn" (click)="closeModal()">Annuler</button>
-      <button type="button" class="btn">Enregistrer la dépense</button>
+      } @if (items.controls.length > 3) {
+      <p-button
+        styleClass="mx-auto block"
+        icon="pi pi-plus"
+        rounded="true"
+        severity="secondary"
+        (onClick)="addItem()"
+      />
+      }
     </div>
   </div>
-</div>
+
+  <!-- Total amount -->
+  <div class="flex justify-center sm:justify-end border-t pt-6">
+    <div class="text-center sm:text-right">
+      <p class="text-sm">Total de la dépense</p>
+      <p class="text-2xl font-bold">25 000 Ar</p>
+    </div>
+  </div>
+
+  <div class="text-center sm:text-end space-x-3">
+    <p-button variant="outlined" severity="secondary" label="Annuler" (click)="closeModal()" />
+    <p-button
+      type="submit"
+      severity="primary"
+      label="Enregistrer la dépense"
+      [disabled]="form.invalid"
+    />
+  </div>
+</form>
