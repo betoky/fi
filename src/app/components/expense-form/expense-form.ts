@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -13,6 +13,7 @@ import { TextareaModule } from 'primeng/textarea';
 import { Category } from '../../services/expense/category';
 import { CategoryService } from '../../services/expense/category.service';
 import { ItemService } from '../../services/expense/item.service';
+import { CurrencyPipe } from "../../pipes/currency-pipe";
 
 const prime = [
   AutoCompleteModule,
@@ -27,7 +28,7 @@ const prime = [
 
 @Component({
   selector: 'app-expense-form',
-  imports: [ReactiveFormsModule, ...prime],
+  imports: [ReactiveFormsModule, ...prime, CurrencyPipe],
   templateUrl: './expense-form.html',
 })
 export class ExpenseForm implements OnInit, OnDestroy {
@@ -37,6 +38,7 @@ export class ExpenseForm implements OnInit, OnDestroy {
   protected itemSrv = inject(ItemService);
 
   protected now = new Date();
+  protected totalAmount = signal(0);
 
   protected form = new FormGroup({
     date: new FormControl(new Date(), Validators.required),
@@ -47,8 +49,8 @@ export class ExpenseForm implements OnInit, OnDestroy {
     groupCategory: new FormControl<string | null>(null),
   });
 
-  get items(): FormArray {
-    return this.form.get('items') as FormArray;
+  get items() {
+    return this.form.get('items') as FormArray<FormGroup<any>>;
   }
 
   private destroy$ = new Subject<void>();
@@ -71,10 +73,7 @@ export class ExpenseForm implements OnInit, OnDestroy {
       .get('isGrouped')!
       .valueChanges.pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (grouped) => {
-          this.toggleValidators('groupName', grouped);
-          this.toggleValidators('groupCategory', grouped);
-        },
+        next: (grouped) => this.toggleValidators('groupName', grouped),
       });
   }
 
@@ -107,11 +106,20 @@ export class ExpenseForm implements OnInit, OnDestroy {
     console.log('++ TODO Save expense', this.form.getRawValue());
   }
 
-  private createItem(): FormGroup {
+  updateTotal() {
+    const items = this.form.get('items')?.value;
+    if (items) {
+      console.log(items);
+      const total = items.reduce((total, item) => total += item['amount'] ?? 0, 0);
+      this.totalAmount.set(total);
+    }
+  }
+
+  private createItem() {
     return new FormGroup({
       item: new FormControl<string | null>(null, Validators.required),
       amount: new FormControl<number | null>(null, [Validators.required, Validators.min(0)]),
-      quantity: new FormControl(1),
+      quantity: new FormControl<number>(1),
     });
   }
 
@@ -119,7 +127,8 @@ export class ExpenseForm implements OnInit, OnDestroy {
     this.items.push(this.createItem());
   }
 
-  removeItem(index: number): void {
+  removeItem(index: number): void {  
     this.items.removeAt(index);
+    this.updateTotal();
   }
 }

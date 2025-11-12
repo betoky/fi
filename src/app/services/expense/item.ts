@@ -22,18 +22,6 @@ export class Item {
     return data;
   }
 
-  async fetchItems(limit = 10) {
-    const { data, error } = await this.supabase
-      .from('expense_items')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(limit);
-
-    if (error) throw error;
-
-    return data;
-  }
-
   async search(query: string, limit = 10) {
     const { data, error } = await this.supabase
       .from('expense_items')
