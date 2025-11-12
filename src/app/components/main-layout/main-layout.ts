@@ -4,7 +4,7 @@ import { RouterOutlet, Router, RouterLink } from '@angular/router';
 import { Auth } from '../../services/auth';
 import { User } from '../../services/user';
 import { DarkModeSwitcher } from '../../services/dark-mode-switcher';
-import { Tables } from '../../types/database.types';
+import { Tables } from '../../../../database.types';
 
 import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';

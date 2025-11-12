@@ -4,6 +4,7 @@ import { DarkModeSwitcher } from './services/dark-mode-switcher';
 import { Auth } from './services/auth';
 import { User } from './services/user';
 import { CategoryService as ExpenseCategory } from './services/expense/category.service';
+import { ItemService } from './services/expense/item.service';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ export class App implements OnInit {
   private auth$ = inject(Auth).isAuthenticated$;
   private user = inject(User);
   private expenseCategory = inject(ExpenseCategory);
+  private expenseItem = inject(ItemService);
 
   constructor() {
     this.auth$.subscribe({
@@ -23,6 +25,7 @@ export class App implements OnInit {
         if (!authenticated) {
           this.user.resetCurrentUser();
           this.expenseCategory.reset();
+          this.expenseItem.reset();
         }
       },
     });

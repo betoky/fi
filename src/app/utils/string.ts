@@ -1,0 +1,1 @@
+export const matching = (query: string, text: string) => text.toLowerCase().includes(query.toLowerCase());

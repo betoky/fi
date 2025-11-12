@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Supabase } from './supabase';
-import { Tables } from '../types/database.types';
+import { Tables } from '../../../database.types';
 
 @Injectable({
   providedIn: 'root'

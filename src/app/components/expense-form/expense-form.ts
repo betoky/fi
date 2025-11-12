@@ -1,5 +1,5 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
@@ -12,6 +12,7 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { TextareaModule } from 'primeng/textarea';
 import { Category } from '../../services/expense/category';
 import { CategoryService } from '../../services/expense/category.service';
+import { ItemService } from '../../services/expense/item.service';
 
 const prime = [
   AutoCompleteModule,
@@ -31,27 +32,20 @@ const prime = [
 })
 export class ExpenseForm implements OnInit, OnDestroy {
   private dialogRef = inject(DynamicDialogRef);
-  private fb = inject(FormBuilder);
   private category = inject(Category);
   protected categorySrv = inject(CategoryService);
+  protected itemSrv = inject(ItemService);
 
   protected now = new Date();
 
-  protected form = this.fb.group({
-    date: [new Date(), Validators.required],
-    description: [null],
-    items: this.fb.array([this.createItem()]),
-    isGrouped: [false],
-    groupName: [null],
-    groupCategory: [null],
+  protected form = new FormGroup({
+    date: new FormControl(new Date(), Validators.required),
+    description: new FormControl<string | null>(null),
+    items: new FormArray([this.createItem()]),
+    isGrouped: new FormControl(false),
+    groupName: new FormControl<string | null>(null),
+    groupCategory: new FormControl<string | null>(null),
   });
-
-  protected expenseItems = [
-    { label: 'Article 1', value: 'item-1' },
-    { label: 'Article 2', value: 'item-2' },
-    { label: 'Article 3', value: 'item-3' },
-    { label: 'Article 4', value: 'item-4' },
-  ];
 
   get items(): FormArray {
     return this.form.get('items') as FormArray;
@@ -60,6 +54,19 @@ export class ExpenseForm implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   ngOnInit(): void {
+    this.category.fetchCategories().then((data) => this.categorySrv.set(data));
+    // Category listener
+    this.form.get('groupCategory')?.valueChanges.subscribe({
+      next: (categoryId) => {
+        if (!categoryId) {
+          this.itemSrv.setCategory(null);
+        } else {
+          const selectedCategory = this.categorySrv.getCategory(categoryId);
+          this.itemSrv.setCategory(selectedCategory);
+        }
+      },
+    });
+    // Listen to group switcher
     this.form
       .get('isGrouped')!
       .valueChanges.pipe(takeUntil(this.destroy$))
@@ -67,10 +74,6 @@ export class ExpenseForm implements OnInit, OnDestroy {
         next: (grouped) => {
           this.toggleValidators('groupName', grouped);
           this.toggleValidators('groupCategory', grouped);
-
-          if (grouped && this.categorySrv.categories().length === 0) {
-            this.category.fetchCategories().then((data) => this.categorySrv.set(data));
-          }
         },
       });
   }
@@ -105,10 +108,10 @@ export class ExpenseForm implements OnInit, OnDestroy {
   }
 
   private createItem(): FormGroup {
-    return this.fb.group({
-      item: [null, Validators.required],
-      amount: [null, [Validators.required, Validators.min(0)]],
-      quantity: [1],
+    return new FormGroup({
+      item: new FormControl<string | null>(null, Validators.required),
+      amount: new FormControl<number | null>(null, [Validators.required, Validators.min(0)]),
+      quantity: new FormControl(1),
     });
   }
 

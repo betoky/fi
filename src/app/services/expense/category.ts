@@ -1,5 +1,4 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { Tables } from '../../types/database.types';
 import { Supabase } from '../supabase';
 
 @Injectable({
