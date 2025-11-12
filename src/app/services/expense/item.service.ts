@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Tables } from '../../../../database.types';
 import { Item } from './item';
-import { CategoryParentType, CategoryType, isParent } from '../../domain/spending-category';
+import { CategoryParentType, CategoryType, isParent } from '../../domain/expense-category';
 import { matching } from '../../utils/string';
 
 @Injectable({

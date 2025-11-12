@@ -77,22 +77,36 @@ export type Database = {
         Row: {
           created_at: string
           description: string | null
+          home_id: string
           id: string
           name: string
+          total: number
         }
         Insert: {
           created_at?: string
           description?: string | null
+          home_id: string
           id?: string
           name: string
+          total: number
         }
         Update: {
           created_at?: string
           description?: string | null
+          home_id?: string
           id?: string
           name?: string
+          total?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "expense_groups_home_id_fkey"
+            columns: ["home_id"]
+            isOneToOne: false
+            referencedRelation: "homes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       expense_items: {
         Row: {
@@ -140,7 +154,6 @@ export type Database = {
         Row: {
           amount: number
           article: string
-          category: string
           created_at: string
           date: string
           description: string | null
@@ -152,7 +165,6 @@ export type Database = {
         Insert: {
           amount: number
           article: string
-          category: string
           created_at?: string
           date: string
           description?: string | null
@@ -164,7 +176,6 @@ export type Database = {
         Update: {
           amount?: number
           article?: string
-          category?: string
           created_at?: string
           date?: string
           description?: string | null
@@ -179,13 +190,6 @@ export type Database = {
             columns: ["article"]
             isOneToOne: false
             referencedRelation: "expense_items"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "expenses_category_fkey"
-            columns: ["category"]
-            isOneToOne: false
-            referencedRelation: "expense_categories"
             referencedColumns: ["id"]
           },
           {
@@ -251,7 +255,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_request_home: { Args: never; Returns: string }
     }
     Enums: {
       [_ in never]: never

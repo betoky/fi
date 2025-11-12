@@ -1,6 +1,7 @@
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
+import { MessageService } from 'primeng/api';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -10,10 +11,13 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { TextareaModule } from 'primeng/textarea';
+import { CreateExpenseType, ExpenseGroupType } from '../../domain/expense';
+import { CurrencyPipe } from '../../pipes/currency-pipe';
 import { Category } from '../../services/expense/category';
 import { CategoryService } from '../../services/expense/category.service';
 import { ItemService } from '../../services/expense/item.service';
-import { CurrencyPipe } from "../../pipes/currency-pipe";
+import { Home } from '../../services/home';
+import { Expense } from '../../services/expense/expense';
 
 const prime = [
   AutoCompleteModule,
@@ -32,22 +36,27 @@ const prime = [
   templateUrl: './expense-form.html',
 })
 export class ExpenseForm implements OnInit, OnDestroy {
+  private home = inject(Home);
+  private expense = inject(Expense);
   private dialogRef = inject(DynamicDialogRef);
   private category = inject(Category);
   protected categorySrv = inject(CategoryService);
   protected itemSrv = inject(ItemService);
+  private alert = inject(MessageService);
 
   protected now = new Date();
   protected totalAmount = signal(0);
 
   protected form = new FormGroup({
-    date: new FormControl(new Date(), Validators.required),
+    date: new FormControl(new Date(), { nonNullable: true, validators: Validators.required }),
     description: new FormControl<string | null>(null),
     items: new FormArray([this.createItem()]),
-    isGrouped: new FormControl(false),
+    isGrouped: new FormControl(false, { nonNullable: true }),
     groupName: new FormControl<string | null>(null),
     groupCategory: new FormControl<string | null>(null),
   });
+
+  loading = signal(false);
 
   get items() {
     return this.form.get('items') as FormArray<FormGroup<any>>;
@@ -102,15 +111,78 @@ export class ExpenseForm implements OnInit, OnDestroy {
     this.dialogRef?.close();
   }
 
-  save() {
-    console.log('++ TODO Save expense', this.form.getRawValue());
+  async save() {
+    if (this.form.invalid) {
+      return;
+    }
+
+    try {
+      this.loading.set(true);
+      const currentHome = await this.home.getHome();
+      if (!currentHome) {
+        return;
+      }
+
+      const { isGrouped, groupName, items, date, description } = this.form.getRawValue();
+
+      const desc = description && description.length > 0 ? description : null;
+
+      // Save and get expense group
+      let group: ExpenseGroupType | null = null;
+      if (isGrouped && groupName) {
+        group = await this.expense.createGroup({
+          description: desc,
+          home_id: currentHome.id,
+          name: groupName,
+          total: this.totalAmount(),
+        });
+      }
+
+      // Build expenses to save
+      let expenses: CreateExpenseType[] = [];
+      for (const item of items) {
+        const { amount, item: article, quantity } = item;
+        if (!amount || !article) {
+          throw 'amount and article not be empty';
+        }
+        const expense: CreateExpenseType = {
+          amount,
+          article,
+          date: date.toISOString(),
+          description: isGrouped ? null : desc,
+          quantity: !quantity || quantity <= 0 ? 1 : quantity,
+          group: isGrouped ? null : group ? group.id : null,
+          home_id: currentHome.id,
+        };
+        expenses.push(expense);
+      }
+
+      await this.expense.saveExpense(...expenses);
+
+      this.alert.add({
+        severity: 'success',
+        summary: 'Succès',
+        detail: 'Dépenses enregistrées avec succès',
+      });
+
+      this.closeModal();
+    } catch (error) {
+      console.error(error);
+      this.alert.add({
+        severity: 'error',
+        summary: 'Erreur',
+        detail: 'Erreur inattendue',
+      });
+    } finally {
+      this.loading.set(false);
+    }
   }
 
   updateTotal() {
     const items = this.form.get('items')?.value;
     if (items) {
       console.log(items);
-      const total = items.reduce((total, item) => total += item['amount'] ?? 0, 0);
+      const total = items.reduce((total, item) => (total += item['amount'] ?? 0), 0);
       this.totalAmount.set(total);
     }
   }
@@ -127,7 +199,7 @@ export class ExpenseForm implements OnInit, OnDestroy {
     this.items.push(this.createItem());
   }
 
-  removeItem(index: number): void {  
+  removeItem(index: number): void {
     this.items.removeAt(index);
     this.updateTotal();
   }

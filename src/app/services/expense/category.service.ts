@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { CategoryParentType, CategoryType, MappedCategories } from '../../domain/spending-category';
+import { CategoryParentType, CategoryType, MappedCategories } from '../../domain/expense-category';
 import { matching } from '../../utils/string';
 import { groupParentsAndChildren, mapParentsAndChildren } from '../../utils/category';
 

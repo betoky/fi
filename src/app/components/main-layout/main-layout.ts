@@ -6,17 +6,19 @@ import { User } from '../../services/user';
 import { DarkModeSwitcher } from '../../services/dark-mode-switcher';
 import { Tables } from '../../../../database.types';
 
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { MenubarModule } from 'primeng/menubar';
 import { PopoverModule } from 'primeng/popover';
+import { Toast } from 'primeng/toast';
 
-const primeModule = [ButtonModule, PopoverModule, MenubarModule];
+const primeModule = [ButtonModule, PopoverModule, MenubarModule, Toast];
 
 @Component({
   selector: 'app-main-layout',
   imports: [RouterOutlet, RouterLink, ...primeModule],
   templateUrl: './main-layout.html',
+  providers: [MessageService],
 })
 export class MainLayout implements OnInit {
   private router = inject(Router);
