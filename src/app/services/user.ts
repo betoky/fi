@@ -7,7 +7,7 @@ import { Tables } from '../../../database.types';
 })
 export class User {
   private supabase = inject(Supabase).getInstance();
-  private currentUser: Tables<'users'> | null = null;
+  private currentUser?: Tables<'users'> | null;
 
   async saveUser(auth_id: string, name: string) {
     const { error } = await this.supabase.from('users').insert([{ auth_id, name }]).select();
@@ -16,29 +16,31 @@ export class User {
     }
   }
 
-  async getCurrentUser() {
-    if (this.currentUser) {
+  async getCurrentUser() {    
+    if (this.currentUser !== undefined) {
       return this.currentUser;
     }
 
-    const { data, error } = await this.supabase.from('users').select('*');
+    const { data, error } = await this.supabase.from('users').select('*').maybeSingle();
     if (error) {
       throw error;
     }
 
-    return data.length === 0 ? null : data[0];
+    this.currentUser = data;
+    return data;
   }
 
   resetCurrentUser() {
-    this.currentUser = null;
+    this.currentUser = undefined;
   }
 
   async hasProfile() {
-    const { error, count } = await this.supabase.from('users').select('*', { count: 'exact' });
-    if (error) {
-      throw error;
+    if (this.currentUser !== undefined) {
+      return this.currentUser !== null;
     }
-
-    return count ? count > 0 : false;
+    
+    const user = await this.getCurrentUser();
+    this.currentUser = user;
+    return user !== null;
   }
 }
