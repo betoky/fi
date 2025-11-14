@@ -1,0 +1,84 @@
+<ng-template #mainContent let-name="name" let-date="date">
+  <div class="space-y-2">
+    <div class="text-lg font-bold">{{ name }}</div>
+    <div class="text-sm font-medium">
+      <i style="font-size: 1em" class="pi pi-calendar-clock"></i>
+      {{ date | appDate }}
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #toggleBtn>
+  <p-button
+    [text]="true"
+    [icon]="collapse() ? 'pi pi-angle-up' : 'pi pi-angle-down'"
+    size="small"
+    (onClick)="collapse.set(!collapse())"
+  />
+</ng-template>
+
+<p-card>
+  <!-- Group view -->
+  @if (isViewGroup(expense)) {
+  <div class="flex justify-between items-center gap-4">
+    <ng-container
+      [ngTemplateOutlet]="mainContent"
+      [ngTemplateOutletContext]="{
+        name: expense.name,
+        date: expense.items[0].date
+      }"
+    />
+    <div class="space-x-1.5 whitespace-nowrap">
+      <ng-container [ngTemplateOutlet]="toggleBtn" />
+      <span class="text-xl font-bold whitespace-nowrap"> {{ expense.total | appCurrency }} </span>
+    </div>
+  </div>
+  <!-- Content -->
+  <div [class.open]="collapse()" class="content-container">
+    <div class="space-y-4 content">
+      @if (expense.description) {
+      <p class="whitespace-pre-wrap text-justify font-medium">{{ expense.description }}</p>
+      }
+      <ul class="space-y-0.5 mx-3">
+        @for (item of expense.items; track $index) {
+        <li class="flex justify-between text-sm font-medium">
+          <span>{{ item.article.name }} x {{ item.quantity }} {{ item.article.unit }}</span>
+          <span>{{ item.amount | appCurrency }}</span>
+        </li>
+        }
+      </ul>
+    </div>
+  </div>
+  }
+  <!-- Simple view -->
+  @else {
+  <div class="flex justify-between items-center gap-4">
+    <ng-container
+      [ngTemplateOutlet]="mainContent"
+      [ngTemplateOutletContext]="{
+        name: expense.article.name,
+        date: expense.date
+      }"
+    />
+    <div class="flex items-center gap-1.5 flex-nowrap">
+      @if (expense.description) {
+      <ng-container [ngTemplateOutlet]="toggleBtn" />
+      }
+      <div class="flex flex-col items-center">
+        <span class="text-xl font-bold whitespace-nowrap"> {{ expense.amount | appCurrency }} </span>
+        @let unit = expense.article.unit; @if (unit) {
+        <p-badge severity="secondary" [value]="expense.quantity + (unit ? ' ' + unit : '')" />
+        }
+      </div>
+    </div>
+  </div>
+  <!-- Content -->
+  <div [class.open]="collapse()" class="content-container">
+    <div class="space-y-5 content">
+      @if (expense.description) {
+      <p class="whitespace-pre-wrap text-justify font-medium">{{ expense.description }}</p>
+      }
+    </div>
+  </div>
+  }
+</p-card>

@@ -141,17 +141,17 @@ export class ExpenseForm implements OnInit, OnDestroy {
       // Build expenses to save
       let expenses: CreateExpenseType[] = [];
       for (const item of items) {
-        const { amount, item: article, quantity } = item;
-        if (!amount || !article) {
+        const { amount, item: article_id, quantity } = item;
+        if (!amount || !article_id) {
           throw 'amount and article not be empty';
         }
         const expense: CreateExpenseType = {
           amount,
-          article,
+          article_id,
           date: date.toISOString(),
           description: isGrouped ? null : desc,
           quantity: !quantity || quantity <= 0 ? 1 : quantity,
-          group: isGrouped ? null : group ? group.id : null,
+          group_id: isGrouped ? (group ? group.id : null) : null,
           home_id: currentHome.id,
         };
         expenses.push(expense);

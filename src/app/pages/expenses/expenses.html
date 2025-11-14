@@ -1,3 +1,14 @@
-<div class="grid place-items-center h-96">
-  <p-button severity="primary" label="Ajouter une dépense" (onClick)="openModal()" />
+<p-button severity="primary" label="Ajouter une dépense" (onClick)="openModal()" />
+<div class="my-8 space-y-3 max-w-2xl">
+  @if (expenses()) {
+    @for(expense of expenses(); track $index) {
+      <app-expense-card class='block' [value]="expense" />
+    }@empty {
+      <p class='font-medium text-center'>Aucune dépense enregistrée.</p>
+    }
+  } @else {
+    @for (i of Array(5); track $index) {
+      <app-expense-card-skeleton class='block' />
+    }
+  }
 </div>

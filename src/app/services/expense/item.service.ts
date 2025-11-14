@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { Tables } from '../../../../database.types';
 import { Item } from './item';
 import { CategoryParentType, CategoryType, isParent } from '../../domain/expense-category';
+import { ExpenseItemType } from '../../domain/expense-item';
 import { matching } from '../../utils/string';
 
 @Injectable({
@@ -9,8 +9,8 @@ import { matching } from '../../utils/string';
 })
 export class ItemService {
   private itemDB = inject(Item);
-  private _keepValue = [] as Tables<'expense_items'>[];
-  private _suggestions = signal([] as Tables<'expense_items'>[]);
+  private _keepValue = [] as ExpenseItemType[];
+  private _suggestions = signal([] as ExpenseItemType[]);
   private category: CategoryParentType | CategoryType | null = null;
 
   suggestions = computed(() =>

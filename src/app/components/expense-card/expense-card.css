@@ -1,0 +1,28 @@
+.content-container {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows 0.15s;
+  transition-timing-function: ease-in;
+}
+
+.content-container.open {
+  grid-template-rows: 1fr;
+}
+
+.content {
+  min-height: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.15s, opacity 0.15s, margin-top 0.15s, padding-top 0.15s;
+  transition-timing-function: ease-in;
+}
+
+.content-container.open .content {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top-style: solid;
+  border-top-width: 1px;
+  visibility: visible;
+  opacity: 1;
+}

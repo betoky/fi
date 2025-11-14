@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Supabase } from '../supabase';
-import { CreateExpenseGroupType, CreateExpenseType } from '../../domain/expense';
+import { CreateExpenseGroupType, CreateExpenseType, ExpenseViewGroupType, ExpenseViewType, isExpenseViewGroup } from '../../domain/expense';
+import { mapById } from '../../utils/object';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,53 @@ export class Expense {
     if (error) throw error;
 
     return data[0];
+  }
+
+  async fetchGroupByIds(ids: string[]) {
+    const { data, error } = await this.supabase
+      .from('expense_groups')
+      .select('*')
+      .or(ids.map((i) => 'id.eq.' + i).join(','));
+
+    if (error) throw error;
+
+    return data;
+  }
+
+  async fetchExpenseForView() {
+    const { data: expenses, error } = await this.supabase
+      .from('expenses')
+      .select(
+        'id, date, amount, quantity, description, article_id, article:expense_items(name, unit, category_id), group_id'
+      )
+      .order('date', { ascending: false })
+      .limit(10);
+
+    if (error) throw error;
+
+    const groupIds = expenses.map(i => i.group_id).filter(i => i !== null);
+
+    const groups = await this.fetchGroupByIds(Array.from(groupIds.values()));
+    const mappedGroups = mapById(groups);
+
+    const results: (ExpenseViewType | ExpenseViewGroupType)[] = [];
+    for (const {group_id, ...data} of expenses) {
+      if (!group_id) {
+        results.push(data);
+        continue;
+      }
+      const groupInResult = results.find(element => isExpenseViewGroup(element) && element.id === group_id);
+      if (groupInResult && isExpenseViewGroup(groupInResult)) {
+        groupInResult.items.push(data);
+        continue;
+      }
+      results.push({
+        ...mappedGroups.get(group_id)!,
+        items: [data]
+      });
+    }
+
+    return results;
   }
 
   async saveExpense(...expenses: CreateExpenseType[]) {

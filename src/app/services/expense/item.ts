@@ -8,7 +8,7 @@ export class Item {
   private supabase = inject(Supabase).getInstance();
 
   async fetchByCategory(...categories: string[]) {
-    const constraints = categories.map(id => `category.eq.${id}`);
+    const constraints = categories.map(id => `category_id.eq.${id}`);
     const { data, error } = await this.supabase
       .from('expense_items')
       .select('*')
