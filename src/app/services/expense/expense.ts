@@ -29,6 +29,9 @@ export class Expense {
   }
 
   async fetchGroupByIds(ids: string[]) {
+    if (ids.length === 0) {
+      throw new Error('Attempt to fetch empty group expense');
+    }
     const { data, error } = await this.supabase
       .from('expense_groups')
       .select('*')
@@ -51,6 +54,10 @@ export class Expense {
     if (error) throw error;
 
     const groupIds = expenses.map((i) => i.group_id).filter((i) => i !== null);
+
+    if (groupIds.length === 0) {
+      return expenses.map(({group_id, ...data}) => ({...data}))
+    }
 
     const groups = await this.fetchGroupByIds(Array.from(groupIds.values()));
     const mappedGroups = mapById(groups);
