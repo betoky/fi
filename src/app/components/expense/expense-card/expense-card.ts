@@ -1,14 +1,15 @@
-import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
+import { Component, inject, Input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { Menu } from 'primeng/menu';
-import { ConfirmationService, MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { ExpenseViewType, ExpenseViewGroupType, isExpenseViewGroup } from '../../../domain/expense';
 import { CurrencyPipe } from '../../../pipes/currency-pipe';
 import { DatePipe } from '../../../pipes/date-pipe';
+import { ExpenseListing } from '../../../services/expense/expense-listing';
 
 @Component({
   selector: 'app-expense-card',
@@ -28,18 +29,18 @@ import { DatePipe } from '../../../pipes/date-pipe';
 })
 export class ExpenseCard {
   @Input({ required: true, alias: 'value' }) expense!: ExpenseViewType | ExpenseViewGroupType;
-  @Output() edit = new EventEmitter<void>();
-  @Output() delete = new EventEmitter<void>();
-
-  protected collapse = signal(false);
 
   private confirmSrv = inject(ConfirmationService);
+  private listing = inject(ExpenseListing);
+  private alert = inject(MessageService);
+
+  protected collapse = signal(false);
 
   protected controls: MenuItem[] = [
     {
       label: 'Modifier',
       icon: 'pi pi-pen-to-square',
-      command: () => this.edit.next(),
+      command: () => this.editExpense(),
     },
     {
       label: 'Supprimer',
@@ -50,6 +51,29 @@ export class ExpenseCard {
 
   protected isViewGroup(expense: ExpenseViewType | ExpenseViewGroupType) {
     return isExpenseViewGroup(expense);
+  }
+
+  private editExpense() {
+    throw 'TODO Edit method';
+  }
+
+  private deleteExpense() {
+    this.listing
+      .remove(this.expense.id)
+      .then(() => {
+        this.alert.add({
+          severity: 'success',
+          summary: 'Succès',
+          detail: 'Une dépense a été supprimée.',
+        });
+      })
+      .catch(() => {
+        this.alert.add({
+          severity: 'error',
+          summary: 'Erreur',
+          detail: 'Erreur de suppression',
+        });
+      });
   }
 
   private confirmDelete(): void {
@@ -69,7 +93,7 @@ export class ExpenseCard {
         severity: 'danger',
       },
       accept: () => {
-        this.delete.next();
+        this.deleteExpense();
       },
     });
   }

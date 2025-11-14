@@ -1,0 +1,31 @@
+.entering {
+  animation: backInDown 0.5s;
+}
+
+.removing {
+  animation: backOutDown 0.5s;
+}
+
+@keyframes backInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-1.5rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes backOutDown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+}

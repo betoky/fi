@@ -1,6 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { Supabase } from '../supabase';
-import { CreateExpenseGroupType, CreateExpenseType, ExpenseViewGroupType, ExpenseViewType, isExpenseViewGroup } from '../../domain/expense';
+import {
+  CreateExpenseGroupType,
+  CreateExpenseType,
+  ExpenseViewGroupType,
+  ExpenseViewType,
+  isExpenseViewGroup,
+} from '../../domain/expense';
 import { mapById } from '../../utils/object';
 
 @Injectable({
@@ -17,6 +23,11 @@ export class Expense {
     return data[0];
   }
 
+  async deleteExpense(id: string) {
+    const { error } = await this.supabase.from('expenses').delete().eq('id', id);
+    if (error) throw error;
+  }
+
   async fetchGroupByIds(ids: string[]) {
     const { data, error } = await this.supabase
       .from('expense_groups')
@@ -28,36 +39,38 @@ export class Expense {
     return data;
   }
 
-  async fetchExpenseForView() {
+  async fetchExpenseForView(limit = 10) {
     const { data: expenses, error } = await this.supabase
       .from('expenses')
       .select(
         'id, date, amount, quantity, description, article_id, article:expense_items(name, unit, category_id), group_id'
       )
       .order('date', { ascending: false })
-      .limit(10);
+      .limit(limit);
 
     if (error) throw error;
 
-    const groupIds = expenses.map(i => i.group_id).filter(i => i !== null);
+    const groupIds = expenses.map((i) => i.group_id).filter((i) => i !== null);
 
     const groups = await this.fetchGroupByIds(Array.from(groupIds.values()));
     const mappedGroups = mapById(groups);
 
     const results: (ExpenseViewType | ExpenseViewGroupType)[] = [];
-    for (const {group_id, ...data} of expenses) {
+    for (const { group_id, ...data } of expenses) {
       if (!group_id) {
         results.push(data);
         continue;
       }
-      const groupInResult = results.find(element => isExpenseViewGroup(element) && element.id === group_id);
+      const groupInResult = results.find(
+        (element) => isExpenseViewGroup(element) && element.id === group_id
+      );
       if (groupInResult && isExpenseViewGroup(groupInResult)) {
         groupInResult.items.push(data);
         continue;
       }
       results.push({
         ...mappedGroups.get(group_id)!,
-        items: [data]
+        items: [data],
       });
     }
 

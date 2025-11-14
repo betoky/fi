@@ -107,8 +107,8 @@ export class ExpenseForm implements OnInit, OnDestroy {
     control?.updateValueAndValidity();
   }
 
-  closeModal() {
-    this.dialogRef?.close();
+  closeModal(submitted = false) {
+    this.dialogRef?.close(submitted);
   }
 
   async save() {
@@ -165,7 +165,7 @@ export class ExpenseForm implements OnInit, OnDestroy {
         detail: 'Dépenses enregistrées avec succès',
       });
 
-      this.closeModal();
+      this.closeModal(true);
     } catch (error) {
       console.error(error);
       this.alert.add({
@@ -181,7 +181,6 @@ export class ExpenseForm implements OnInit, OnDestroy {
   updateTotal() {
     const items = this.form.get('items')?.value;
     if (items) {
-      console.log(items);
       const total = items.reduce((total, item) => (total += item['amount'] ?? 0), 0);
       this.totalAmount.set(total);
     }

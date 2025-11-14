@@ -1,8 +1,7 @@
-import { Component, inject, signal } from '@angular/core';
-import { ExpenseViewType, ExpenseViewGroupType } from '../../../domain/expense';
-import { Expense } from '../../../services/expense/expense';
+import { Component, inject } from '@angular/core';
 import { ExpenseCard } from "../expense-card/expense-card";
 import { ExpenseCardSkeleton } from "../expense-card-skeleton/expense-card-skeleton";
+import { ExpenseListing } from '../../../services/expense/expense-listing';
 
 @Component({
   selector: 'app-expense-list',
@@ -10,15 +9,15 @@ import { ExpenseCardSkeleton } from "../expense-card-skeleton/expense-card-skele
   templateUrl: './expense-list.html',
 })
 export class ExpenseList {
-  private expense = inject(Expense);
+  private listing = inject(ExpenseListing);
 
-  protected expenses = signal<(ExpenseViewType | ExpenseViewGroupType)[] | undefined>(undefined);
+  protected expenses = this.listing.expenses;
 
   get Array() {
     return Array;
   }
 
   ngOnInit(): void {
-    this.expense.fetchExpenseForView().then((data) => this.expenses.set(data));
+    this.listing.fetchData();
   }
 }
