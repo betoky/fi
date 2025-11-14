@@ -17,6 +17,19 @@
   />
 </ng-template>
 
+<ng-template #moreControl>
+  <div class="card inline-flex align-middle">
+    <p-menu #menu [model]="controls" [popup]="true" appendTo="body" />
+    <p-button
+      size="small"
+      icon="pi pi-ellipsis-v"
+      severity="contrast"
+      [text]="true"
+      (click)="menu.toggle($event)"
+    />
+  </div>
+</ng-template>
+
 <p-card>
   <!-- Group view -->
   @if (isViewGroup(expense)) {
@@ -31,6 +44,7 @@
     <div class="space-x-1.5 whitespace-nowrap">
       <ng-container [ngTemplateOutlet]="toggleBtn" />
       <span class="text-xl font-bold whitespace-nowrap"> {{ expense.total | appCurrency }} </span>
+      <ng-container [ngTemplateOutlet]="moreControl" />
     </div>
   </div>
   <!-- Content -->
@@ -65,11 +79,14 @@
       <ng-container [ngTemplateOutlet]="toggleBtn" />
       }
       <div class="flex flex-col items-center">
-        <span class="text-xl font-bold whitespace-nowrap"> {{ expense.amount | appCurrency }} </span>
+        <span class="text-xl font-bold whitespace-nowrap">
+          {{ expense.amount | appCurrency }}
+        </span>
         @let unit = expense.article.unit; @if (unit) {
         <p-badge severity="secondary" [value]="expense.quantity + (unit ? ' ' + unit : '')" />
         }
       </div>
+      <ng-container [ngTemplateOutlet]="moreControl" />
     </div>
   </div>
   <!-- Content -->
@@ -82,3 +99,5 @@
   </div>
   }
 </p-card>
+
+<p-confirmdialog />

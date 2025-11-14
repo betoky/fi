@@ -1,3 +1,7 @@
+:host ::ng-deep .p-card-body {
+  padding-right: .5rem !important;
+}
+
 .content-container {
   display: grid;
   grid-template-rows: 0fr;

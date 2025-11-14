@@ -1,33 +1,18 @@
-import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Button } from 'primeng/button';
-import { SkeletonModule } from 'primeng/skeleton';
-import { ExpenseViewGroupType, ExpenseViewType } from '../../domain/expense';
-import { Expense } from '../../services/expense/expense';
-import { ExpenseForm } from '../../components/expense-form/expense-form';
-import { ExpenseCard } from "../../components/expense-card/expense-card";
-import { ExpenseCardSkeleton } from "../../components/expense-card-skeleton/expense-card-skeleton";
+import { ExpenseForm } from '../../components/expense/expense-form/expense-form';
+import { ExpenseList } from "../../components/expense/expense-list/expense-list";
 
 @Component({
   selector: 'app-expenses',
-  imports: [Button, ExpenseCard, SkeletonModule, ExpenseCardSkeleton],
+  imports: [Button, ExpenseList],
   providers: [DialogService],
   templateUrl: './expenses.html',
 })
-export class Expenses implements OnInit {
+export class Expenses {
   private ref: DynamicDialogRef<ExpenseForm> | null = null;
   public dialog = inject(DialogService);
-  private expense = inject(Expense);
-
-  protected expenses: WritableSignal<(ExpenseViewType|ExpenseViewGroupType)[]|undefined> = signal(undefined);
-
-  get Array() {
-    return Array;
-  }
-
-  ngOnInit(): void {
-    this.expense.fetchExpenseForView().then(data => this.expenses.set(data));
-  }
 
   protected openModal() {
     this.ref = this.dialog.open(ExpenseForm, {
