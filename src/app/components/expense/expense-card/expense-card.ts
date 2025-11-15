@@ -5,6 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { Menu } from 'primeng/menu';
+import { TableModule } from 'primeng/table';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { ExpenseViewType, ExpenseViewGroupType, isExpenseViewGroup } from '../../../domain/expense';
 import { CurrencyPipe } from '../../../pipes/currency-pipe';
@@ -20,6 +21,7 @@ import { ExpenseListing } from '../../../services/expense/expense-listing';
     ButtonModule,
     CardModule,
     Menu,
+    TableModule,
     CurrencyPipe,
     DatePipe,
   ],
