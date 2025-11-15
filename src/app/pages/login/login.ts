@@ -18,17 +18,17 @@ export class Login {
 
   protected isLoading = signal(false);
 
-  errorMsg?: string;
-  warningMsg?: string;
+  errorMsg = signal<string|null>(null);
+  warningMsg = signal<string|null>(null);
 
   constructor() {
     const error = this.route.snapshot.paramMap.get('error');
     if (error) {
-      this.errorMsg = error;
+      this.errorMsg.set(error);
     }
     const warn = this.route.snapshot.paramMap.get('warn');
     if (warn) {
-      this.warningMsg = warn;
+      this.warningMsg.set(warn);
     }
   }
 
@@ -40,10 +40,15 @@ export class Login {
       this.router.navigate(['/'], { replaceUrl: true });
     } catch (error) {
       if (error instanceof Error) {
-        this.errorMsg = error.message;
+        this.errorMsg.set(error.message);
       }
     } finally {
       this.isLoading.set(false);
     }
+  }
+
+  reset() {
+    this.errorMsg.set(null);
+    this.warningMsg.set(null);
   }
 }

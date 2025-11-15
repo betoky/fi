@@ -1,19 +1,11 @@
 <div class="min-h-dvh sm:grid sm:place-items-center sm:p-3.5">
   <p-card styleClass="pt-16 sm:pt-0 w-full sm:w-4/5 md:w-2/3 md:max-w-lg min-h-dvh sm:min-h-fit">
     <h1 class="text-5xl lg:text-6xl text-center font-black my-auto pb-4 animate-pulse">Fi</h1>
-    <p class="text-sm text-center text-txt-secondary mb-8">Maitriser le budget de votre foyer</p>
-    @if(errorMsg) {
-    <div
-      class="py-3 px-4 mb-8 rounded-md text-center font-medium text-sm text-error bg-surface-error"
-    >
-      <p>{{ errorMsg }}</p>
-    </div>
-    } @if(warningMsg) {
-    <div
-      class="py-3 px-4 mb-8 rounded-md text-center font-medium text-sm text-warning bg-surface-warning"
-    >
-      <p>{{ warningMsg }}</p>
-    </div>
+    <p class="text-sm text-center mb-8">Maitriser le budget de votre foyer</p>
+    @if(errorMsg()) {
+    <p-message class="mb-4 block" severity="error" variant="text">{{ errorMsg() }}</p-message>
+    } @if(warningMsg()) {
+    <p-message class="mb-4 block" severity="warn" variant="text">{{ warningMsg() }}</p-message>
     }
     <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm" class="space-y-4">
       <div class="space-y-1">
@@ -66,10 +58,10 @@
         label="Login"
         [loading]="isLoading()"
       />
-      <div class="text-xs font-medium text-txt-secondary text-center">
+      <div class="text-xs font-medium text-center">
         Vous n'avez pas encore de compte ?<br />Contactez-moi à l'adresse
         <a
-          class="font-medium text-primary outline-none focus:ring-2 focus:ring-primary-focus hover:underline"
+          class="font-medium outline-none focus:ring-2 focus:ring-primary-focus hover:underline"
           href="mailto:mahefarisont@gmail.com"
           >mahefarisont@gmail.com</a
         >
