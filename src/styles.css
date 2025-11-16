@@ -12,4 +12,23 @@
 
 html {
   font-size: 14px;
+  background-color: var(--p-surface-50);
+}
+
+html.dark-mode {
+  background-color: var(--p-surface-950);
+}
+
+@layer component {
+  .card {
+    @apply bg-(--p-content-background) p-3 rounded-(--p-content-border-radius);
+  }
+
+  .overlay {
+    @apply fixed top-0 left-0 z-10 w-screen h-dvh bg-(--p-mask-background);
+  }
+
+  .link {
+    @apply text-(--p-button-link-color) hover:text-(--p-button-link-hover-color);
+  }
 }

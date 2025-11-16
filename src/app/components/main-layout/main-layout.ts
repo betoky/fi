@@ -1,4 +1,13 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { RouterOutlet, Router, RouterLink } from '@angular/router';
 
 import { Auth } from '../../services/auth';
@@ -20,7 +29,7 @@ const primeModule = [ButtonModule, PopoverModule, MenubarModule, Toast];
   templateUrl: './main-layout.html',
   providers: [MessageService],
 })
-export class MainLayout implements OnInit {
+export class MainLayout implements OnInit, AfterViewInit, OnDestroy {
   private router = inject(Router);
   private auth = inject(Auth);
   private userService = inject(User);
@@ -52,12 +61,41 @@ export class MainLayout implements OnInit {
     },
   ];
 
+  protected dvh = signal('100dvh');
+
+  protected offsetTop = signal('58px');
+
+  @ViewChild('toolbar') toolbar?: ElementRef<HTMLDivElement>;
+
   ngOnInit(): void {
     this.userService.getCurrentUser().then((user) => this.loggedUser.set(user));
+    window.addEventListener('resize', this.updateCustomProperty.bind(this));
+  }
+
+  ngAfterViewInit(): void {
+    this.updateCustomProperty();
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('resize', this.updateCustomProperty.bind(this));
   }
 
   async logout() {
     await this.auth.logout();
     this.router.navigate(['/login'], { replaceUrl: true });
+  }
+
+  private updateCustomProperty() {
+    const toolbarElement = this.toolbar?.nativeElement;
+    if (!toolbarElement) {
+      this.dvh.set('100dvh');
+      this.offsetTop.set('58px');
+      return;
+    }
+    const windowHeight = window.innerHeight + 1;
+    const toolbarHeight = toolbarElement.offsetHeight + 1;
+
+    this.dvh.set(`calc(${windowHeight - toolbarHeight}px - 1.5rem`);
+    this.offsetTop.set(`calc(${toolbarHeight}px + 1.5rem)`);
   }
 }

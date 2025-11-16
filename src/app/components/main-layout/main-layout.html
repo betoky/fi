@@ -1,4 +1,4 @@
-<div class="sticky z-40 top-3 max-w-xl md:max-w-4xl xl:max-w-6xl mx-auto px-3">
+<div #toolbar class="sticky z-40 top-3 max-w-xl md:max-w-4xl xl:max-w-6xl mx-auto px-3">
   <p-menubar [model]="menu">
     <ng-template #start>
       <span class="text-3xl leading-none! font-black animate-pulse">Fi</span>
@@ -41,7 +41,7 @@
   </p-menubar>
 </div>
 
-<main class="px-3 pt-10">
+<main class="px-3 mt-6" [style.--offset-top]="offsetTop()" [style.--dvh]="dvh()">
   <router-outlet />
 </main>
 

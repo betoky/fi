@@ -1,5 +1,9 @@
+:host {
+  --exp-card-padding: 1rem;
+}
+
 :host ::ng-deep .p-card-body {
-  padding-right: .5rem !important;
+  padding: 0 !important;
 }
 
 .content-container {
@@ -15,6 +19,7 @@
 }
 
 .content {
+  padding-inline: var(--exp-card-padding);
   min-height: 0;
   visibility: hidden;
   opacity: 0;
@@ -23,9 +28,10 @@
 }
 
 .content-container.open .content {
-  margin-top: 1.5rem;
+  padding-block: var(--exp-card-padding);
   padding-top: 1.5rem;
   border-top-style: solid;
+  border-color: var(--p-content-border-color);
   border-top-width: 1px;
   visibility: visible;
   opacity: 1;

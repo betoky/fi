@@ -1,0 +1,53 @@
+.layout {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 1rem;
+}
+
+@media screen and (width < 80rem) {
+  .control-panel, .aside {
+    width: 100%;
+    max-width: 50rem;
+    max-height: 75dvh;
+    transform: translate(-50%, 150%);
+    transition: transform 150ms;
+    bottom: 0;
+    left: 50%;
+    overflow-y: auto;
+  }
+
+  .control-panel.active, .aside.active {
+    transform: translate(-50%, 0);
+  }
+}
+
+@media screen and (width >= 48rem) {
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (width >= 64rem) {
+  .layout {
+    grid-template-columns: 1fr 2fr;
+  }
+}
+
+@media screen and (width >= 80rem) {
+  .layout {
+    grid-template-areas: 'control-panel listing chart aside';
+    grid-template-columns: 2fr 3fr 3fr 2fr;
+  }
+
+  .main {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media screen and (width >= 96rem) {
+  .layout {
+    grid-template-columns: 1fr 2fr 3fr 2fr;
+  }
+}

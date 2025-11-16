@@ -2,7 +2,9 @@
   @if (expenses()) { @for(expense of expenses(); track $index) {
   <app-expense-card class="block" [value]="expense" />
   }@empty {
-  <p class="font-medium text-center">Aucune dépense enregistrée.</p>
+  <div class="card py-6!">
+    <p class="font-medium text-center">Aucune dépense enregistrée.</p>
+  </div>
   } } @else { @for (i of Array(6); track $index) {
   <app-expense-card-skeleton class="block" />
   } }

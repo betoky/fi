@@ -171,7 +171,7 @@ export type Database = {
           group_id?: string | null
           home_id: string
           id?: string
-          quantity?: number
+          quantity: number
         }
         Update: {
           amount?: number

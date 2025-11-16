@@ -18,7 +18,7 @@
 </ng-template>
 
 <ng-template #moreControl>
-  <div class="card inline-flex align-middle">
+  <div class="inline-flex align-middle">
     <p-menu #menu [model]="controls" [popup]="true" appendTo="body" />
     <p-button
       size="small"
@@ -33,7 +33,7 @@
 <p-card>
   <!-- Group view -->
   @if (isViewGroup(expense)) {
-  <div class="flex justify-between items-center gap-4">
+  <div class="flex justify-between items-center gap-4 p-(--exp-card-padding) pr-1">
     <ng-container
       [ngTemplateOutlet]="mainContent"
       [ngTemplateOutletContext]="{
@@ -55,7 +55,6 @@
       }
       <p-table
         size="small"
-        class="space-y-0.5 mx-4"
         [value]="expense.items"
         stripedRows
         showGridlines
@@ -90,7 +89,7 @@
   }
   <!-- Simple view -->
   @else {
-  <div class="flex justify-between items-center gap-4">
+  <div class="flex justify-between items-center gap-4 p-(--exp-card-padding) pr-1">
     <ng-container
       [ngTemplateOutlet]="mainContent"
       [ngTemplateOutletContext]="{

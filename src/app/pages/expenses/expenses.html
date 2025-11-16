@@ -1,4 +1,32 @@
-<p-button severity="primary" label="Ajouter une dépense" (onClick)="openExpenseForm()" />
-<div class="my-8 max-w-2xl">
-  <app-expense-list />
+<div class="layout relative">
+  <!-- Control panel -->
+  <div
+    [class.active]="panelOpened()"
+    class="card h-fit control-panel fixed xl:sticky xl:top-(--offset-top) z-20"
+  >
+    <p-button fluid severity="primary" label="Ajouter une dépense" (onClick)="openExpenseForm()" />
+  </div>
+  <!-- Listing -->
+  <div class="listing">
+    <div class="max-w-xl mx-auto">
+      <app-expense-list />
+    </div>
+  </div>
+  <!-- Resume -->
+  <div class="card h-fit chart md:sticky top-(--offset-top)"></div>
+  <!-- Aside -->
+  <div
+    [class.active]="asideOpened()"
+    class="card h-fit aside fixed xl:sticky xl:top-(--offset-top) z-20"
+  ></div>
 </div>
+
+<p-speeddial
+  direction="up"
+  class="xl:hidden absolute bottom-5 right-5"
+  [model]="mobileToggleMenu"
+/>
+
+@if (panelOpened() || asideOpened()) {
+<div (click)="panelOpened.set(false); asideOpened.set(false)" class="xl:hidden overlay"></div>
+}
