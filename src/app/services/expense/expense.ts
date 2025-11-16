@@ -28,6 +28,11 @@ export class Expense {
     if (error) throw error;
   }
 
+  async deleteGroupedExpense(id: string) {
+    const { error } = await this.supabase.from('expense_groups').delete().eq('id', id);
+    if (error) throw error;
+  }
+
   async fetchGroupByIds(ids: string[]) {
     if (ids.length === 0) {
       throw new Error('Attempt to fetch empty group expense');

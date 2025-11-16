@@ -59,16 +59,17 @@ export class ExpenseCard {
   }
 
   private deleteCommand() {
-    this.dialogSrv
-      .confirmDelete('Allez-vous supprimer cette dépense?')
-      .then((confirmed) => {
-        confirmed && this.deleteExpense();
-      });
+    this.dialogSrv.confirmDelete('Allez-vous supprimer cette dépense?').then((confirmed) => {
+      confirmed && this.deleteExpense();
+    });
   }
 
   private deleteExpense() {
-    this.listing
-      .remove(this.expense.id)
+    const request = isExpenseViewGroup(this.expense)
+      ? this.listing.removeGroupedExpense(this.expense.id)
+      : this.listing.removeSimpleExpense(this.expense.id);
+
+    request
       .then(() => this.alert.success({ detail: 'Une dépense a été supprimée.' }))
       .catch(() => this.alert.error({ detail: 'Erreur de suppression' }));
   }

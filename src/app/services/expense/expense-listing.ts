@@ -14,8 +14,13 @@ export class ExpenseListing {
     this.expense.fetchExpenseForView().then((data) => this.expenses.set(data));
   }
 
-  async remove(id: string) {
+  async removeSimpleExpense(id: string) {
     await this.expense.deleteExpense(id);
+    this.fetchData();
+  }
+
+  async removeGroupedExpense(id: string) {
+    await this.expense.deleteGroupedExpense(id);
     this.fetchData();
   }
 }
