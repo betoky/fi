@@ -1,17 +1,23 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { ConfirmDialogModule } from "primeng/confirmdialog";
+import { Toast } from 'primeng/toast';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { DarkModeSwitcher } from './services/dark-mode-switcher';
+import { Alert } from './services/alert';
 import { Auth } from './services/auth';
 import { Home } from './services/home';
 import { User } from './services/user';
 import { CategoryService as ExpenseCategory } from './services/expense/category.service';
 import { ItemService } from './services/expense/item.service';
+import { ConfirmDialog } from './services/confirm-dialog';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, Toast, ConfirmDialogModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
+  providers: [ConfirmationService, MessageService],
 })
 export class App implements OnInit {
   private darkModeSwitcher = inject(DarkModeSwitcher);
@@ -21,7 +27,29 @@ export class App implements OnInit {
   private expenseCategory = inject(ExpenseCategory);
   private expenseItem = inject(ItemService);
 
-  constructor() {
+  constructor(
+    alert: Alert,
+    messageSrv: MessageService,
+    confirm: ConfirmDialog,
+    confirmSrv: ConfirmationService
+  ) {
+    // Alert subscription
+    effect(() => {
+      const message = alert.object();
+      if (message) {
+        messageSrv.add(message);
+      }
+    });
+
+    // Dialog subscription
+    effect(() => {
+      const dialog = confirm.object();
+      if (dialog) {
+        confirmSrv.confirm(dialog);
+      }
+    });
+
+    // Auth Subscription
     this.auth$.subscribe({
       next: (authenticated) => {
         if (!authenticated) {

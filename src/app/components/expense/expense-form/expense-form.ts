@@ -1,7 +1,6 @@
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
-import { MessageService } from 'primeng/api';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -13,11 +12,12 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { TextareaModule } from 'primeng/textarea';
 import { CreateExpenseType, ExpenseGroupType } from '../../../domain/expense';
 import { CurrencyPipe } from '../../../pipes/currency-pipe';
+import { Alert } from '../../../services/alert';
 import { Category } from '../../../services/expense/category';
 import { CategoryService } from '../../../services/expense/category.service';
+import { Expense } from '../../../services/expense/expense';
 import { ItemService } from '../../../services/expense/item.service';
 import { Home } from '../../../services/home';
-import { Expense } from '../../../services/expense/expense';
 
 const prime = [
   AutoCompleteModule,
@@ -36,13 +36,13 @@ const prime = [
   templateUrl: './expense-form.html',
 })
 export class ExpenseForm implements OnInit, OnDestroy {
+  private alert = inject(Alert);
   private home = inject(Home);
   private expense = inject(Expense);
   private dialogRef = inject(DynamicDialogRef);
   private category = inject(Category);
   protected categorySrv = inject(CategoryService);
   protected itemSrv = inject(ItemService);
-  private alert = inject(MessageService);
 
   protected now = new Date();
   protected totalAmount = signal(0);
@@ -158,21 +158,11 @@ export class ExpenseForm implements OnInit, OnDestroy {
       }
 
       await this.expense.saveExpense(...expenses);
-
-      this.alert.add({
-        severity: 'success',
-        summary: 'Succès',
-        detail: 'Dépenses enregistrées avec succès',
-      });
-
+      this.alert.success({ detail: 'Dépenses enregistrées avec succès' });
       this.closeModal(true);
     } catch (error) {
       console.error(error);
-      this.alert.add({
-        severity: 'error',
-        summary: 'Erreur',
-        detail: 'Erreur inattendue',
-      });
+      this.alert.error({ detail: 'Erreur inattendue' });
     } finally {
       this.loading.set(false);
     }
