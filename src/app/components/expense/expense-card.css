@@ -1,0 +1,75 @@
+:host {
+  --exp-card-padding: 1rem;
+}
+
+.expense-card {
+  background-color: var(--p-content-background);
+  border-radius: var(--p-content-border-radius);
+}
+
+.name {
+  font-size: 1.125rem;
+  line-height: 1.55;
+  font-weight: 700;
+}
+
+.date {
+  font-size: .875rem;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+/** icon **/
+.date i {
+  font-size: 1em;
+}
+
+.currency {
+  font-size: 1.25rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.desc {
+  text-align: justify;
+  white-space: pre-wrap;
+}
+
+.main-container {
+  padding: var(--exp-card-padding);
+  padding-right: .25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.collapse-container {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows 0.15s;
+  transition-timing-function: ease-in;
+}
+
+.collapse-container.open {
+  grid-template-rows: 1fr;
+}
+
+.collapse-content {
+  padding-inline: var(--exp-card-padding);
+  min-height: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.15s, opacity 0.15s, margin-top 0.15s, padding-top 0.15s;
+  transition-timing-function: ease-in;
+}
+
+.collapse-container.open .collapse-content {
+  padding-block: var(--exp-card-padding);
+  border-top-style: solid;
+  border-color: var(--p-content-border-color);
+  border-top-width: 1px;
+  visibility: visible;
+  opacity: 1;
+}

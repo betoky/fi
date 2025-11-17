@@ -1,0 +1,10 @@
+<div class="inline-flex align-middle">
+  <p-menu #menu [model]="controls" [popup]="true" appendTo="body" />
+  <p-button
+    size="small"
+    icon="pi pi-ellipsis-v"
+    severity="contrast"
+    [text]="true"
+    (click)="menu.toggle($event)"
+  />
+</div>

@@ -18,6 +18,29 @@ export type ExpenseViewGroupType = Omit<ExpenseGroupType, 'home_id' | 'created_a
   items: ExpenseViewType[];
 };
 
-export const isExpenseViewGroup = (
-  category: ExpenseViewType | ExpenseViewGroupType
-): category is ExpenseViewGroupType => 'items' in category;
+export const isExpenseSimpleView = (object: unknown): object is ExpenseViewType =>
+  object !== null &&
+  typeof object === 'object' &&
+  'id' in object &&
+  typeof object['id'] === 'string' &&
+  'date' in object &&
+  typeof object['date'] === 'string' &&
+  'amount' in object &&
+  typeof object['amount'] === 'number' &&
+  'quantity' in object &&
+  typeof object['quantity'] === 'number' &&
+  'article' in object &&
+  object['article'] !== null &&
+  typeof object['article'] === 'object';
+
+export const isExpenseViewGroup = (object: unknown): object is ExpenseViewGroupType =>
+  object !== null &&
+  typeof object === 'object' &&
+  'id' in object &&
+  typeof object['id'] === 'string' &&
+  'name' in object &&
+  typeof object['name'] === 'string' &&
+  'total' in object &&
+  typeof object['total'] === 'number' &&
+  'items' in object &&
+  Array.isArray(object['items']);

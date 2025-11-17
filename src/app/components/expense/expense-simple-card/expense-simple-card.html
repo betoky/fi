@@ -1,0 +1,38 @@
+<div class='expense-card'>
+  <div class="main-container">
+    <div class="space-y-2">
+      <div class="name">{{ expense.article.name }}</div>
+      <div class="date">
+        <i class="pi pi-calendar-clock"></i>
+        {{ expense.date | appDate }}
+      </div>
+    </div>
+    <div class="flex items-center gap-1.5 flex-nowrap">
+      @if (expense.description) {
+        <p-button
+          [text]="true"
+          [icon]="collapse() ? 'pi pi-angle-up' : 'pi pi-angle-down'"
+          size="small"
+          (onClick)="collapse.set(!collapse())"
+        />
+      }
+      <div class="flex flex-col items-center">
+        <span class="currency">
+          {{ expense.amount | appCurrency }}
+        </span>
+        @let unit = expense.article.unit; @if (unit) {
+        <p-badge severity="secondary" [value]="expense.quantity + (unit ? ' ' + unit : '')" />
+        }
+      </div>
+      <expense-card-control (onEdit)="editExp()" (onDelete)="deleteExp()" />
+    </div>
+  </div>
+  <!-- Content -->
+  <div class="collapse-container" [class.open]="collapse()">
+    <div class="collapse-content">
+      @if (expense.description) {
+      <p class="desc">{{ expense.description }}</p>
+      }
+    </div>
+  </div>
+</div>

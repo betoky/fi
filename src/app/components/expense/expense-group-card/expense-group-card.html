@@ -1,0 +1,54 @@
+<div class='expense-card'>
+  <div class="main-container">
+    <div class="space-y-2">
+      <div class="name">{{ expense.name }}</div>
+      <div class="date">
+        <i class="pi pi-calendar-clock"></i>
+        {{ expense.items[0].date | appDate }}
+      </div>
+    </div>
+    <div class="space-x-1.5 whitespace-nowrap">
+      <p-button
+        [text]="true"
+        [icon]="collapse() ? 'pi pi-angle-up' : 'pi pi-angle-down'"
+        size="small"
+        (onClick)="collapse.set(!collapse())"
+      />
+      <span class="currency"> {{ expense.total | appCurrency }} </span>
+      <expense-card-control (onEdit)="editExpGroup()" (onDelete)="deleteExpGroup()" />
+    </div>
+  </div>
+  <div class="collapse-container" [class.open]="collapse()">
+    <div class="space-y-4 collapse-content">
+      @if (expense.description) {
+      <p class="desc">{{ expense.description }}</p>
+      }
+      <p-table size="small" [value]="expense.items" stripedRows showGridlines>
+        <ng-template #header>
+          <tr>
+            <th pSortableColumn="article.name">
+              <div class="flex items-center gap-2">
+                Article
+                <p-sortIcon field="article.name" />
+              </div>
+            </th>
+            <th>Quantité</th>
+            <th pSortableColumn="amount">
+              <div class="flex justify-center items-center gap-2">
+                Prix
+                <p-sortIcon field="amount" />
+              </div>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template #body let-item>
+          <tr>
+            <td>{{ item.article.name }}</td>
+            <td>{{ item.quantity }} {{ item.article.unit }}</td>
+            <td class="text-end">{{ item.amount | appCurrency }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

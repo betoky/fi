@@ -1,11 +1,17 @@
 <div class="space-y-3">
-  @if (expenses()) { @for(expense of expenses(); track $index) {
-  <app-expense-card class="block" [value]="expense" />
-  }@empty {
-  <div class="card py-6!">
-    <p class="font-medium text-center">Aucune dépense enregistrée.</p>
-  </div>
-  } } @else { @for (i of Array(6); track $index) {
+  @if (expenses()) {
+    @for(expense of expenses(); track $index) {
+      @if(expense | asSimpleExpense; as simpleView) {
+      <expense-simple-card class="block" [expense]="simpleView" />
+      } @if(expense | asGroupExpense; as groupView) {
+      <expense-group-card class="block" [expense]="groupView" />
+      }
+    } @empty {
+    <div class="card py-6!">
+      <p class="font-medium text-center">Aucune dépense enregistrée.</p>
+    </div>
+    }
+  } @else { @for (i of Array(6); track $index) {
   <app-expense-card-skeleton class="block" />
-  } }
+  }}
 </div>
