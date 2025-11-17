@@ -5,6 +5,8 @@ export type ExpenseType = Tables<'expenses'>;
 
 export type CreateExpenseType = Omit<ExpenseType, 'id' | 'created_at'>;
 
+export type UpdateExpenseType = Omit<ExpenseType, 'id' | 'created_at' | 'home_id' | 'date' | 'article_id' | 'group_id'>;
+
 export type ExpenseGroupType = Tables<'expense_groups'>;
 
 export type CreateExpenseGroupType = Omit<ExpenseGroupType, 'id' | 'created_at'>;

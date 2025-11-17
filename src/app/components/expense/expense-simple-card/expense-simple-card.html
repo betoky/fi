@@ -1,30 +1,32 @@
-<div class='expense-card'>
+@let date = expense.date | appDate;
+<div class="expense-card">
   <div class="main-container">
     <div class="space-y-2">
       <div class="name">{{ expense.article.name }}</div>
       <div class="date">
         <i class="pi pi-calendar-clock"></i>
-        {{ expense.date | appDate }}
+        {{ date }}
       </div>
     </div>
     <div class="flex items-center gap-1.5 flex-nowrap">
       @if (expense.description) {
-        <p-button
-          [text]="true"
-          [icon]="collapse() ? 'pi pi-angle-up' : 'pi pi-angle-down'"
-          size="small"
-          (onClick)="collapse.set(!collapse())"
-        />
+      <p-button
+        [text]="true"
+        [icon]="collapse() ? 'pi pi-angle-up' : 'pi pi-angle-down'"
+        size="small"
+        (onClick)="collapse.set(!collapse())"
+      />
       }
       <div class="flex flex-col items-center">
         <span class="currency">
           {{ expense.amount | appCurrency }}
         </span>
-        @let unit = expense.article.unit; @if (unit) {
-        <p-badge severity="secondary" [value]="expense.quantity + (unit ? ' ' + unit : '')" />
+        @let unit = expense.article.unit; @let quantity = expense.quantity; @if (unit && (quantity >
+        1 || (quantity > 0 && quantity < 1))) {
+        <p-badge severity="secondary" [value]="quantity + ' ' + unit" />
         }
       </div>
-      <expense-card-control (onEdit)="editExp()" (onDelete)="deleteExp()" />
+      <expense-card-control (onEdit)="isEdit.set(true)" (onDelete)="deleteExp()" />
     </div>
   </div>
   <!-- Content -->
@@ -36,3 +38,63 @@
     </div>
   </div>
 </div>
+
+<p-dialog
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [closable]="false"
+  [visible]="isEdit()"
+  [header]="`${expense.article.name} (${date})`"
+>
+  <form class="space-y-3" #expForm="ngForm">
+    <div class="flex justify-stretch items-center gap-2">
+      <div class="space-y-1.5">
+        <label for="quantity" class="font-semibold w-24">Quantité</label>
+        <p-inputnumber
+          fluid
+          inputId="quantity"
+          mode="decimal"
+          [showButtons]="true"
+          [minFractionDigits]="1"
+          [min]="0"
+          #quantiy="ngModel"
+          name="quantity"
+          [ngModel]="expense.quantity"
+          required
+        />
+      </div>
+      <div class="space-y-1.5">
+        <label for="amount" class="font-semibold w-24">Prix</label>
+        <p-inputnumber
+          mode="currency"
+          currency="MGA"
+          fluid
+          inputId="amount"
+          #amount="ngModel"
+          name="amount"
+          [ngModel]="expense.amount"
+          required
+        />
+      </div>
+    </div>
+    <div class="space-y-1.5">
+      <label for="description">Description (optionnel)</label>
+      <textarea
+        id="description"
+        name="description"
+        pTextarea
+        rows="3"
+        fluid
+        ngModel="description"
+        name="description"
+        [autoResize]="true"
+        [ngModel]="expense.description"
+      ></textarea>
+    </div>
+  </form>
+  <div class="mt-4 flex justify-end gap-3">
+    <p-button label="Cancel" severity="secondary" (click)="isEdit.set(false)" />
+    <p-button type="submit" label="Mettre à jour" [disabled]="expForm.invalid" (onClick)="updateExp(expForm)" />
+  </div>
+</p-dialog>

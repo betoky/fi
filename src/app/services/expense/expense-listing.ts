@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { ExpenseViewType, ExpenseViewGroupType } from '../../domain/expense';
+import { ExpenseViewType, ExpenseViewGroupType, UpdateExpenseType } from '../../domain/expense';
 import { Expense } from './expense';
 
 @Injectable({
@@ -12,6 +12,11 @@ export class ExpenseListing {
 
   fetchData() {
     this.expense.fetchExpenseForView().then((data) => this.expenses.set(data));
+  }
+
+  async updateSimpleExpense(id: string, value: UpdateExpenseType) {
+    await this.expense.updateExpense(id, value);
+    this.fetchData();
   }
 
   async removeSimpleExpense(id: string) {

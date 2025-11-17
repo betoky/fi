@@ -9,13 +9,6 @@ const PrimePreset = definePreset(Lara, {
       },
     },
     menubar: {
-      colorScheme: {
-        light: {
-          root: {
-            background: '{surface.0}',
-          }
-        }
-      },
       root: {
         borderRadius: '4rem',
         padding: '0.35rem 2rem',

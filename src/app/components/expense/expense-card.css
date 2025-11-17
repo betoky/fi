@@ -5,6 +5,7 @@
 .expense-card {
   background-color: var(--p-content-background);
   border-radius: var(--p-content-border-radius);
+  box-shadow: var(--p-card-shadow);
 }
 
 .name {
