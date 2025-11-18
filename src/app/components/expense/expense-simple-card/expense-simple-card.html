@@ -1,43 +1,17 @@
-@let date = expense.date | appDate;
-<div class="expense-card">
-  <div class="main-container">
-    <div class="space-y-2">
-      <div class="name">{{ expense.article.name }}</div>
-      <div class="date">
-        <i class="pi pi-calendar-clock"></i>
-        {{ date }}
-      </div>
-    </div>
-    <div class="flex items-center gap-1.5 flex-nowrap">
-      @if (expense.description) {
-      <p-button
-        [text]="true"
-        [icon]="collapse() ? 'pi pi-angle-up' : 'pi pi-angle-down'"
-        size="small"
-        (onClick)="collapse.set(!collapse())"
-      />
-      }
-      <div class="flex flex-col items-center">
-        <span class="currency">
-          {{ expense.amount | appCurrency }}
-        </span>
-        @let unit = expense.article.unit; @let quantity = expense.quantity; @if (unit && (quantity >
-        1 || (quantity > 0 && quantity < 1))) {
-        <p-badge severity="secondary" [value]="quantity + ' ' + unit" />
-        }
-      </div>
-      <expense-card-control (onEdit)="isEdit.set(true)" (onDelete)="deleteExp()" />
-    </div>
-  </div>
-  <!-- Content -->
-  <div class="collapse-container" [class.open]="collapse()">
-    <div class="collapse-content">
-      @if (expense.description) {
-      <p class="desc">{{ expense.description }}</p>
-      }
-    </div>
-  </div>
-</div>
+@let unit = expense.article.unit;
+@let quantity = expense.quantity;
+@let displayBadge = unit && (quantity > 1 || (quantity > 0 && quantity < 1));
+@let hasDescription = expense.description ? expense.description.length > 0 : false;
+<expense-card
+  [date]="expense.date"
+  [name]="expense.article.name"
+  [description]="expense.description"
+  [amount]="expense.amount"
+  [hasCollapse]="hasDescription"
+  [badge]="displayBadge ? quantity + ' ' + unit : undefined"
+  (onEdit)="isEdit.set(true)"
+  (onDelete)="deleteExp()"
+/>
 
 <p-dialog
   [modal]="true"
@@ -45,7 +19,7 @@
   [resizable]="false"
   [closable]="false"
   [visible]="isEdit()"
-  [header]="`${expense.article.name} (${date})`"
+  [header]="expense.article.name"
 >
   <form class="space-y-3" #expForm="ngForm">
     <div class="flex justify-stretch items-center gap-2">
@@ -95,6 +69,11 @@
   </form>
   <div class="mt-4 flex justify-end gap-3">
     <p-button label="Cancel" severity="secondary" (click)="isEdit.set(false)" />
-    <p-button type="submit" label="Mettre à jour" [disabled]="expForm.invalid" (onClick)="updateExp(expForm)" />
+    <p-button
+      type="submit"
+      label="Mettre à jour"
+      [disabled]="expForm.invalid"
+      (onClick)="updateExp(expForm)"
+    />
   </div>
 </p-dialog>

@@ -1,0 +1,50 @@
+<div class="bg-(--p-content-background) rounded-(--p-content-border-radius) shadow-(--p-card-shadow)">
+  <div class="p-(--exp-card-padding) pr-1 flex justify-between items-center gap-4">
+    <div class="space-y-2">
+      <div class="text-lg font-bold">{{ name }}</div>
+      <div class="text-sm font-medium">
+        <i style="font-size: 1em" class="pi pi-calendar-clock"></i>
+        {{ date | appDate }}
+      </div>
+    </div>
+    <div class="flex items-center gap-1.5 flex-nowrap">
+      @if (hasCollapse) {
+      <p-button
+        [text]="true"
+        [icon]="collapse() ? 'pi pi-angle-up' : 'pi pi-angle-down'"
+        size="small"
+        (onClick)="collapse.set(!collapse())"
+      />
+      }
+      <div class="flex flex-col items-center">
+        <span class="text-xl font-bold whitespace-nowrap">
+          {{ amount | appCurrency }}
+        </span>
+        @if (badge) {
+        <p-badge severity="secondary" [value]="badge" />
+        }
+      </div>
+      <div class="inline-flex align-middle">
+        <p-menu #menu [model]="controls" [popup]="true" appendTo="body" />
+        <p-button
+          size="small"
+          icon="pi pi-ellipsis-v"
+          severity="contrast"
+          [text]="true"
+          (click)="menu.toggle($event)"
+        />
+      </div>
+    </div>
+  </div>
+  <!-- Content -->
+  @if (hasCollapse) {
+  <div class="collapse-container" [class.open]="collapse()">
+    <div class="space-y-4 collapse-content">
+      @if (description) {
+      <p class="whitespace-pre-wrap text-justify">{{ description }}</p>
+      }
+      <ng-content />
+    </div>
+  </div>
+  }
+</div>

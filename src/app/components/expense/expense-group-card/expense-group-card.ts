@@ -1,19 +1,16 @@
-import { Component, inject, Input, signal } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
+import { Component, inject, Input } from '@angular/core';
+import { TableModule } from "primeng/table";
 import { ExpenseViewGroupType } from '../../../domain/expense';
-import { DatePipe } from '../../../pipes/date-pipe';
 import { CurrencyPipe } from '../../../pipes/currency-pipe';
 import { Alert } from '../../../services/alert';
 import { ExpenseListing } from '../../../services/expense/expense-listing';
 import { ConfirmDialog } from '../../../services/confirm-dialog';
-import { TableModule } from "primeng/table";
-import { ExpenseCardControl } from "../expense-card-control/expense-card-control";
+import { ExpenseCard } from "../expense-card/expense-card";
 
 @Component({
   selector: 'expense-group-card',
-  imports: [DatePipe, ButtonModule, CurrencyPipe, TableModule, ExpenseCardControl],
+  imports: [CurrencyPipe, ExpenseCard, TableModule],
   templateUrl: './expense-group-card.html',
-  styleUrl: './../expense-card.css',
 })
 export class ExpenseGroupCard {
   @Input({ required: true }) expense!: ExpenseViewGroupType;
@@ -21,8 +18,6 @@ export class ExpenseGroupCard {
   private alert = inject(Alert);
   private dialogSrv = inject(ConfirmDialog);
   private listing = inject(ExpenseListing);
-
-  protected collapse = signal(false);
 
   editExpGroup(): void {
     throw new Error('Method not implemented.');

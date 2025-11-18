@@ -4,30 +4,25 @@ import { ButtonModule } from 'primeng/button';
 import { BadgeModule } from 'primeng/badge';
 import { Dialog } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { DatePipe } from '../../../pipes/date-pipe';
-import { CurrencyPipe } from '../../../pipes/currency-pipe';
+import { TextareaModule } from 'primeng/textarea';
 import { ExpenseViewType } from '../../../domain/expense';
 import { Alert } from '../../../services/alert';
 import { ConfirmDialog } from '../../../services/confirm-dialog';
 import { ExpenseListing } from '../../../services/expense/expense-listing';
-import { ExpenseCardControl } from '../expense-card-control/expense-card-control';
-import { TextareaModule } from 'primeng/textarea';
+import { ExpenseCard } from "../expense-card/expense-card";
 
 @Component({
   selector: 'expense-simple-card',
   imports: [
     FormsModule,
-    DatePipe,
     ButtonModule,
     BadgeModule,
-    ExpenseCardControl,
-    CurrencyPipe,
     Dialog,
     InputNumberModule,
     TextareaModule,
-  ],
-  templateUrl: './expense-simple-card.html',
-  styleUrl: './../expense-card.css',
+    ExpenseCard
+],
+  templateUrl: './expense-simple-card.html'
 })
 export class ExpenseSimpleCard {
   @Input({ required: true }) expense!: ExpenseViewType;
@@ -36,7 +31,6 @@ export class ExpenseSimpleCard {
   private dialogSrv = inject(ConfirmDialog);
   private listing = inject(ExpenseListing);
 
-  protected collapse = signal(false);
   protected isEdit = signal(false);
 
   deleteExp() {
