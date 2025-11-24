@@ -1,48 +1,28 @@
 import { Tables } from '../../../database.types';
 import { ExpenseItemType } from './expense-item';
+import { DatabaseProperties } from './utils';
 
 export type ExpenseType = Tables<'expenses'>;
 
-export type CreateExpenseType = Omit<ExpenseType, 'id' | 'created_at'>;
+export type ExpenseArticleType = ExpenseType & { article: ExpenseItemType }
 
-export type UpdateExpenseType = Omit<ExpenseType, 'id' | 'created_at' | 'home_id' | 'date' | 'article_id' | 'group_id'>;
+export type CreateExpenseType = Omit<ExpenseType, DatabaseProperties>;
 
-export type ExpenseGroupType = Tables<'expense_groups'>;
+export type UpdateExpenseType = Omit<ExpenseType, DatabaseProperties | 'home_id' | 'date' | 'article_id' | 'category_id'>;
 
-export type CreateExpenseGroupType = Omit<ExpenseGroupType, 'id' | 'created_at'>;
-
-export type ExpenseViewType = Omit<
-  ExpenseType,
-  'home_id' | 'created_at' | 'group_id' | 'article_id'
-> & { article: Omit<ExpenseItemType, 'created_at' | 'home_id' | 'id'> };
-
-export type ExpenseViewGroupType = Omit<ExpenseGroupType, 'home_id' | 'created_at'> & {
-  items: ExpenseViewType[];
-};
-
-export const isExpenseSimpleView = (object: unknown): object is ExpenseViewType =>
+export const isExpense = (object: unknown): object is ExpenseArticleType =>
   object !== null &&
   typeof object === 'object' &&
   'id' in object &&
   typeof object['id'] === 'string' &&
   'date' in object &&
   typeof object['date'] === 'string' &&
+  'article_id' in object &&
+  typeof object['article_id'] === 'string' &&
   'amount' in object &&
   typeof object['amount'] === 'number' &&
   'quantity' in object &&
   typeof object['quantity'] === 'number' &&
   'article' in object &&
-  object['article'] !== null &&
   typeof object['article'] === 'object';
 
-export const isExpenseViewGroup = (object: unknown): object is ExpenseViewGroupType =>
-  object !== null &&
-  typeof object === 'object' &&
-  'id' in object &&
-  typeof object['id'] === 'string' &&
-  'name' in object &&
-  typeof object['name'] === 'string' &&
-  'total' in object &&
-  typeof object['total'] === 'number' &&
-  'items' in object &&
-  Array.isArray(object['items']);

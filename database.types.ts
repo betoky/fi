@@ -73,9 +73,63 @@ export type Database = {
           },
         ]
       }
+      expense_grouped: {
+        Row: {
+          amount: number
+          article_id: string
+          created_at: string
+          group_id: string
+          home_id: string
+          id: string
+          quantity: number
+        }
+        Insert: {
+          amount: number
+          article_id: string
+          created_at?: string
+          group_id: string
+          home_id: string
+          id?: string
+          quantity?: number
+        }
+        Update: {
+          amount?: number
+          article_id?: string
+          created_at?: string
+          group_id?: string
+          home_id?: string
+          id?: string
+          quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expense_grouped_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "expense_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expense_grouped_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "expense_groups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expense_grouped_home_id_fkey"
+            columns: ["home_id"]
+            isOneToOne: false
+            referencedRelation: "homes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       expense_groups: {
         Row: {
+          count: number
           created_at: string
+          date: string
           description: string | null
           home_id: string
           id: string
@@ -83,7 +137,9 @@ export type Database = {
           total: number
         }
         Insert: {
+          count?: number
           created_at?: string
+          date: string
           description?: string | null
           home_id: string
           id?: string
@@ -91,7 +147,9 @@ export type Database = {
           total: number
         }
         Update: {
+          count?: number
           created_at?: string
+          date?: string
           description?: string | null
           home_id?: string
           id?: string
@@ -101,6 +159,46 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "expense_groups_home_id_fkey"
+            columns: ["home_id"]
+            isOneToOne: false
+            referencedRelation: "homes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      expense_groups_categories: {
+        Row: {
+          category_id: string
+          group_id: string
+          home_id: string
+        }
+        Insert: {
+          category_id: string
+          group_id: string
+          home_id: string
+        }
+        Update: {
+          category_id?: string
+          group_id?: string
+          home_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expense_groups_categories_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "expense_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expense_groups_categories_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "expense_groups"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expense_groups_categories_home_id_fkey"
             columns: ["home_id"]
             isOneToOne: false
             referencedRelation: "homes"
@@ -154,10 +252,10 @@ export type Database = {
         Row: {
           amount: number
           article_id: string
+          category_id: string | null
           created_at: string
           date: string
           description: string | null
-          group_id: string | null
           home_id: string
           id: string
           quantity: number
@@ -165,10 +263,10 @@ export type Database = {
         Insert: {
           amount: number
           article_id: string
+          category_id?: string | null
           created_at?: string
           date: string
           description?: string | null
-          group_id?: string | null
           home_id: string
           id?: string
           quantity: number
@@ -176,10 +274,10 @@ export type Database = {
         Update: {
           amount?: number
           article_id?: string
+          category_id?: string | null
           created_at?: string
           date?: string
           description?: string | null
-          group_id?: string | null
           home_id?: string
           id?: string
           quantity?: number
@@ -193,10 +291,10 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "expenses_group_id_fkey"
-            columns: ["group_id"]
+            foreignKeyName: "expenses_category_id_fkey"
+            columns: ["category_id"]
             isOneToOne: false
-            referencedRelation: "expense_groups"
+            referencedRelation: "expense_categories"
             referencedColumns: ["id"]
           },
           {
@@ -255,13 +353,27 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_expense_group_with_items: {
+        Args: {
+          p_categories: string[]
+          p_date?: string
+          p_description?: string
+          p_items?: Database["public"]["CompositeTypes"]["expense_group_item"][]
+          p_name: string
+        }
+        Returns: string
+      }
       get_request_home: { Args: never; Returns: string }
     }
     Enums: {
       [_ in never]: never
     }
     CompositeTypes: {
-      [_ in never]: never
+      expense_group_item: {
+        article_id: string | null
+        amount: number | null
+        quantity: number | null
+      }
     }
   }
 }

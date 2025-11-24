@@ -10,14 +10,14 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { TextareaModule } from 'primeng/textarea';
-import { CreateExpenseType, ExpenseGroupType } from '../../../domain/expense';
 import { CurrencyPipe } from '../../../pipes/currency-pipe';
 import { Alert } from '../../../services/alert';
 import { Category } from '../../../services/expense/category';
 import { CategoryService } from '../../../services/expense/category.service';
-import { Expense } from '../../../services/expense/expense';
 import { ItemService } from '../../../services/expense/item.service';
 import { Home } from '../../../services/home';
+import { ExpenseListing } from '../../../services/expense/expense-listing';
+import { buildExpenseGroup, buildExpenses } from '../../../utils/expense';
 
 const prime = [
   AutoCompleteModule,
@@ -38,11 +38,11 @@ const prime = [
 export class ExpenseForm implements OnInit, OnDestroy {
   private alert = inject(Alert);
   private home = inject(Home);
-  private expense = inject(Expense);
   private dialogRef = inject(DynamicDialogRef);
   private category = inject(Category);
   protected categorySrv = inject(CategoryService);
   protected itemSrv = inject(ItemService);
+  private listing = inject(ExpenseListing);
 
   protected now = new Date();
   protected totalAmount = signal(0);
@@ -107,8 +107,8 @@ export class ExpenseForm implements OnInit, OnDestroy {
     control?.updateValueAndValidity();
   }
 
-  closeModal(submitted = false) {
-    this.dialogRef?.close(submitted);
+  closeModal() {
+    this.dialogRef?.close();
   }
 
   async save() {
@@ -119,47 +119,18 @@ export class ExpenseForm implements OnInit, OnDestroy {
     try {
       this.loading.set(true);
       const currentHome = await this.home.getHome();
-      if (!currentHome) {
-        return;
+      if (!currentHome) return;
+
+      const formValue = this.form.getRawValue();
+      if (formValue.isGrouped) {
+        formValue.groupName &&
+          (await this.listing.saveAsGroupExpenses(buildExpenseGroup(formValue, this.itemSrv)));
+      } else {
+        await this.listing.saveExpenses(buildExpenses(formValue, currentHome.id, this.itemSrv))
       }
 
-      const { isGrouped, groupName, items, date, description } = this.form.getRawValue();
-
-      const desc = description && description.length > 0 ? description : null;
-
-      // Save and get expense group
-      let group: ExpenseGroupType | null = null;
-      if (isGrouped && groupName) {
-        group = await this.expense.createGroup({
-          description: desc,
-          home_id: currentHome.id,
-          name: groupName,
-          total: this.totalAmount(),
-        });
-      }
-
-      // Build expenses to save
-      let expenses: CreateExpenseType[] = [];
-      for (const item of items) {
-        const { amount, item: article_id, quantity } = item;
-        if (!amount || !article_id) {
-          throw 'amount and article not be empty';
-        }
-        const expense: CreateExpenseType = {
-          amount,
-          article_id,
-          date: date.toISOString(),
-          description: isGrouped ? null : desc,
-          quantity: !quantity || quantity <= 0 ? 1 : quantity,
-          group_id: isGrouped ? (group ? group.id : null) : null,
-          home_id: currentHome.id,
-        };
-        expenses.push(expense);
-      }
-
-      await this.expense.saveExpense(...expenses);
       this.alert.success({ detail: 'Dépenses enregistrées avec succès' });
-      this.closeModal(true);
+      this.closeModal();
     } catch (error) {
       console.error(error);
       this.alert.error({ detail: 'Erreur inattendue' });

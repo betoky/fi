@@ -12,11 +12,13 @@ export class ItemService {
   private _keepValue = [] as ExpenseItemType[];
   private _suggestions = signal([] as ExpenseItemType[]);
   private category: CategoryParentType | CategoryType | null = null;
+  private categories = new Map<string, string>();
 
   suggestions = computed(() =>
     this._suggestions().map((i) => {
       const name = i.unit ? `${i.name} (${i.unit})` : i.name;
-      return { name, id: i.id };
+      this.categories.set(i.id, i.category_id);
+      return { name, id: i.id};
     })
   );
 
@@ -37,6 +39,12 @@ export class ItemService {
     });
   }
 
+  getCategoryIdOf(itemId: string) {
+    const categoryId = this.categories.get(itemId);
+    if (!categoryId) throw new Error(`No item found with ${itemId}`);
+    return categoryId;
+  }
+
   autoComplete(query: string) {
     if (query.length === 0) {
       this._suggestions.set([...this._keepValue]);
@@ -54,5 +62,6 @@ export class ItemService {
   reset() {
     this._keepValue = [];
     this._suggestions.set([]);
+    this.categories.clear();
   }
 }

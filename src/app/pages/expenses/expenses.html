@@ -1,4 +1,4 @@
-<div class="layout relative">
+<div class="layout relative pb-4">
   <!-- Control panel -->
   <div
     [class.active]="panelOpened()"
@@ -13,17 +13,19 @@
     </div>
   </div>
   <!-- Resume -->
-  <div class="card h-fit chart md:sticky top-(--offset-top)"></div>
+  <div class="card h-fit chart md:sticky top-(--offset-top)">Fonctionnalité bientôt disponible</div>
   <!-- Aside -->
   <div
     [class.active]="asideOpened()"
     class="card h-fit aside fixed xl:sticky xl:top-(--offset-top) z-20"
-  ></div>
+  >
+    Fonctionnalité bientôt disponible
+  </div>
 </div>
 
 <p-speeddial
   direction="up"
-  class="xl:hidden absolute bottom-5 right-5"
+  class="xl:hidden fixed bottom-5 right-5"
   [model]="mobileToggleMenu"
 />
 

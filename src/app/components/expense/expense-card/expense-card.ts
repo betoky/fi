@@ -53,10 +53,11 @@ export class ExpenseCard {
   @Input() description: string|null = null;
   @Input() badge?: string;
   @Input() hasCollapse = false;
-
+  
   @Output() onEdit = new EventEmitter<void>();
   @Output() onDelete = new EventEmitter<void>();
-
+  @Output() onCollapse = new EventEmitter<boolean>();
+  
   protected controls: MenuItem[] = [
     {
       label: 'Modifier',
@@ -71,4 +72,10 @@ export class ExpenseCard {
   ];
 
   protected collapse = signal(false);
+
+  toggle() {
+    const collapsed = !this.collapse();
+    this.collapse.set(collapsed);
+    this.onCollapse.next(collapsed);
+  }
 }

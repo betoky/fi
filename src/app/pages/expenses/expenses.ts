@@ -1,13 +1,12 @@
 import { Component, inject, OnDestroy, signal } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Button } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { MenuItem } from 'primeng/api';
 import { SpeedDial } from 'primeng/speeddial';
 import { ExpenseForm } from '../../components/expense/expense-form/expense-form';
 import { ExpenseList } from '../../components/expense/expense-list/expense-list';
-import { ExpenseListing } from '../../services/expense/expense-listing';
-import { MenuItem } from 'primeng/api';
+import { ItemService } from '../../services/expense/item.service';
 
 @Component({
   selector: 'app-expenses',
@@ -18,8 +17,7 @@ import { MenuItem } from 'primeng/api';
 })
 export class Expenses implements OnDestroy {
   public dialog = inject(DialogService);
-  private destroy$ = new Subject<void>();
-  private expenseListing = inject(ExpenseListing);
+  public itemSrv = inject(ItemService);
 
   protected panelOpened = signal(false);
   protected asideOpened = signal(false);
@@ -33,31 +31,21 @@ export class Expenses implements OnDestroy {
       command: () => this.panelOpened.set(true),
     },
   ];
-
+  
   ngOnDestroy(): void {
-    this.destroy$.next();
+    this.itemSrv.reset();
   }
 
   protected openExpenseForm() {
     this.panelOpened.set(false);
-    this.dialog
-      .open(ExpenseForm, {
-        modal: true,
-        showHeader: false,
-        contentStyle: {
-          paddingTop: '1.5rem',
-        },
-        draggable: false,
-        styleClass: 'mx-4',
-      })
-      ?.onClose.pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (submitted) => {
-          if (submitted) {
-            this.expenseListing.fetchData();
-            this.destroy$.next();
-          }
-        },
-      });
+    this.dialog.open(ExpenseForm, {
+      modal: true,
+      showHeader: false,
+      contentStyle: {
+        paddingTop: '1.5rem',
+      },
+      draggable: false,
+      styleClass: 'mx-4',
+    });
   }
 }

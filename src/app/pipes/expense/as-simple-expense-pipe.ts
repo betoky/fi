@@ -1,13 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ExpenseViewType, isExpenseSimpleView } from '../../domain/expense';
+import { ExpenseArticleType, isExpense } from '../../domain/expense';
 
 @Pipe({
-  name: 'asSimpleExpense'
+  name: 'asSimpleExpense',
 })
 export class AsSimpleExpensePipe implements PipeTransform {
-
-  transform(value: unknown): ExpenseViewType|null {
-    return isExpenseSimpleView(value) ? value : null;
+  transform(value: unknown): ExpenseArticleType | null {
+    return isExpense(value) ? value : null;
   }
-
 }

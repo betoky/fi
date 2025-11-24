@@ -5,11 +5,11 @@ import { BadgeModule } from 'primeng/badge';
 import { Dialog } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { TextareaModule } from 'primeng/textarea';
-import { ExpenseViewType } from '../../../domain/expense';
 import { Alert } from '../../../services/alert';
 import { ConfirmDialog } from '../../../services/confirm-dialog';
 import { ExpenseListing } from '../../../services/expense/expense-listing';
 import { ExpenseCard } from "../expense-card/expense-card";
+import { ExpenseArticleType } from '../../../domain/expense';
 
 @Component({
   selector: 'expense-simple-card',
@@ -25,7 +25,7 @@ import { ExpenseCard } from "../expense-card/expense-card";
   templateUrl: './expense-simple-card.html'
 })
 export class ExpenseSimpleCard {
-  @Input({ required: true }) expense!: ExpenseViewType;
+  @Input({ required: true }) expense!: ExpenseArticleType;
 
   private alert = inject(Alert);
   private dialogSrv = inject(ConfirmDialog);
@@ -37,7 +37,7 @@ export class ExpenseSimpleCard {
     this.dialogSrv.confirmDelete('Allez-vous supprimer cette dépense?').then((confirmed) => {
       confirmed &&
         this.listing
-          .removeSimpleExpense(this.expense.id)
+          .removeExpense(this.expense.id)
           .then(() => this.alert.success({ detail: `${this.expense.article.name} a été supprimé.` }))
           .catch(() => this.alert.error({ detail: 'Erreur de suppression' }));
     });
@@ -46,7 +46,7 @@ export class ExpenseSimpleCard {
   updateExp(event: NgForm) {
     if (event.valid) {
       this.listing
-        .updateSimpleExpense(this.expense.id, event.value)
+        .updateExpense(this.expense.id, event.value)
         .then(() => this.alert.success({ detail: `${this.expense.article.name} a été modifié.` }))
         .catch(() => this.alert.error({ detail: 'La modification a échoué.' }))
         .finally(() => this.isEdit.set(false));

@@ -9,7 +9,6 @@ import { Auth } from './services/auth';
 import { Home } from './services/home';
 import { User } from './services/user';
 import { CategoryService as ExpenseCategory } from './services/expense/category.service';
-import { ItemService } from './services/expense/item.service';
 import { ConfirmDialog } from './services/confirm-dialog';
 
 @Component({
@@ -25,7 +24,6 @@ export class App implements OnInit {
   private user = inject(User);
   private home = inject(Home);
   private expenseCategory = inject(ExpenseCategory);
-  private expenseItem = inject(ItemService);
 
   constructor(
     alert: Alert,
@@ -56,7 +54,6 @@ export class App implements OnInit {
           this.user.resetCurrentUser();
           this.home.resetCurrentHome();
           this.expenseCategory.reset();
-          this.expenseItem.reset();
         }
       },
     });

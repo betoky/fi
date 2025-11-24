@@ -1,31 +1,48 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { ExpenseViewType, ExpenseViewGroupType, UpdateExpenseType } from '../../domain/expense';
 import { Expense } from './expense';
+import { ExpenseGroup } from './expense-group';
+import { CreateExpenseType, ExpenseArticleType, UpdateExpenseType } from '../../domain/expense';
+import { CreateExpenseGroupType, ExpenseGroupType } from '../../domain/expense-group';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExpenseListing {
   private expense = inject(Expense);
+  private expenseGroup = inject(ExpenseGroup);
 
-  expenses = signal<(ExpenseViewType | ExpenseViewGroupType)[] | undefined>(undefined);
+  expenses = signal<(ExpenseArticleType | ExpenseGroupType)[] | undefined>(undefined);
 
-  fetchData() {
-    this.expense.fetchExpenseForView().then((data) => this.expenses.set(data));
+  async fetchData() {
+    const simpleViewReq = this.expense.fetchExpenses();
+    const groupViewReq = this.expenseGroup.fetchGroups();
+    const [simples, groups] = await Promise.all([simpleViewReq, groupViewReq]);
+    const data = [...simples, ...groups].sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    this.expenses.set(data);
   }
 
-  async updateSimpleExpense(id: string, value: UpdateExpenseType) {
+  async saveExpenses(expenses: CreateExpenseType[]) {
+    await this.expense.saveExpenses(expenses);
+    this.fetchData();
+  }
+
+  async saveAsGroupExpenses(expenseGroup:  CreateExpenseGroupType) {
+    await this.expenseGroup.saveExpGroup(expenseGroup);
+    this.fetchData();
+  }
+
+  async updateExpense(id: string, value: UpdateExpenseType) {
     await this.expense.updateExpense(id, value);
     this.fetchData();
   }
 
-  async removeSimpleExpense(id: string) {
+  async removeExpense(id: string) {
     await this.expense.deleteExpense(id);
     this.fetchData();
   }
 
-  async removeGroupedExpense(id: string) {
-    await this.expense.deleteGroupedExpense(id);
+  async removeGroupExpense(groupId: string) {
+    await this.expenseGroup.deleteGroupExpense(groupId);
     this.fetchData();
   }
 }

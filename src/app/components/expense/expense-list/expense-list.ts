@@ -22,8 +22,8 @@ export class ExpenseList {
 
   protected expenses = this.listing.expenses;
 
-  get Array() {
-    return Array;
+  get skeletons () {
+    return Array.from({ length: 6 });
   }
 
   ngOnInit(): void {

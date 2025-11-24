@@ -11,7 +11,7 @@
       <p class="font-medium text-center">Aucune dépense enregistrée.</p>
     </div>
     }
-  } @else { @for (i of Array(6); track $index) {
-  <app-expense-card-skeleton class="block" />
+  } @else { @for (item of skeletons; track $index) {
+    <app-expense-card-skeleton class="block" />
   }}
 </div>

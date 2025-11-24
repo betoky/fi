@@ -1,0 +1,45 @@
+import { inject, Injectable } from '@angular/core';
+import { Supabase } from '../supabase';
+import { CreateExpenseGroupType } from '../../domain/expense-group';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ExpenseGroup {
+  private supabase = inject(Supabase).getInstance();
+
+  async fetchGroups(limit = 10) {
+    const { data, error } = await this.supabase
+      .from('expense_groups')
+      .select()
+      .order('date', { ascending: false })
+      .limit(limit);
+    if (error) throw error;
+
+    return data;
+  }
+
+  async fetchGroupItems(groupId: string) {
+    const { data, error } = await this.supabase.from('expense_grouped').select('*, article:expense_items(*)').eq('group_id', groupId);
+    if (error) throw error;
+    return data;
+  }
+
+  async saveExpGroup({ date, description, items, name, categories }: CreateExpenseGroupType) {
+    const { data, error } = await this.supabase.rpc('create_expense_group_with_items', {
+      p_categories: categories,
+      p_name: name,
+      p_description: description ?? undefined,
+      p_items: items,
+      p_date: date
+    });
+    if (error) throw error;
+
+    return data;
+  }
+
+  async deleteGroupExpense(id: string) {
+    const { error } = await this.supabase.from('expense_groups').delete().eq('id', id);
+    if (error) throw error;
+  }
+}
