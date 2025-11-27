@@ -1,22 +1,26 @@
-@let grouped = !!form.get('isGrouped')?.value;
-<h2 class="text-2xl font-medium mb-1">Ajouter une dépense</h2>
-<p class="mb-6">Enregistrer une nouvelle dépense avec les articles achetés</p>
+@let edit = groupToEdit;
+<h2 class="text-2xl font-medium" [class.mb-1]="!edit" [class.mb-5]="!!edit">
+  {{ edit ? 'Modifier ' + edit.name : 'Ajouter une dépense' }}
+</h2>
+@if (!edit) {
+  <p class="mb-5">Enregistrer une nouvelle dépense avec les articles achetés</p>
+  <!-- Expense group activation -->
+  <div class="mb-3 flex items-center gap-3">
+    <p>Grouper les dépenses</p>
+    <p-toggleswitch [(ngModel)]="groupSwitcher">
+      <ng-template #handle let-checked="checked">
+        <i class="text-xs pi" [class]="checked ? 'pi-check' : 'pi-times'"></i>
+      </ng-template>
+    </p-toggleswitch>
+  </div>
+}
 <form [formGroup]="form" (submit)="save()" class="space-y-6">
   <div class="space-y-3">
-    <!-- Expense group activation -->
-    <div class="flex items-center gap-3">
-      <p>Grouper les dépenses</p>
-      <p-toggleswitch formControlName="isGrouped">
-        <ng-template #handle let-checked="checked">
-          <i class="text-xs pi" [class]="checked ? 'pi-check' : 'pi-times'"></i>
-        </ng-template>
-      </p-toggleswitch>
-    </div>
     <!-- Expense date -->
-    <div class="sm:w-1/2 *:space-y-0.5">
+    <div class="sm:w-1/2 space-y-0.5">
       <label class="block font-medium" for="date">Date</label>
       <p-datepicker
-        [maxDate]="now"
+        [maxDate]="maxDateForDatepicker"
         [showTime]="true"
         [showIcon]="true"
         hourFormat="24"
@@ -29,16 +33,16 @@
     </div>
     <!-- Category -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-      @if (grouped) {
+      @if (groupSwitcher()) {
       <div class="space-y-0.5">
-        <label class="block font-medium" for="group">Titre de la dépense</label>
+        <label class="block font-medium" for="group">Titre</label>
         <input
           pInputText
           fluid
           type="text"
           id="group"
-          formControlName="groupName"
-          [invalid]="isValid('groupName')"
+          formControlName="name"
+          [invalid]="isValid('name')"
         />
       </div>
       }
@@ -46,8 +50,9 @@
         <label id="category" class="block font-medium">Catégorie</label>
         <p-autocomplete
           inputId="category"
-          [suggestions]="categorySrv.categories()"
-          (completeMethod)="categorySrv.filter($event.query)"
+          formControlName="selectedCategory"
+          [suggestions]="autoCompleteCategories.categories()"
+          (completeMethod)="autoCompleteCategories.filter($event.query)"
           optionValue="id"
           optionLabel="name"
           optionGroupLabel="name"
@@ -57,8 +62,6 @@
           [group]="true"
           [dropdown]="true"
           [forceSelection]="true"
-          formControlName="groupCategory"
-          [invalid]="isValid('groupCategory')"
         />
       </div>
     </div>
@@ -94,12 +97,12 @@
         <div class="space-y-0.5">
           <label class="block font-medium" [for]="'item-' + $index">Article</label>
           <p-autocomplete
-            [suggestions]="itemSrv.suggestions()"
-            (completeMethod)="itemSrv.autoComplete($event.query)"
+            [suggestions]="autoCompleteExpItems.suggestions()"
+            (completeMethod)="autoCompleteExpItems.filter($event.query)"
             optionLabel="name"
-            optionValue="id"
             fluid
             [dropdown]="true"
+            [forceSelection]="true"
             appendTo="body"
             [inputId]="'item-' + $index"
             formControlName="item"
@@ -166,7 +169,7 @@
     <p-button
       type="submit"
       severity="primary"
-      label="Enregistrer la dépense"
+      [label]="edit ? 'Mettre à jour' : 'Enregistrer'"
       [disabled]="form.invalid"
       [loading]="loading()"
     />

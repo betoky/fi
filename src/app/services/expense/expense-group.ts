@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Supabase } from '../supabase';
-import { CreateExpenseGroupType } from '../../domain/expense-group';
+import { CreateExpenseGroupType, UpdateExpenseGroupType } from '../../domain/expense-group';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +20,10 @@ export class ExpenseGroup {
   }
 
   async fetchGroupItems(groupId: string) {
-    const { data, error } = await this.supabase.from('expense_grouped').select('*, article:expense_items(*)').eq('group_id', groupId);
+    const { data, error } = await this.supabase
+      .from('expense_grouped')
+      .select('*, article:expense_items(*)')
+      .eq('group_id', groupId);
     if (error) throw error;
     return data;
   }
@@ -31,14 +34,41 @@ export class ExpenseGroup {
       p_name: name,
       p_description: description ?? undefined,
       p_items: items,
-      p_date: date
+      p_date: date,
     });
     if (error) throw error;
 
     return data;
   }
 
-  async deleteGroupExpense(id: string) {
+  async updateExpGroup(
+    id: string,
+    {
+      name,
+      description,
+      newCategories,
+      newItems,
+      oldItems,
+      oldCategories,
+      updateItems,
+    }: UpdateExpenseGroupType
+  ) {
+    const { data, error } = await this.supabase.rpc('update_expense_group_with_items', {
+      p_id: id,
+      p_new_categories: newCategories,
+      p_old_categories: oldCategories,
+      p_old_items: oldItems,
+      p_new_items: newItems,
+      p_update_items: updateItems,
+      p_name: name,
+      p_description: description ?? undefined,
+    });
+    if (error) throw error;
+
+    return data;
+  }
+
+  async deleteExpGroup(id: string) {
     const { error } = await this.supabase.from('expense_groups').delete().eq('id', id);
     if (error) throw error;
   }

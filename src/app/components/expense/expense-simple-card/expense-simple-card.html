@@ -2,6 +2,7 @@
 @let quantity = expense.quantity;
 @let displayBadge = unit && (quantity > 1 || (quantity > 0 && quantity < 1));
 @let hasDescription = expense.description ? expense.description.length > 0 : false;
+@let date = expense.date | appDate;
 <expense-card
   [date]="expense.date"
   [name]="expense.article.name"
@@ -19,7 +20,7 @@
   [resizable]="false"
   [closable]="false"
   [visible]="isEdit()"
-  [header]="expense.article.name"
+  [header]="expense.article.name + ' (' + date + ')' "
 >
   <form class="space-y-3" #expForm="ngForm">
     <div class="flex justify-stretch items-center gap-2">

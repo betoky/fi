@@ -1,8 +1,11 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { Expense } from './expense';
 import { ExpenseGroup } from './expense-group';
-import { CreateExpenseType, ExpenseArticleType, UpdateExpenseType } from '../../domain/expense';
-import { CreateExpenseGroupType, ExpenseGroupType } from '../../domain/expense-group';
+import { Home } from '../home';
+import { buildExpenseGroup, buildExpenses, prepareExpGroupForUpdate } from '../../utils/expense';
+import { ExpenseArticleType, UpdateExpenseType } from '../../domain/expense';
+import { ExpenseGroupType, ExpGrpItemType } from '../../domain/expense-group';
+import { ExpenseFormType } from '../../domain/expense-form';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +13,7 @@ import { CreateExpenseGroupType, ExpenseGroupType } from '../../domain/expense-g
 export class ExpenseListing {
   private expense = inject(Expense);
   private expenseGroup = inject(ExpenseGroup);
+  private home = inject(Home);
 
   expenses = signal<(ExpenseArticleType | ExpenseGroupType)[] | undefined>(undefined);
 
@@ -17,17 +21,28 @@ export class ExpenseListing {
     const simpleViewReq = this.expense.fetchExpenses();
     const groupViewReq = this.expenseGroup.fetchGroups();
     const [simples, groups] = await Promise.all([simpleViewReq, groupViewReq]);
-    const data = [...simples, ...groups].sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    const data = [...simples, ...groups].sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
     this.expenses.set(data);
   }
 
-  async saveExpenses(expenses: CreateExpenseType[]) {
-    await this.expense.saveExpenses(expenses);
+  async updateExpGroup(id: string, value: ExpenseFormType, oldItems: ExpGrpItemType[]) {
+    await this.expenseGroup.updateExpGroup(id, prepareExpGroupForUpdate(value, oldItems));
     this.fetchData();
   }
 
-  async saveAsGroupExpenses(expenseGroup:  CreateExpenseGroupType) {
-    await this.expenseGroup.saveExpGroup(expenseGroup);
+  async save(value: ExpenseFormType, asGroup: boolean) {
+    if (asGroup) {
+      if (!value.name) throw 'Group title required';
+      await this.expenseGroup.saveExpGroup(buildExpenseGroup(value));
+      this.fetchData();
+      return;
+    }
+
+    const currentHome = await this.home.getHome();
+    if (!currentHome) throw 'Unauthoriezed action';
+    await this.expense.saveExpenses(buildExpenses(value, currentHome.id));
     this.fetchData();
   }
 
@@ -42,7 +57,7 @@ export class ExpenseListing {
   }
 
   async removeGroupExpense(groupId: string) {
-    await this.expenseGroup.deleteGroupExpense(groupId);
+    await this.expenseGroup.deleteExpGroup(groupId);
     this.fetchData();
   }
 }

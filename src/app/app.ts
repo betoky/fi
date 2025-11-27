@@ -8,7 +8,7 @@ import { Alert } from './services/alert';
 import { Auth } from './services/auth';
 import { Home } from './services/home';
 import { User } from './services/user';
-import { CategoryService as ExpenseCategory } from './services/expense/category.service';
+import { AutocompleteCategories } from './services/expense/autocomplete-categories';
 import { ConfirmDialog } from './services/confirm-dialog';
 
 @Component({
@@ -23,7 +23,7 @@ export class App implements OnInit {
   private auth$ = inject(Auth).isAuthenticated$;
   private user = inject(User);
   private home = inject(Home);
-  private expenseCategory = inject(ExpenseCategory);
+  private autoComleteCategories = inject(AutocompleteCategories);
 
   constructor(
     alert: Alert,
@@ -53,7 +53,7 @@ export class App implements OnInit {
         if (!authenticated) {
           this.user.resetCurrentUser();
           this.home.resetCurrentHome();
-          this.expenseCategory.reset();
+          this.autoComleteCategories.reset();
         }
       },
     });

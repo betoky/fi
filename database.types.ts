@@ -364,6 +364,19 @@ export type Database = {
         Returns: string
       }
       get_request_home: { Args: never; Returns: string }
+      update_expense_group_with_items: {
+        Args: {
+          p_description?: string
+          p_id: string
+          p_name?: string
+          p_new_categories?: string[]
+          p_new_items?: Database["public"]["CompositeTypes"]["expense_group_item"][]
+          p_old_categories?: string[]
+          p_old_items?: string[]
+          p_update_items?: Database["public"]["CompositeTypes"]["update_exp_groupd_item"][]
+        }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
@@ -371,6 +384,11 @@ export type Database = {
     CompositeTypes: {
       expense_group_item: {
         article_id: string | null
+        amount: number | null
+        quantity: number | null
+      }
+      update_exp_groupd_item: {
+        id: string | null
         amount: number | null
         quantity: number | null
       }

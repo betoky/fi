@@ -1,6 +1,13 @@
-import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
+import { Component, effect, inject, Input, OnInit, signal } from '@angular/core';
+import {
+  FormArray,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -10,14 +17,13 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { TextareaModule } from 'primeng/textarea';
+import { ExpenseGroupType, ExpGrpItemType } from '../../../domain/expense-group';
 import { CurrencyPipe } from '../../../pipes/currency-pipe';
 import { Alert } from '../../../services/alert';
-import { Category } from '../../../services/expense/category';
-import { CategoryService } from '../../../services/expense/category.service';
-import { ItemService } from '../../../services/expense/item.service';
-import { Home } from '../../../services/home';
+import { AutocompleteCategories } from '../../../services/expense/autocomplete-categories';
+import { AutocompleteItems } from '../../../services/expense/autocomplete-items';
+import { ExpenseGroup } from '../../../services/expense/expense-group';
 import { ExpenseListing } from '../../../services/expense/expense-listing';
-import { buildExpenseGroup, buildExpenses } from '../../../utils/expense';
 
 const prime = [
   AutoCompleteModule,
@@ -32,63 +38,80 @@ const prime = [
 
 @Component({
   selector: 'app-expense-form',
-  imports: [ReactiveFormsModule, ...prime, CurrencyPipe],
+  imports: [FormsModule, ReactiveFormsModule, ...prime, CurrencyPipe],
   templateUrl: './expense-form.html',
 })
-export class ExpenseForm implements OnInit, OnDestroy {
-  private alert = inject(Alert);
-  private home = inject(Home);
-  private dialogRef = inject(DynamicDialogRef);
-  private category = inject(Category);
-  protected categorySrv = inject(CategoryService);
-  protected itemSrv = inject(ItemService);
-  private listing = inject(ExpenseListing);
+export class ExpenseForm implements OnInit {
+  @Input('group') groupToEdit?: ExpenseGroupType;
+  @Input('items') groupItems?: ExpGrpItemType[];
 
-  protected now = new Date();
+  private alert = inject(Alert);
+  private dialogRef = inject(DynamicDialogRef);
+  protected autoCompleteCategories = inject(AutocompleteCategories);
+  protected autoCompleteExpItems = inject(AutocompleteItems);
+  private listing = inject(ExpenseListing);
+  private expenseGroup = inject(ExpenseGroup);
+
   protected totalAmount = signal(0);
+  protected groupSwitcher = signal(false);
 
   protected form = new FormGroup({
     date: new FormControl(new Date(), { nonNullable: true, validators: Validators.required }),
+    name: new FormControl<string | null>(null),
     description: new FormControl<string | null>(null),
     items: new FormArray([this.createItem()]),
-    isGrouped: new FormControl(false, { nonNullable: true }),
-    groupName: new FormControl<string | null>(null),
-    groupCategory: new FormControl<string | null>(null),
+    selectedCategory: new FormControl<string>(''),
   });
 
   loading = signal(false);
+
+  get maxDateForDatepicker() {
+    return new Date();
+  }
 
   get items() {
     return this.form.get('items') as FormArray<FormGroup<any>>;
   }
 
-  private destroy$ = new Subject<void>();
-
-  ngOnInit(): void {
-    this.category.fetchCategories().then((data) => this.categorySrv.set(data));
-    // Category listener
-    this.form.get('groupCategory')?.valueChanges.subscribe({
-      next: (categoryId) => {
-        if (!categoryId) {
-          this.itemSrv.setCategory(null);
-        } else {
-          const selectedCategory = this.categorySrv.getCategory(categoryId);
-          this.itemSrv.setCategory(selectedCategory);
-        }
-      },
-    });
-    // Listen to group switcher
+  constructor() {
+    effect(() => this.toggleValidators('name', this.groupSwitcher()));
     this.form
-      .get('isGrouped')!
-      .valueChanges.pipe(takeUntil(this.destroy$))
+      .get('selectedCategory')
+      ?.valueChanges.pipe(takeUntilDestroyed())
       .subscribe({
-        next: (grouped) => this.toggleValidators('groupName', grouped),
+        next: (categoryId) =>
+          this.autoCompleteExpItems.setCategory(
+            categoryId ? this.autoCompleteCategories.getCategory(categoryId) : null
+          ),
       });
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+  ngOnInit(): void {
+    this.autoCompleteCategories.init();
+
+    if (this.groupToEdit) {
+      this.fillFormFromData();
+    }
+  }
+
+  private async fillFormFromData() {
+    const { id, date, name, description, total } = this.groupToEdit!;
+    this.form.patchValue({
+      date: new Date(date),
+      name,
+      description,
+    });
+    this.groupSwitcher.set(true);
+    this.totalAmount.set(total);
+    this.form.get('date')?.disable();
+
+    if (!this.groupItems) {
+      this.groupItems = await this.expenseGroup.fetchGroupItems(id);
+    }
+    this.items.clear();
+    this.groupItems.forEach((i) =>
+      this.items.push(this.createItem(i.article, i.amount, i.quantity))
+    );
   }
 
   isValid(controlName: string) {
@@ -107,33 +130,37 @@ export class ExpenseForm implements OnInit, OnDestroy {
     control?.updateValueAndValidity();
   }
 
-  closeModal() {
-    this.dialogRef?.close();
+  closeModal(success = false) {
+    this.dialogRef?.close(success);
   }
 
   async save() {
     if (this.form.invalid) {
       return;
     }
-
     try {
-      this.loading.set(true);
-      const currentHome = await this.home.getHome();
-      if (!currentHome) return;
+      this.groupToEdit
+        ? await this.listing.updateExpGroup(
+            this.groupToEdit.id,
+            this.form.getRawValue(),
+            this.groupItems!
+          )
+        : await this.listing.save(this.form.getRawValue(), this.groupSwitcher());
 
-      const formValue = this.form.getRawValue();
-      if (formValue.isGrouped) {
-        formValue.groupName &&
-          (await this.listing.saveAsGroupExpenses(buildExpenseGroup(formValue, this.itemSrv)));
-      } else {
-        await this.listing.saveExpenses(buildExpenses(formValue, currentHome.id, this.itemSrv))
-      }
-
-      this.alert.success({ detail: 'Dépenses enregistrées avec succès' });
-      this.closeModal();
+      this.alert.success({
+        detail: this.groupToEdit
+          ? 'Modification enregistrée avec succès'
+          : 'Dépenses enregistrées avec succès',
+      });
+      this.closeModal(true);
     } catch (error) {
-      console.error(error);
-      this.alert.error({ detail: 'Erreur inattendue' });
+      this.alert.error({
+        summary: 'Erreur inattendue',
+        detail: this.groupToEdit
+          ? 'La modifcation a été annulée.'
+          : "L'enregistrement des dépenses est annulé.",
+      });
+      this.closeModal();
     } finally {
       this.loading.set(false);
     }
@@ -147,11 +174,15 @@ export class ExpenseForm implements OnInit, OnDestroy {
     }
   }
 
-  private createItem() {
+  private createItem(
+    item?: { id: string; category_id: string; name: string },
+    amount?: number,
+    quantity?: number
+  ) {
     return new FormGroup({
-      item: new FormControl<string | null>(null, Validators.required),
-      amount: new FormControl<number | null>(null, [Validators.required, Validators.min(0)]),
-      quantity: new FormControl<number>(1),
+      item: new FormControl({ value: item, disabled: !!item }, Validators.required),
+      amount: new FormControl(amount, [Validators.required, Validators.min(0)]),
+      quantity: new FormControl(quantity ?? 1),
     });
   }
 

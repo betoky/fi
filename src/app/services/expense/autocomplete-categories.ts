@@ -1,19 +1,28 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { CategoryParentType, CategoryType, MappedCategories } from '../../domain/expense-category';
 import { matching } from '../../utils/string';
 import { groupParentsAndChildren, mapParentsAndChildren } from '../../utils/category';
+import { Category } from './category';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CategoryService {
+export class AutocompleteCategories {
+  private category = inject(Category);
   private _initialValue: MappedCategories = { categories: new Map(), subCategories: new Map() };
+
+  private cached = false;
 
   categories = signal<CategoryParentType[]>([]);
 
-  set(categories: CategoryType[]) {
-    this._initialValue = mapParentsAndChildren(categories);
-    this.categories.set(groupParentsAndChildren(this._initialValue, this._initialValue));
+  init() {
+    if (!this.cached) {
+      this.category.fetchCategories().then((data) => {
+        this._initialValue = mapParentsAndChildren(data);
+        this.categories.set(groupParentsAndChildren(this._initialValue, this._initialValue));
+        this.cached = true;
+      });
+    }
   }
 
   getCategory(id: string): CategoryParentType | CategoryType {
@@ -70,6 +79,7 @@ export class CategoryService {
 
   reset() {
     this.categories.set([]);
+    this.cached = false;
     this._initialValue.categories.clear();
     this._initialValue.subCategories.clear();
   }

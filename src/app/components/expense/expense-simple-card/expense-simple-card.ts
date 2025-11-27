@@ -10,6 +10,7 @@ import { ConfirmDialog } from '../../../services/confirm-dialog';
 import { ExpenseListing } from '../../../services/expense/expense-listing';
 import { ExpenseCard } from "../expense-card/expense-card";
 import { ExpenseArticleType } from '../../../domain/expense';
+import { DatePipe } from "../../../pipes/date-pipe";
 
 @Component({
   selector: 'expense-simple-card',
@@ -20,7 +21,8 @@ import { ExpenseArticleType } from '../../../domain/expense';
     Dialog,
     InputNumberModule,
     TextareaModule,
-    ExpenseCard
+    ExpenseCard,
+    DatePipe
 ],
   templateUrl: './expense-simple-card.html'
 })
