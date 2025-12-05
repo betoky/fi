@@ -1,8 +1,8 @@
-drop type if exists update_exp_groupd_item cascade;
+set check_function_bodies = off;
 
-create type update_exp_groupd_item as (id uuid, amount numeric, quantity numeric);
+create type public.update_exp_groupd_item as (id uuid, amount numeric, quantity numeric);
 
-create or replace function update_expense_group_with_items (
+create or replace function public.update_expense_group_with_items (
   p_id              uuid,
   p_new_categories   uuid[]               default null,
   p_old_categories   uuid[]               default null,

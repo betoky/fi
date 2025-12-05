@@ -8,3 +8,4 @@
 .env.*.local
 
 rls.txt
+node_modules

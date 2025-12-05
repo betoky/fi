@@ -1,6 +1,6 @@
 set check_function_bodies = off;
 
-create type "public"."expense_group_item" as ("article_id" uuid, "amount" numeric, "quantity" numeric);
+create type public.expense_group_item as ("article_id" uuid, "amount" numeric, "quantity" numeric);
 
 CREATE OR REPLACE FUNCTION public.create_expense_group_with_items(p_categories uuid[], p_name character varying, p_description text DEFAULT NULL::text, p_items public.expense_group_item[] DEFAULT NULL::public.expense_group_item[], p_date timestamp with time zone DEFAULT now())
  RETURNS uuid
