@@ -15,5 +15,5 @@ export async function createSupabaseUser(email: string, password: string) {
   if (error) {
     throw new Error(`Failed to save ${email}`, { cause: error });
   }
-  console.log(`Created user: ${user?.email} -> ${user?.id}`);
+  console.log(` - ${user?.email} -> ${user?.id}`);
 }

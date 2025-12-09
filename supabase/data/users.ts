@@ -1,27 +1,33 @@
 const users = [
   {
-    email: 'rakotobe@fi.com',
-    password: 'password',
-    name: 'Rakotobe',
-    home: 'Rakotobe Home'
+    email: 'paul.moreau@fi.com',
+    password: 'Password123',
+    name: 'Paul Moreau',
+    home: 'Chez Paul & Sophie',
   },
   {
-    email: 'bekoto@fi.com',
-    password: 'password',
-    name: 'Bekoto',
-    home: 'Bekoto Home'
+    email: 'lea.dubois@fi.com',
+    password: 'Password123',
+    name: 'Léa Dubois',
+    home: 'La tribu Dubois',
   },
   {
-    email: 'radaniela@fi.com',
-    password: 'password',
-    name: 'Radaniela',
-    home: 'Radaniela Home'
+    email: 'thomas.riviere@fi.com',
+    password: 'Password123',
+    name: 'Thomas Rivière',
+    home: 'L’appart de Tom & co',
   },
   {
-    email: 'bezafy@fi.com',
-    password: 'password',
-    name: 'Bezafy',
-    home: 'Bezafy Home'
+    email: 'camille.bernard@fi.com',
+    password: 'Password123',
+    name: 'Camille Bernard',
+    home: 'Maison Camille - Léo',
+  },
+  {
+    email: 'julien.fontaine@fi.com',
+    password: 'Password123',
+    name: 'Julien Fontaine',
+    home: 'Le QG Fontaine',
   },
 ];
 

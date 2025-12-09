@@ -8,5 +8,5 @@ export async function saveUsers(users: { auth_id: string; name: string }[]) {
     throw new Error('Failed to save users');
   }
 
-  console.log(`Users data: ${data.map(({ name }) => name).join(', ')} are saved`);
+  console.log(` - Users: ${data.map(({ name }) => name).join(', ')} are saved`);
 }

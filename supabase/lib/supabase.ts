@@ -4,6 +4,8 @@ import { Database } from './database.types';
 
 dotenv.config({ path: '.env.local' });
 
+console.log('');
+
 let supabaseClient: SupabaseClient<Database>|null = null;
 export function getSupabaseClient() {
   if (!supabaseClient) {
