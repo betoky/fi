@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "db:seed": "node scripts/seed-db.js",
+    "db:seed": "tsx scripts/seed-db.ts",
     "db:reset-and-seed": "supabase db reset --no-seed && npm run db:seed"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "@supabase/supabase-js": "^2.86.2",
-    "dotenv": "^17.2.3"
-  },
-  "type": "module"
+    "dotenv": "^17.2.3",
+    "tsx": "^4.21.0"
+  }
 }

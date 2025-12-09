@@ -1,7 +1,9 @@
-import mockAuth from "./seed-auth.js";
+import mockAuth from "./seed-auth";
+import mockUsersData from "./seed-users-data";
 
 async function main() {
   await mockAuth();
+  await mockUsersData();
   console.log('Seeding complete.');
 }
 
