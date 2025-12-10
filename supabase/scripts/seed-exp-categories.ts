@@ -1,6 +1,5 @@
 import { Cat, getCategories } from '../utils/expenses';
 import { getRandom } from '../utils/array';
-import { getHomes } from '../lib/homes';
 import { getSupabaseClient } from '../lib/supabase';
 
 function getRandomCat(entries: Map<string, Cat>) {
@@ -50,13 +49,10 @@ export async function getCategoriesFor(home: string) {
   return data;
 }
 
-export default async function mockExpensesCategories() {
+export default async function mockExpensesCategories(homes: { id: string; name: string }[]) {
   console.log('Seed expenses categories');
 
   const catMap = getCategories();
-
-  const homes = await getHomes();
-
   for (const home of homes) {
     const home_id = home.id;
     const categories = getRandomCat(catMap);

@@ -1,5 +1,4 @@
 import data from '../data/expenses-items.json';
-import { getHomes } from '../lib/homes';
 import { getSupabaseClient } from '../lib/supabase';
 import { getCategoriesFor } from './seed-exp-categories';
 import { Cat, getCategories } from '../utils/expenses';
@@ -39,12 +38,10 @@ async function saveItems(items: ExpItem[]) {
   }
 }
 
-export default async function mockExpensesItems() {
+export default async function mockExpensesItems(homes: { id: string; name: string }[]) {
   console.log('Seed expenses items');
 
   const allCategories = getCategories();
-  const homes = await getHomes();
-
   for (const home of homes) {
     const relatedCategories = await getCategoriesFor(home.id);
     const includedCatKeys = getIncludedKeys(relatedCategories, allCategories);

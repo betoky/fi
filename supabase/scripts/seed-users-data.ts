@@ -1,17 +1,18 @@
-import usersArray from '../data/users';
+import data from '../data/users.json';
 import { getSupabaseUsers } from '../lib/supabase-user';
 import { saveHomes } from '../lib/homes';
 import { saveUsers } from '../lib/users';
 
 export default async function mockUsersData() {
   console.log('Seed users and homes data');
-  const usersMap = new Map(usersArray.map((user) => [user.email, user]));
+  const dataMap = new Map(data.map((user) => [user.email, user]));
   const { users } = await getSupabaseUsers();
-  await saveUsers(
-    users.map(({ id, email }) => ({ auth_id: id, name: usersMap.get(email!)!.name }))
+  const savedUsers = await saveUsers(
+    users.map(({ id, email }) => ({ auth_id: id, name: dataMap.get(email!)!.name }))
   );
-  await saveHomes(
-    users.map(({ id, email }) => ({ owner_id: id, name: usersMap.get(email!)!.home }))
+  const savedHomes = await saveHomes(
+    users.map(({ id, email }) => ({ owner_id: id, name: dataMap.get(email!)!.home }))
   );
   console.log('');
+  return [savedUsers, savedHomes];
 }
