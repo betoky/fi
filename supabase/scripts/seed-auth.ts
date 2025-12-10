@@ -1,4 +1,4 @@
-import users from '../data/users';
+import data from '../data/users.json';
 import { createSupabaseUser, getSupabaseUsers } from '../lib/supabase-user';
 
 async function mockAuth() {
@@ -9,7 +9,7 @@ async function mockAuth() {
     throw 'Supabase auth table is not empty, skip mock.';
   }
 
-  const request = users.map(
+  const request = data.map(
     async ({ email, password }) => await createSupabaseUser(email, password)
   );
 

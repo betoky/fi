@@ -1,24 +1,7 @@
-import { categories } from '../data/expenses';
+import { Cat, getCategories } from '../utils/expenses';
+import { getRandom } from '../utils/array';
 import { getHomes } from '../lib/homes';
 import { getSupabaseClient } from '../lib/supabase';
-
-type Cat = { name: string; parent: string | null };
-
-// Fisher-Yates shuffle
-function shuffle<T>(entries: T[]) {
-  const deepCopy = [...entries];
-  for (let i = deepCopy.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [deepCopy[i], deepCopy[j]] = [deepCopy[j], deepCopy[i]];
-  }
-  return deepCopy;
-}
-
-function getRandom<T>(entries: T[]) {
-  const items = shuffle(entries);
-  const n = Math.max(Math.floor(entries.length / 4), Math.floor(Math.random() * entries.length));
-  return items.slice(0, n);
-}
 
 function getRandomCat(entries: Map<string, Cat>) {
   const map = new Map<string, Set<string>>();
@@ -56,16 +39,21 @@ async function saveCategories(entries: (Cat & { home_id: string })[]) {
   return data.map(({ id }) => id);
 }
 
+export async function getCategoriesFor(home: string) {
+  const { data, error } = await getSupabaseClient()
+    .from('expense_categories')
+    .select('*')
+    .eq('home_id', home);
+
+  if (error) throw error;
+
+  return data;
+}
+
 export default async function mockExpensesCategories() {
   console.log('Seed expenses categories');
 
-  const catMap = new Map<string, Cat>();
-  categories.forEach(({ id, name, sub }) => {
-    catMap.set(id, { name, parent: null });
-    sub.forEach(({ id: child, name: nameChild }) =>
-      catMap.set(child, { name: nameChild, parent: id })
-    );
-  });
+  const catMap = getCategories();
 
   const homes = await getHomes();
 
@@ -83,7 +71,7 @@ export default async function mockExpensesCategories() {
         await saveCategories(childs);
       }
     }
-    console.log(` - ${home.name} has ${count} categories.`);
+    console.log(` - ${count} categories for ${home.name}.`);
   }
 
   console.log('');
