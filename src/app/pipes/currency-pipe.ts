@@ -11,6 +11,6 @@ export class CurrencyPipe implements PipeTransform {
 
     const formattedValue = new Intl.NumberFormat('fr-FR', { style: 'decimal' }).format(value);
 
-    return `${formattedValue} Ar`;
+    return `${formattedValue} €`;
   }
 }

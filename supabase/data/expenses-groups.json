@@ -1,0 +1,218 @@
+[
+  {
+    "name": "Loyer et charges mensuelles",
+    "articles": ["item-1", "item-54", "item-99"]
+  },
+  {
+    "name": "Factures utilities domicile",
+    "articles": ["item-2", "item-4", "item-5", "item-96"]
+  },
+  {
+    "name": "Entretien chauffage domicile",
+    "articles": ["item-3", "item-51", "item-178"]
+  },
+  {
+    "name": "Reparations et maintenance maison",
+    "articles": ["item-6", "item-50", "item-52", "item-98", "item-100", "item-142", "item-143", "item-179", "item-180"]
+  },
+  {
+    "name": "Essence et carburant mensuel",
+    "articles": ["item-7", "item-55"]
+  },
+  {
+    "name": "Assurances et maintenance vehicule",
+    "articles": ["item-8", "item-9", "item-56", "item-101", "item-146"]
+  },
+  {
+    "name": "Deplacements et parking",
+    "articles": ["item-10", "item-57", "item-102", "item-147", "item-181"]
+  },
+  {
+    "name": "Transports en commun",
+    "articles": ["item-11", "item-58", "item-103", "item-148"]
+  },
+  {
+    "name": "Mobilité douce",
+    "articles": ["item-12", "item-104", "item-149", "item-182"]
+  },
+  {
+    "name": "Trajets longue distance",
+    "articles": ["item-13", "item-74", "item-105"]
+  },
+  {
+    "name": "Marché semaine - Fruits et légumes",
+    "articles": ["item-14", "item-60", "item-61", "item-106", "item-150"]
+  },
+  {
+    "name": "Supermarché courses principales",
+    "articles": ["item-14", "item-60", "item-106", "item-150", "item-183"]
+  },
+  {
+    "name": "Boulangerie matin - Pain quotidien",
+    "articles": ["item-15", "item-62", "item-107", "item-184"]
+  },
+  {
+    "name": "Pâtisserie weekend - Gâteaux et viennoiseries",
+    "articles": ["item-62", "item-107", "item-151"]
+  },
+  {
+    "name": "Boissons et eau minérale",
+    "articles": ["item-16", "item-63", "item-108", "item-152", "item-185"]
+  },
+  {
+    "name": "Café et thé quotidiens",
+    "articles": ["item-152", "item-64"]
+  },
+  {
+    "name": "Produits bio et premium - Marché bio",
+    "articles": ["item-17", "item-64", "item-109", "item-110", "item-153"]
+  },
+  {
+    "name": "Épicerie fine et spécialités",
+    "articles": ["item-17", "item-110", "item-153"]
+  },
+  {
+    "name": "Produits laitiers et yaourts",
+    "articles": ["item-60", "item-153"]
+  },
+  {
+    "name": "Sante et mutuelle",
+    "articles": ["item-18", "item-87"]
+  },
+  {
+    "name": "Consultations medicales",
+    "articles": ["item-19", "item-65", "item-66", "item-111", "item-154", "item-187"]
+  },
+  {
+    "name": "Medicaments et pharmacie",
+    "articles": ["item-20", "item-22", "item-67", "item-112", "item-155", "item-186"]
+  },
+  {
+    "name": "Dentiste et sante buccale",
+    "articles": ["item-21"]
+  },
+  {
+    "name": "Activites sportives et bien-etre",
+    "articles": ["item-23", "item-68", "item-69", "item-113", "item-114", "item-115", "item-156"]
+  },
+  {
+    "name": "Sorties restaurants - Dîner en famille",
+    "articles": ["item-24", "item-70", "item-116", "item-157"]
+  },
+  {
+    "name": "Fast-food et restauration rapide",
+    "articles": ["item-116", "item-188"]
+  },
+  {
+    "name": "Déjeuner professionnel - Midi",
+    "articles": ["item-70", "item-116"]
+  },
+  {
+    "name": "Brunch weekend restaurant",
+    "articles": ["item-157"]
+  },
+  {
+    "name": "Apéro amis - Drinks and bites",
+    "articles": ["item-188"]
+  },
+  {
+    "name": "Cinema et spectacles",
+    "articles": ["item-25", "item-71", "item-117", "item-158", "item-189"]
+  },
+  {
+    "name": "Abonnements streaming",
+    "articles": ["item-26", "item-72", "item-118", "item-159", "item-190"]
+  },
+  {
+    "name": "Lectures et culture",
+    "articles": ["item-27", "item-73", "item-119", "item-160", "item-191"]
+  },
+  {
+    "name": "Voyages et sejours",
+    "articles": ["item-28", "item-74", "item-120", "item-161", "item-192"]
+  },
+  {
+    "name": "Loisirs creatifs",
+    "articles": ["item-29", "item-75", "item-121", "item-162", "item-193"]
+  },
+  {
+    "name": "Vie scolaire enfant",
+    "articles": ["item-30", "item-31", "item-125"]
+  },
+  {
+    "name": "Activites extrascolaires enfant",
+    "articles": ["item-32", "item-77", "item-122", "item-163", "item-194"]
+  },
+  {
+    "name": "Vetements et chaussures enfant",
+    "articles": ["item-33", "item-123", "item-164", "item-195"]
+  },
+  {
+    "name": "Garde et babysitting",
+    "articles": ["item-34", "item-79", "item-124", "item-165"]
+  },
+  {
+    "name": "Vetements adultes",
+    "articles": ["item-35", "item-80", "item-126", "item-166", "item-196"]
+  },
+  {
+    "name": "Chaussures",
+    "articles": ["item-36", "item-81", "item-127", "item-167", "item-197"]
+  },
+  {
+    "name": "Hygiene et cosmetiques",
+    "articles": ["item-37", "item-82", "item-84", "item-128", "item-130", "item-168", "item-198"]
+  },
+  {
+    "name": "Soins capillaires",
+    "articles": ["item-38", "item-83", "item-129"]
+  },
+  {
+    "name": "Epargne reguliere",
+    "articles": ["item-39", "item-85", "item-134", "item-171", "item-200"]
+  },
+  {
+    "name": "Assurance vie et retraite",
+    "articles": ["item-40", "item-132", "item-169"]
+  },
+  {
+    "name": "Prevoyance",
+    "articles": ["item-41", "item-88", "item-133"]
+  },
+  {
+    "name": "Placements financiers",
+    "articles": ["item-42", "item-86", "item-131", "item-170", "item-199"]
+  },
+  {
+    "name": "Cadeaux anniversaires et noel",
+    "articles": ["item-43", "item-89", "item-135", "item-172"]
+  },
+  {
+    "name": "Cadeaux mariages et evenements",
+    "articles": ["item-44", "item-90", "item-136", "item-173"]
+  },
+  {
+    "name": "Dons et solidarite",
+    "articles": ["item-45", "item-91", "item-137", "item-174"]
+  },
+  {
+    "name": "Frais bancaires",
+    "articles": ["item-46", "item-92", "item-138", "item-175"]
+  },
+  {
+    "name": "Amendes et infractions",
+    "articles": ["item-47", "item-93", "item-139", "item-176"]
+  },
+  {
+    "name": "Frais administratifs",
+    "articles": ["item-48", "item-94", "item-140", "item-177"]
+  },
+  {
+    "name": "Urgences et imprévus",
+    "articles": ["item-49", "item-95", "item-141"]
+  },
+  {
+    "name": "Telecommunications",
+    "articles": ["item-53", "item-97", "item-144"]
+  }
+]

@@ -2,1201 +2,1600 @@
   {
     "id": "item-1",
     "name": "Loyer mensuel appartement",
-    "unit": "mois",
-    "category": "cat-11"
+    "unit": null,
+    "category": "cat-11",
+    "prices": { "min": 400, "max": 1500 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-2",
     "name": "Facture électricité",
-    "unit": "kWh",
-    "category": "cat-12"
+    "unit": null,
+    "category": "cat-12",
+    "prices": { "min": 50, "max": 200 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-3",
     "name": "Recharge bouteille de gaz",
     "unit": "unité",
-    "category": "cat-13"
+    "category": "cat-13",
+    "prices": { "min": 15, "max": 30 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-4",
     "name": "Facture eau",
-    "unit": "m3",
-    "category": "cat-14"
+    "unit": null,
+    "category": "cat-14",
+    "prices": { "min": 20, "max": 80 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-5",
     "name": "Abonnement internet fibre",
-    "unit": "mois",
-    "category": "cat-15"
+    "unit": null,
+    "category": "cat-15",
+    "prices": { "min": 25, "max": 60 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-6",
     "name": "Réparation robinet",
     "unit": "intervention",
-    "category": "cat-16"
+    "category": "cat-16",
+    "prices": { "min": 80, "max": 200 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-7",
     "name": "Carburant SP95",
     "unit": "l",
-    "category": "cat-17"
+    "category": "cat-17",
+    "prices": { "min": 1.5, "max": 1.8 },
+    "quantities": { "min": 10, "max": 60 }
   },
   {
     "id": "item-8",
     "name": "Assurance auto annuelle",
-    "unit": "an",
-    "category": "cat-18"
+    "unit": null,
+    "category": "cat-18",
+    "prices": { "min": 400, "max": 1200 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-9",
     "name": "Vidange véhicule",
     "unit": "intervention",
-    "category": "cat-19"
+    "category": "cat-19",
+    "prices": { "min": 60, "max": 150 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-10",
     "name": "Parking centre-ville",
     "unit": "heure",
-    "category": "cat-20"
+    "category": "cat-20",
+    "prices": { "min": 1.5, "max": 4 },
+    "quantities": { "min": 1, "max": 8 }
   },
   {
     "id": "item-11",
     "name": "Abonnement bus / métro",
-    "unit": "mois",
-    "category": "cat-21"
+    "unit": null,
+    "category": "cat-21",
+    "prices": { "min": 35, "max": 90 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-12",
     "name": "Location trottinette électrique",
     "unit": "trajet",
-    "category": "cat-22"
+    "category": "cat-22",
+    "prices": { "min": 1, "max": 3 },
+    "quantities": { "min": 1, "max": 5 }
   },
   {
     "id": "item-13",
     "name": "Billet de train",
     "unit": "trajet",
-    "category": "cat-23"
+    "category": "cat-23",
+    "prices": { "min": 15, "max": 150 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-14",
     "name": "Courses alimentaires",
     "unit": "panier",
-    "category": "cat-24"
+    "category": "cat-24",
+    "prices": { "min": 30, "max": 80 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-15",
     "name": "Baguette de pain",
     "unit": "unité",
-    "category": "cat-25"
+    "category": "cat-25",
+    "prices": { "min": 0.8, "max": 1.2 },
+    "quantities": { "min": 1, "max": 3 }
   },
   {
     "id": "item-16",
     "name": "Pack d'eau",
     "unit": "pack",
-    "category": "cat-26"
+    "category": "cat-26",
+    "prices": { "min": 2, "max": 4 },
+    "quantities": { "min": 1, "max": 3 }
   },
   {
     "id": "item-17",
     "name": "Produits bio variés",
     "unit": "panier",
-    "category": "cat-27"
+    "category": "cat-27",
+    "prices": { "min": 40, "max": 100 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-18",
     "name": "Cotisation mutuelle",
-    "unit": "mois",
-    "category": "cat-28"
+    "unit": null,
+    "category": "cat-28",
+    "prices": { "min": 15, "max": 60 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-19",
     "name": "Consultation médecin généraliste",
     "unit": "séance",
-    "category": "cat-29"
+    "category": "cat-29",
+    "prices": { "min": 25, "max": 50 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-20",
     "name": "Crème non remboursée",
     "unit": "unité",
-    "category": "cat-30"
+    "category": "cat-30",
+    "prices": { "min": 8, "max": 25 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-21",
     "name": "Consultation dentiste",
     "unit": "séance",
-    "category": "cat-31"
+    "category": "cat-31",
+    "prices": { "min": 60, "max": 150 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-22",
     "name": "Achat médicaments",
     "unit": "unité",
-    "category": "cat-32"
+    "category": "cat-32",
+    "prices": { "min": 5, "max": 30 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-23",
     "name": "Cours de yoga",
     "unit": "séance",
-    "category": "cat-33"
+    "category": "cat-33",
+    "prices": { "min": 15, "max": 30 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-24",
     "name": "Dîner au restaurant",
     "unit": "repas",
-    "category": "cat-34"
+    "category": "cat-34",
+    "prices": { "min": 20, "max": 60 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-25",
     "name": "Place de cinéma",
     "unit": "entrée",
-    "category": "cat-35"
+    "category": "cat-35",
+    "prices": { "min": 8, "max": 15 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-26",
     "name": "Abonnement Netflix",
-    "unit": "mois",
-    "category": "cat-36"
+    "unit": null,
+    "category": "cat-36",
+    "prices": { "min": 5.99, "max": 15.99 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-27",
     "name": "Achat livre",
     "unit": "unité",
-    "category": "cat-37"
+    "category": "cat-37",
+    "prices": { "min": 8, "max": 25 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-28",
     "name": "Séjour week-end",
     "unit": "voyage",
-    "category": "cat-38"
+    "category": "cat-38",
+    "prices": { "min": 150, "max": 500 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-29",
     "name": "Kit loisir créatif",
     "unit": "set",
-    "category": "cat-39"
+    "category": "cat-39",
+    "prices": { "min": 15, "max": 40 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-30",
     "name": "Cantine scolaire",
     "unit": "repas",
-    "category": "cat-40"
+    "category": "cat-40",
+    "prices": { "min": 4, "max": 8 },
+    "quantities": { "min": 1, "max": 5 }
   },
   {
     "id": "item-31",
     "name": "Cahiers scolaires",
     "unit": "unité",
-    "category": "cat-41"
+    "category": "cat-41",
+    "prices": { "min": 2, "max": 6 },
+    "quantities": { "min": 2, "max": 10 }
   },
   {
     "id": "item-32",
     "name": "Cours de danse",
     "unit": "séance",
-    "category": "cat-42"
+    "category": "cat-42",
+    "prices": { "min": 12, "max": 25 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-33",
     "name": "Vêtements enfant",
     "unit": "unité",
-    "category": "cat-43"
+    "category": "cat-43",
+    "prices": { "min": 20, "max": 80 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-34",
-    "name": "Garde d’enfant",
+    "name": "Garde d'enfant",
     "unit": "heure",
-    "category": "cat-44"
+    "category": "cat-44",
+    "prices": { "min": 10, "max": 20 },
+    "quantities": { "min": 2, "max": 8 }
   },
   {
     "id": "item-35",
     "name": "T-shirt adulte",
     "unit": "unité",
-    "category": "cat-45"
+    "category": "cat-45",
+    "prices": { "min": 10, "max": 40 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-36",
     "name": "Chaussures de sport",
     "unit": "paire",
-    "category": "cat-46"
+    "category": "cat-46",
+    "prices": { "min": 50, "max": 150 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-37",
     "name": "Gel douche",
     "unit": "bouteille",
-    "category": "cat-47"
+    "category": "cat-47",
+    "prices": { "min": 2, "max": 6 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-38",
     "name": "Coupe de cheveux",
     "unit": "séance",
-    "category": "cat-48"
+    "category": "cat-48",
+    "prices": { "min": 20, "max": 60 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-39",
     "name": "Versement épargne",
-    "unit": "mois",
-    "category": "cat-49"
+    "unit": null,
+    "category": "cat-49",
+    "prices": { "min": 50, "max": 500 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-40",
     "name": "Versement assurance vie",
-    "unit": "mois",
-    "category": "cat-50"
+    "unit": null,
+    "category": "cat-50",
+    "prices": { "min": 50, "max": 300 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-41",
     "name": "Cotisation prévoyance",
-    "unit": "mois",
-    "category": "cat-51"
+    "unit": null,
+    "category": "cat-51",
+    "prices": { "min": 20, "max": 100 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-42",
-    "name": "Achat d’ETF",
+    "name": "Achat d'ETF",
     "unit": "ordre",
-    "category": "cat-52"
+    "category": "cat-52",
+    "prices": { "min": 100, "max": 5000 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-43",
     "name": "Cadeau anniversaire",
     "unit": "unité",
-    "category": "cat-53"
+    "category": "cat-53",
+    "prices": { "min": 20, "max": 100 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-44",
     "name": "Cadeau mariage",
     "unit": "unité",
-    "category": "cat-54"
+    "category": "cat-54",
+    "prices": { "min": 50, "max": 200 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-45",
     "name": "Don association",
     "unit": "don",
-    "category": "cat-55"
+    "category": "cat-55",
+    "prices": { "min": 10, "max": 100 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-46",
     "name": "Frais bancaires mensuels",
-    "unit": "mois",
-    "category": "cat-56"
+    "unit": null,
+    "category": "cat-56",
+    "prices": { "min": 2, "max": 15 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-47",
     "name": "Amende stationnement",
     "unit": "unité",
-    "category": "cat-57"
+    "category": "cat-57",
+    "prices": { "min": 35, "max": 135 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-48",
     "name": "Frais de dossier administratif",
     "unit": "dossier",
-    "category": "cat-58"
+    "category": "cat-58",
+    "prices": { "min": 15, "max": 50 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-49",
     "name": "Réparation urgente plomberie",
     "unit": "intervention",
-    "category": "cat-59"
+    "category": "cat-59",
+    "prices": { "min": 200, "max": 500 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-50",
     "name": "Ampoule LED",
     "unit": "unité",
-    "category": "cat-16"
+    "category": "cat-16",
+    "prices": { "min": 3, "max": 10 },
+    "quantities": { "min": 1, "max": 4 }
   },
   {
     "id": "item-51",
     "name": "Nettoyage chaudière",
     "unit": "intervention",
-    "category": "cat-13"
+    "category": "cat-13",
+    "prices": { "min": 80, "max": 150 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-52",
     "name": "Réparation serrure",
     "unit": "intervention",
-    "category": "cat-16"
+    "category": "cat-16",
+    "prices": { "min": 100, "max": 250 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-53",
     "name": "Forfait téléphone mobile",
-    "unit": "mois",
-    "category": "cat-15"
+    "unit": null,
+    "category": "cat-15",
+    "prices": { "min": 15, "max": 50 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-54",
     "name": "Frais copropriété",
-    "unit": "mois",
-    "category": "cat-11"
+    "unit": null,
+    "category": "cat-11",
+    "prices": { "min": 50, "max": 300 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-55",
     "name": "Carburant diesel",
     "unit": "l",
-    "category": "cat-17"
+    "category": "cat-17",
+    "prices": { "min": 1.4, "max": 1.7 },
+    "quantities": { "min": 10, "max": 60 }
   },
   {
     "id": "item-56",
     "name": "Nettoyage voiture",
     "unit": "lavage",
-    "category": "cat-19"
+    "category": "cat-19",
+    "prices": { "min": 15, "max": 40 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-57",
     "name": "Location parking mensuel",
-    "unit": "mois",
-    "category": "cat-20"
+    "unit": null,
+    "category": "cat-20",
+    "prices": { "min": 30, "max": 150 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-58",
     "name": "Ticket bus",
     "unit": "trajet",
-    "category": "cat-21"
+    "category": "cat-21",
+    "prices": { "min": 1.5, "max": 2.5 },
+    "quantities": { "min": 1, "max": 10 }
   },
   {
     "id": "item-59",
     "name": "Révision scooter",
     "unit": "intervention",
-    "category": "cat-19"
+    "category": "cat-19",
+    "prices": { "min": 50, "max": 120 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-60",
     "name": "Lait demi-écrémé",
     "unit": "l",
-    "category": "cat-24"
+    "category": "cat-24",
+    "prices": { "min": 0.8, "max": 1.3 },
+    "quantities": { "min": 1, "max": 3 }
   },
   {
     "id": "item-61",
     "name": "Fruits de saison",
     "unit": "kg",
-    "category": "cat-24"
+    "category": "cat-24",
+    "prices": { "min": 2, "max": 5 },
+    "quantities": { "min": 1, "max": 3 }
   },
   {
     "id": "item-62",
     "name": "Croissants",
     "unit": "unité",
-    "category": "cat-25"
+    "category": "cat-25",
+    "prices": { "min": 1, "max": 1.5 },
+    "quantities": { "min": 2, "max": 6 }
   },
   {
     "id": "item-63",
     "name": "Soda en bouteille",
     "unit": "bouteille",
-    "category": "cat-26"
+    "category": "cat-26",
+    "prices": { "min": 1.5, "max": 3 },
+    "quantities": { "min": 1, "max": 4 }
   },
   {
     "id": "item-64",
     "name": "Thé bio",
     "unit": "boîte",
-    "category": "cat-27"
+    "category": "cat-27",
+    "prices": { "min": 3, "max": 7 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-65",
     "name": "Séance kiné",
     "unit": "séance",
-    "category": "cat-29"
+    "category": "cat-29",
+    "prices": { "min": 40, "max": 70 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-66",
     "name": "Test médical",
     "unit": "analyse",
-    "category": "cat-29"
+    "category": "cat-29",
+    "prices": { "min": 30, "max": 100 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-67",
     "name": "Sirop pharmacie",
     "unit": "bouteille",
-    "category": "cat-32"
+    "category": "cat-32",
+    "prices": { "min": 5, "max": 15 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-68",
     "name": "Abonnement salle de sport",
-    "unit": "mois",
-    "category": "cat-33"
+    "unit": null,
+    "category": "cat-33",
+    "prices": { "min": 20, "max": 80 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-69",
     "name": "Séance massage",
     "unit": "séance",
-    "category": "cat-33"
+    "category": "cat-33",
+    "prices": { "min": 40, "max": 100 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-70",
     "name": "Boîte sushi",
     "unit": "repas",
-    "category": "cat-34"
+    "category": "cat-34",
+    "prices": { "min": 12, "max": 25 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-71",
     "name": "Spectacle théâtre",
     "unit": "entrée",
-    "category": "cat-35"
+    "category": "cat-35",
+    "prices": { "min": 15, "max": 50 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-72",
     "name": "Abonnement Spotify",
-    "unit": "mois",
-    "category": "cat-36"
+    "unit": null,
+    "category": "cat-36",
+    "prices": { "min": 9.99, "max": 14.99 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-73",
     "name": "Magazine mensuel",
     "unit": "numéro",
-    "category": "cat-37"
+    "category": "cat-37",
+    "prices": { "min": 3, "max": 8 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-74",
     "name": "Billet avion",
     "unit": "trajet",
-    "category": "cat-38"
+    "category": "cat-38",
+    "prices": { "min": 50, "max": 400 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-75",
     "name": "Peinture miniature",
     "unit": "set",
-    "category": "cat-39"
+    "category": "cat-39",
+    "prices": { "min": 20, "max": 50 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-76",
     "name": "Sortie parc d'attraction",
     "unit": "entrée",
-    "category": "cat-34"
+    "category": "cat-34",
+    "prices": { "min": 25, "max": 60 },
+    "quantities": { "min": 1, "max": 4 }
   },
   {
     "id": "item-77",
     "name": "Cours musique enfant",
     "unit": "séance",
-    "category": "cat-42"
+    "category": "cat-42",
+    "prices": { "min": 20, "max": 40 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-78",
     "name": "Poussette bébé",
     "unit": "unité",
-    "category": "cat-43"
+    "category": "cat-43",
+    "prices": { "min": 150, "max": 500 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-79",
     "name": "Baby-sitting soirée",
     "unit": "heure",
-    "category": "cat-44"
+    "category": "cat-44",
+    "prices": { "min": 12, "max": 20 },
+    "quantities": { "min": 2, "max": 6 }
   },
   {
     "id": "item-80",
     "name": "Jean adulte",
     "unit": "unité",
-    "category": "cat-45"
+    "category": "cat-45",
+    "prices": { "min": 40, "max": 100 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-81",
     "name": "Baskets ville",
     "unit": "paire",
-    "category": "cat-46"
+    "category": "cat-46",
+    "prices": { "min": 60, "max": 140 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-82",
     "name": "Shampooing",
     "unit": "bouteille",
-    "category": "cat-47"
+    "category": "cat-47",
+    "prices": { "min": 3, "max": 10 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-83",
     "name": "Coloration cheveux",
     "unit": "séance",
-    "category": "cat-48"
+    "category": "cat-48",
+    "prices": { "min": 40, "max": 100 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-84",
     "name": "Rasoir jetable",
     "unit": "unité",
-    "category": "cat-47"
+    "category": "cat-47",
+    "prices": { "min": 2, "max": 5 },
+    "quantities": { "min": 1, "max": 3 }
   },
   {
     "id": "item-85",
     "name": "Versement Livret A",
     "unit": "opération",
-    "category": "cat-49"
+    "category": "cat-49",
+    "prices": { "min": 50, "max": 1000 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-86",
     "name": "Achat obligations",
     "unit": "ordre",
-    "category": "cat-52"
+    "category": "cat-52",
+    "prices": { "min": 500, "max": 10000 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-87",
     "name": "Cotisation assurance habitation",
-    "unit": "an",
-    "category": "cat-50"
+    "unit": null,
+    "category": "cat-50",
+    "prices": { "min": 150, "max": 500 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-88",
     "name": "Plafond assurance GAV",
-    "unit": "mois",
-    "category": "cat-51"
+    "unit": null,
+    "category": "cat-51",
+    "prices": { "min": 10, "max": 30 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-89",
     "name": "Cadeau fête des mères",
     "unit": "unité",
-    "category": "cat-53"
+    "category": "cat-53",
+    "prices": { "min": 30, "max": 100 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-90",
     "name": "Participation pot commun mariage",
     "unit": "don",
-    "category": "cat-54"
+    "category": "cat-54",
+    "prices": { "min": 30, "max": 100 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-91",
     "name": "Don Croix-Rouge",
     "unit": "don",
-    "category": "cat-55"
+    "category": "cat-55",
+    "prices": { "min": 5, "max": 50 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-92",
     "name": "Frais carte bancaire",
-    "unit": "mois",
-    "category": "cat-56"
+    "unit": null,
+    "category": "cat-56",
+    "prices": { "min": 1, "max": 5 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-93",
     "name": "Amende excès de vitesse",
     "unit": "unité",
-    "category": "cat-57"
+    "category": "cat-57",
+    "prices": { "min": 45, "max": 750 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-94",
     "name": "Frais duplicata documents",
     "unit": "dossier",
-    "category": "cat-58"
+    "category": "cat-58",
+    "prices": { "min": 10, "max": 30 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-95",
     "name": "Remplacement vitre cassée",
     "unit": "intervention",
-    "category": "cat-59"
+    "category": "cat-59",
+    "prices": { "min": 150, "max": 400 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-96",
     "name": "Chauffage électrique",
     "unit": "kWh",
-    "category": "cat-12"
+    "category": "cat-12",
+    "prices": { "min": 0.15, "max": 0.25 },
+    "quantities": { "min": 50, "max": 300 }
   },
   {
     "id": "item-97",
     "name": "Abonnement TV",
-    "unit": "mois",
-    "category": "cat-15"
+    "unit": null,
+    "category": "cat-15",
+    "prices": { "min": 10, "max": 40 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-98",
     "name": "Réparation volet",
     "unit": "intervention",
-    "category": "cat-16"
+    "category": "cat-16",
+    "prices": { "min": 100, "max": 300 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-99",
     "name": "Frais ordures ménagères",
-    "unit": "mois",
-    "category": "cat-11"
+    "unit": null,
+    "category": "cat-11",
+    "prices": { "min": 15, "max": 40 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-100",
     "name": "Kit entretien maison",
     "unit": "set",
-    "category": "cat-16"
+    "category": "cat-16",
+    "prices": { "min": 20, "max": 60 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-101",
     "name": "Pneus voiture",
     "unit": "paire",
-    "category": "cat-19"
+    "category": "cat-19",
+    "prices": { "min": 80, "max": 250 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-102",
     "name": "Péage autoroute",
     "unit": "trajet",
-    "category": "cat-20"
+    "category": "cat-20",
+    "prices": { "min": 5, "max": 30 },
+    "quantities": { "min": 1, "max": 4 }
   },
   {
     "id": "item-103",
     "name": "Recharge passe Navigo",
-    "unit": "mois",
-    "category": "cat-21"
+    "unit": null,
+    "category": "cat-21",
+    "prices": { "min": 30, "max": 85 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-104",
     "name": "Location vélo",
     "unit": "trajet",
-    "category": "cat-22"
+    "category": "cat-22",
+    "prices": { "min": 1, "max": 3 },
+    "quantities": { "min": 1, "max": 5 }
   },
   {
     "id": "item-105",
     "name": "Billet ferry",
     "unit": "trajet",
-    "category": "cat-23"
+    "category": "cat-23",
+    "prices": { "min": 20, "max": 80 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-106",
     "name": "Pâtes alimentaires",
     "unit": "kg",
-    "category": "cat-24"
+    "category": "cat-24",
+    "prices": { "min": 1, "max": 3 },
+    "quantities": { "min": 1, "max": 3 }
   },
   {
     "id": "item-107",
     "name": "Pain de mie",
     "unit": "paquet",
-    "category": "cat-25"
+    "category": "cat-25",
+    "prices": { "min": 1.5, "max": 2.5 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-108",
-    "name": "Jus d’orange",
+    "name": "Jus d'orange",
     "unit": "bouteille",
-    "category": "cat-26"
+    "category": "cat-26",
+    "prices": { "min": 1.5, "max": 3 },
+    "quantities": { "min": 1, "max": 3 }
   },
   {
     "id": "item-109",
     "name": "Lait végétal bio",
     "unit": "l",
-    "category": "cat-27"
+    "category": "cat-27",
+    "prices": { "min": 1.5, "max": 2.5 },
+    "quantities": { "min": 1, "max": 3 }
   },
   {
     "id": "item-110",
     "name": "Miel bio",
     "unit": "pot",
-    "category": "cat-27"
+    "category": "cat-27",
+    "prices": { "min": 6, "max": 15 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-111",
     "name": "Consultation ophtalmologue",
     "unit": "séance",
-    "category": "cat-29"
+    "category": "cat-29",
+    "prices": { "min": 50, "max": 100 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-112",
     "name": "Cachets paracétamol",
     "unit": "boîte",
-    "category": "cat-32"
+    "category": "cat-32",
+    "prices": { "min": 3, "max": 8 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-113",
     "name": "Séance fitness",
     "unit": "séance",
-    "category": "cat-33"
+    "category": "cat-33",
+    "prices": { "min": 15, "max": 30 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-114",
     "name": "Abonnement Pilates",
-    "unit": "mois",
-    "category": "cat-33"
+    "unit": null,
+    "category": "cat-33",
+    "prices": { "min": 40, "max": 100 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-115",
     "name": "Bain spa",
     "unit": "séance",
-    "category": "cat-33"
+    "category": "cat-33",
+    "prices": { "min": 50, "max": 150 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-116",
     "name": "Fast-food",
     "unit": "repas",
-    "category": "cat-34"
+    "category": "cat-34",
+    "prices": { "min": 8, "max": 15 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-117",
     "name": "Concert musique",
     "unit": "entrée",
-    "category": "cat-35"
+    "category": "cat-35",
+    "prices": { "min": 30, "max": 100 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-118",
     "name": "Abonnement Disney+",
-    "unit": "mois",
-    "category": "cat-36"
+    "unit": null,
+    "category": "cat-36",
+    "prices": { "min": 7.99, "max": 13.99 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-119",
     "name": "Achat BD",
     "unit": "unité",
-    "category": "cat-37"
+    "category": "cat-37",
+    "prices": { "min": 10, "max": 20 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-120",
     "name": "City-trip Europe",
     "unit": "voyage",
-    "category": "cat-38"
+    "category": "cat-38",
+    "prices": { "min": 200, "max": 800 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-121",
     "name": "Jeu de société",
     "unit": "unité",
-    "category": "cat-39"
+    "category": "cat-39",
+    "prices": { "min": 20, "max": 60 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-122",
     "name": "Cours arts plastiques enfant",
     "unit": "séance",
-    "category": "cat-42"
+    "category": "cat-42",
+    "prices": { "min": 15, "max": 30 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-123",
     "name": "Chaussures enfant",
     "unit": "paire",
-    "category": "cat-43"
+    "category": "cat-43",
+    "prices": { "min": 30, "max": 80 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-124",
     "name": "Crèche demi-journée",
     "unit": "demi-journée",
-    "category": "cat-44"
+    "category": "cat-44",
+    "prices": { "min": 20, "max": 50 },
+    "quantities": { "min": 2, "max": 10 }
   },
   {
     "id": "item-125",
     "name": "Livres scolaires",
     "unit": "unité",
-    "category": "cat-41"
+    "category": "cat-41",
+    "prices": { "min": 15, "max": 40 },
+    "quantities": { "min": 2, "max": 8 }
   },
   {
     "id": "item-126",
     "name": "Pull adulte",
     "unit": "unité",
-    "category": "cat-45"
+    "category": "cat-45",
+    "prices": { "min": 25, "max": 80 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-127",
     "name": "Sandales été",
     "unit": "paire",
-    "category": "cat-46"
+    "category": "cat-46",
+    "prices": { "min": 30, "max": 100 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-128",
     "name": "Déodorant",
     "unit": "spray",
-    "category": "cat-47"
+    "category": "cat-47",
+    "prices": { "min": 2.5, "max": 6 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-129",
     "name": "Soin visage institut",
     "unit": "séance",
-    "category": "cat-48"
+    "category": "cat-48",
+    "prices": { "min": 60, "max": 150 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-130",
     "name": "Savon solide",
     "unit": "unité",
-    "category": "cat-47"
+    "category": "cat-47",
+    "prices": { "min": 2, "max": 6 },
+    "quantities": { "min": 2, "max": 4 }
   },
   {
     "id": "item-131",
     "name": "Placement cryptomonnaie",
     "unit": "ordre",
-    "category": "cat-52"
+    "category": "cat-52",
+    "prices": { "min": 50, "max": 5000 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-132",
     "name": "Versement PER individuel",
-    "unit": "mois",
-    "category": "cat-50"
+    "unit": null,
+    "category": "cat-50",
+    "prices": { "min": 100, "max": 500 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-133",
     "name": "Assurance scolaire",
-    "unit": "an",
-    "category": "cat-51"
+    "unit": null,
+    "category": "cat-51",
+    "prices": { "min": 20, "max": 60 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-134",
     "name": "Versement PEL",
-    "unit": "mois",
-    "category": "cat-49"
+    "unit": null,
+    "category": "cat-49",
+    "prices": { "min": 50, "max": 500 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-135",
     "name": "Cadeau naissance",
     "unit": "unité",
-    "category": "cat-53"
+    "category": "cat-53",
+    "prices": { "min": 40, "max": 150 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-136",
     "name": "Cadeau pot de départ",
     "unit": "unité",
-    "category": "cat-54"
+    "category": "cat-54",
+    "prices": { "min": 30, "max": 80 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-137",
     "name": "Don téléthon",
     "unit": "don",
-    "category": "cat-55"
+    "category": "cat-55",
+    "prices": { "min": 5, "max": 100 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-138",
     "name": "Frais virement international",
     "unit": "opération",
-    "category": "cat-56"
+    "category": "cat-56",
+    "prices": { "min": 5, "max": 20 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-139",
     "name": "Amende transport",
     "unit": "unité",
-    "category": "cat-57"
+    "category": "cat-57",
+    "prices": { "min": 50, "max": 150 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-140",
     "name": "Timbres administratifs",
     "unit": "unité",
-    "category": "cat-58"
+    "category": "cat-58",
+    "prices": { "min": 1.5, "max": 3 },
+    "quantities": { "min": 1, "max": 5 }
   },
   {
     "id": "item-141",
     "name": "Réparation smartphone",
     "unit": "intervention",
-    "category": "cat-59"
+    "category": "cat-59",
+    "prices": { "min": 100, "max": 300 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-142",
     "name": "Peinture murale",
     "unit": "litre",
-    "category": "cat-16"
+    "category": "cat-16",
+    "prices": { "min": 8, "max": 20 },
+    "quantities": { "min": 2, "max": 10 }
   },
   {
     "id": "item-143",
     "name": "Plomberie salle de bains",
     "unit": "intervention",
-    "category": "cat-16"
+    "category": "cat-16",
+    "prices": { "min": 300, "max": 800 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-144",
     "name": "Abonnement fibre premium",
-    "unit": "mois",
-    "category": "cat-15"
+    "unit": null,
+    "category": "cat-15",
+    "prices": { "min": 40, "max": 80 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-145",
     "name": "Taxe habitation",
-    "unit": "an",
-    "category": "cat-11"
+    "unit": null,
+    "category": "cat-11",
+    "prices": { "min": 300, "max": 1000 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-146",
     "name": "Remorquage véhicule",
     "unit": "intervention",
-    "category": "cat-19"
+    "category": "cat-19",
+    "prices": { "min": 100, "max": 250 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-147",
     "name": "Location utilitaire",
     "unit": "jour",
-    "category": "cat-20"
+    "category": "cat-20",
+    "prices": { "min": 40, "max": 120 },
+    "quantities": { "min": 1, "max": 5 }
   },
   {
     "id": "item-148",
     "name": "Titre de transport zone 1-3",
-    "unit": "mois",
-    "category": "cat-21"
+    "unit": null,
+    "category": "cat-21",
+    "prices": { "min": 45, "max": 120 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-149",
     "name": "Achat casque vélo",
     "unit": "unité",
-    "category": "cat-22"
+    "category": "cat-22",
+    "prices": { "min": 30, "max": 100 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-150",
     "name": "Riz basmati",
     "unit": "kg",
-    "category": "cat-24"
+    "category": "cat-24",
+    "prices": { "min": 1.5, "max": 3 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-151",
     "name": "Viennoiseries assorties",
     "unit": "lot",
-    "category": "cat-25"
+    "category": "cat-25",
+    "prices": { "min": 4, "max": 8 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-152",
     "name": "Café moulu",
     "unit": "paquet",
-    "category": "cat-26"
+    "category": "cat-26",
+    "prices": { "min": 4, "max": 10 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-153",
     "name": "Yaourts bio",
     "unit": "pack",
-    "category": "cat-27"
+    "category": "cat-27",
+    "prices": { "min": 3, "max": 6 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-154",
     "name": "Séance orthophoniste",
     "unit": "séance",
-    "category": "cat-29"
+    "category": "cat-29",
+    "prices": { "min": 50, "max": 100 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-155",
     "name": "Pansement pharmacie",
     "unit": "boîte",
-    "category": "cat-32"
+    "category": "cat-32",
+    "prices": { "min": 3, "max": 8 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-156",
     "name": "Cours stretching",
     "unit": "séance",
-    "category": "cat-33"
+    "category": "cat-33",
+    "prices": { "min": 12, "max": 25 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-157",
     "name": "Brunch restaurant",
     "unit": "repas",
-    "category": "cat-34"
+    "category": "cat-34",
+    "prices": { "min": 18, "max": 40 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-158",
     "name": "Festival musique",
     "unit": "pass",
-    "category": "cat-35"
+    "category": "cat-35",
+    "prices": { "min": 50, "max": 200 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-159",
     "name": "Abonnement Amazon Prime",
-    "unit": "mois",
-    "category": "cat-36"
+    "unit": null,
+    "category": "cat-36",
+    "prices": { "min": 4.99, "max": 8.99 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-160",
     "name": "Roman poche",
     "unit": "unité",
-    "category": "cat-37"
+    "category": "cat-37",
+    "prices": { "min": 5, "max": 10 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-161",
     "name": "Excursion guidée",
     "unit": "entrée",
-    "category": "cat-38"
+    "category": "cat-38",
+    "prices": { "min": 20, "max": 60 },
+    "quantities": { "min": 1, "max": 4 }
   },
   {
     "id": "item-162",
     "name": "Puzzle 1000 pièces",
     "unit": "unité",
-    "category": "cat-39"
+    "category": "cat-39",
+    "prices": { "min": 12, "max": 30 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-163",
     "name": "Sortie piscine enfant",
     "unit": "entrée",
-    "category": "cat-42"
+    "category": "cat-42",
+    "prices": { "min": 5, "max": 12 },
+    "quantities": { "min": 1, "max": 4 }
   },
   {
     "id": "item-164",
     "name": "Pyjama enfant",
     "unit": "unité",
-    "category": "cat-43"
+    "category": "cat-43",
+    "prices": { "min": 15, "max": 35 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-165",
     "name": "Garderie soirée",
     "unit": "heure",
-    "category": "cat-44"
+    "category": "cat-44",
+    "prices": { "min": 10, "max": 18 },
+    "quantities": { "min": 2, "max": 6 }
   },
   {
     "id": "item-166",
     "name": "Manteau adulte",
     "unit": "unité",
-    "category": "cat-45"
+    "category": "cat-45",
+    "prices": { "min": 60, "max": 200 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-167",
     "name": "Bottes hiver",
     "unit": "paire",
-    "category": "cat-46"
+    "category": "cat-46",
+    "prices": { "min": 50, "max": 150 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-168",
     "name": "Lotion hydratante",
     "unit": "bouteille",
-    "category": "cat-47"
+    "category": "cat-47",
+    "prices": { "min": 4, "max": 12 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-169",
     "name": "Versement assurance retraite",
-    "unit": "mois",
-    "category": "cat-50"
+    "unit": null,
+    "category": "cat-50",
+    "prices": { "min": 100, "max": 500 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-170",
     "name": "Achat actions",
     "unit": "ordre",
-    "category": "cat-52"
+    "category": "cat-52",
+    "prices": { "min": 100, "max": 10000 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-171",
     "name": "Épargne projet voyage",
-    "unit": "mois",
-    "category": "cat-49"
+    "unit": null,
+    "category": "cat-49",
+    "prices": { "min": 100, "max": 500 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-172",
-    "name": "Cadeau fin d’année",
+    "name": "Cadeau fin d'année",
     "unit": "unité",
-    "category": "cat-53"
+    "category": "cat-53",
+    "prices": { "min": 25, "max": 120 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-173",
     "name": "Cadeau enterrement vie de jeune fille",
     "unit": "unité",
-    "category": "cat-54"
+    "category": "cat-54",
+    "prices": { "min": 50, "max": 150 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-174",
     "name": "Don église",
     "unit": "don",
-    "category": "cat-55"
+    "category": "cat-55",
+    "prices": { "min": 5, "max": 50 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-175",
     "name": "Frais maintenance compte",
-    "unit": "mois",
-    "category": "cat-56"
+    "unit": null,
+    "category": "cat-56",
+    "prices": { "min": 2, "max": 10 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-176",
     "name": "Amende pollution",
     "unit": "unité",
-    "category": "cat-57"
+    "category": "cat-57",
+    "prices": { "min": 135, "max": 375 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-177",
-    "name": "Renouvellement carte d’identité",
+    "name": "Renouvellement carte d'identité",
     "unit": "dossier",
-    "category": "cat-58"
+    "category": "cat-58",
+    "prices": { "min": 0, "max": 15 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-178",
     "name": "Dépannage chaudière urgent",
     "unit": "intervention",
-    "category": "cat-59"
+    "category": "cat-59",
+    "prices": { "min": 300, "max": 600 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-179",
     "name": "Isolation fenêtre",
     "unit": "intervention",
-    "category": "cat-16"
+    "category": "cat-16",
+    "prices": { "min": 500, "max": 1500 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-180",
     "name": "Réparation toit",
     "unit": "intervention",
-    "category": "cat-16"
+    "category": "cat-16",
+    "prices": { "min": 800, "max": 2000 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-181",
     "name": "Taxi",
     "unit": "trajet",
-    "category": "cat-20"
+    "category": "cat-20",
+    "prices": { "min": 8, "max": 30 },
+    "quantities": { "min": 1, "max": 5 }
   },
   {
     "id": "item-182",
     "name": "Achat antivol vélo",
     "unit": "unité",
-    "category": "cat-22"
+    "category": "cat-22",
+    "prices": { "min": 20, "max": 80 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-183",
     "name": "Chocolats",
     "unit": "boîte",
-    "category": "cat-24"
+    "category": "cat-24",
+    "prices": { "min": 8, "max": 30 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-184",
     "name": "Pain complet",
     "unit": "unité",
-    "category": "cat-25"
+    "category": "cat-25",
+    "prices": { "min": 1, "max": 1.5 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-185",
     "name": "Boisson énergisante",
     "unit": "canette",
-    "category": "cat-26"
-  },
-  {
+    "category": "cat-26",
+    "prices": { "min": 1.5, "max": 3 },
+    "quantities": { "min": 1, "max": 6 }
+  },{
     "id": "item-186",
     "name": "Crème solaire pharmacie",
     "unit": "tube",
-    "category": "cat-32"
+    "category": "cat-32",
+    "prices": { "min": 8, "max": 20 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-187",
-    "name": "Séance d’ostéopathie",
+    "name": "Séance d'ostéopathie",
     "unit": "séance",
-    "category": "cat-29"
+    "category": "cat-29",
+    "prices": { "min": 50, "max": 100 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-188",
     "name": "Bière pression sortie",
     "unit": "verre",
-    "category": "cat-34"
+    "category": "cat-34",
+    "prices": { "min": 4, "max": 8 },
+    "quantities": { "min": 1, "max": 3 }
   },
   {
     "id": "item-189",
     "name": "Expérience VR",
     "unit": "session",
-    "category": "cat-35"
+    "category": "cat-35",
+    "prices": { "min": 20, "max": 50 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-190",
     "name": "Abonnement Apple TV",
-    "unit": "mois",
-    "category": "cat-36"
+    "unit": null,
+    "category": "cat-36",
+    "prices": { "min": 6.99, "max": 9.99 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-191",
     "name": "Livre enfant",
     "unit": "unité",
-    "category": "cat-37"
+    "category": "cat-37",
+    "prices": { "min": 6, "max": 15 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-192",
-    "name": "Nuit d’hôtel",
+    "name": "Nuit d'hôtel",
     "unit": "nuit",
-    "category": "cat-38"
+    "category": "cat-38",
+    "prices": { "min": 60, "max": 200 },
+    "quantities": { "min": 1, "max": 3 }
   },
   {
     "id": "item-193",
     "name": "Aquarelle loisirs",
     "unit": "set",
-    "category": "cat-39"
+    "category": "cat-39",
+    "prices": { "min": 15, "max": 40 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-194",
     "name": "Stage sport enfant",
     "unit": "stage",
-    "category": "cat-42"
+    "category": "cat-42",
+    "prices": { "min": 100, "max": 250 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-195",
     "name": "Pull enfant",
     "unit": "unité",
-    "category": "cat-43"
+    "category": "cat-43",
+    "prices": { "min": 20, "max": 50 },
+    "quantities": { "min": 1, "max": 2 }
   },
   {
     "id": "item-196",
     "name": "Robe adulte",
     "unit": "unité",
-    "category": "cat-45"
+    "category": "cat-45",
+    "prices": { "min": 40, "max": 120 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-197",
     "name": "Chaussures habillées",
     "unit": "paire",
-    "category": "cat-46"
+    "category": "cat-46",
+    "prices": { "min": 70, "max": 180 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-198",
     "name": "Crème visage",
     "unit": "tube",
-    "category": "cat-47"
+    "category": "cat-47",
+    "prices": { "min": 15, "max": 50 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-199",
     "name": "Achat parts SCPI",
     "unit": "ordre",
-    "category": "cat-52"
+    "category": "cat-52",
+    "prices": { "min": 500, "max": 10000 },
+    "quantities": { "min": 1, "max": 1 }
   },
   {
     "id": "item-200",
     "name": "Épargne projet immobilier",
-    "unit": "mois",
-    "category": "cat-49"
+    "unit": null,
+    "category": "cat-49",
+    "prices": { "min": 200, "max": 1000 },
+    "quantities": { "min": 1, "max": 1 }
   }
 ]

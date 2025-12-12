@@ -8,8 +8,22 @@ export function shuffle<T>(entries: T[]) {
   return deepCopy;
 }
 
-export function getRandom<T>(entries: T[]) {
+export function getRandom<T>(entries: T[], min?: number, max?: number) {
   const items = shuffle(entries);
-  const n = Math.max(Math.floor(entries.length / 4), Math.floor(Math.random() * entries.length));
-  return items.slice(0, n);
+  if (!min) {
+    min = Math.floor(entries.length / 4);
+  }
+  if (!max) {
+    max = Math.floor(Math.random() * entries.length);
+  }
+  return items.slice(0, Math.max(min, max));
+}
+
+export function sequenceBlock<T>(array: T[], n = 20) {
+  return array.reduce((blocks, item) => {
+    const lastBlock = blocks.length > 0 ? blocks[blocks.length - 1] : null;
+    const isNext = blocks.length === 0 || lastBlock?.length === n;
+    isNext ? blocks.push([item]) : lastBlock?.push(item);
+    return blocks;
+  }, [] as T[][]);
 }

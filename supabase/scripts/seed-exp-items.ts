@@ -2,6 +2,7 @@ import data from '../data/expenses-items.json';
 import { getSupabaseClient } from '../lib/supabase';
 import { getCategoriesFor } from './seed-exp-categories';
 import { Cat, getCategories } from '../utils/expenses';
+import { sequenceBlock } from '../utils/array';
 
 function getIncludedKeys<T extends { id: string; name: string }>(
   categories: T[],
@@ -25,7 +26,7 @@ function getIncludedKeys<T extends { id: string; name: string }>(
 
 type ExpItem = {
   name: string;
-  unit: string;
+  unit: string | null;
   category_id: string;
   home_id: string;
 };
@@ -38,6 +39,15 @@ async function saveItems(items: ExpItem[]) {
   }
 }
 
+export async function getExpItems(home: string) {
+  const { data, error } = await getSupabaseClient()
+    .from('expense_items')
+    .select('id, category_id, name')
+    .eq('home_id', home);
+  if (error) throw error;
+  return data;
+}
+
 export default async function mockExpensesItems(homes: { id: string; name: string }[]) {
   console.log('Seed expenses items');
 
@@ -46,17 +56,15 @@ export default async function mockExpensesItems(homes: { id: string; name: strin
     const relatedCategories = await getCategoriesFor(home.id);
     const includedCatKeys = getIncludedKeys(relatedCategories, allCategories);
     const relatedCatKeys = Array.from(includedCatKeys.keys());
-    const relatedItems = data.filter((i) => relatedCatKeys.includes(i.category));
-    const saveRequest = relatedItems
-      // Group items to be saved into 20 blocks
-      .reduce((blocks, { name, unit, category }) => {
-        const item = { name, unit, category_id: includedCatKeys.get(category)!, home_id: home.id };
-        const lastBlock = blocks.length > 0 ? blocks[blocks.length - 1] : null;
-        const isNext = blocks.length === 0 || lastBlock?.length === 20;
-        isNext ? blocks.push([item]) : lastBlock?.push(item);
-        return blocks;
-      }, [] as ExpItem[][])
-      .map((block) => saveItems(block));
+    const relatedItems = data
+      .filter((i) => relatedCatKeys.includes(i.category))
+      .map(({ name, unit, category }) => ({
+        name,
+        unit,
+        category_id: includedCatKeys.get(category)!,
+        home_id: home.id,
+      }));
+    const saveRequest = sequenceBlock(relatedItems).map((block) => saveItems(block));
 
     await Promise.all(saveRequest);
     console.log(` - ${relatedItems.length} items for ${home.name}.`);

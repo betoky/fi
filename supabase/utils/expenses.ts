@@ -1,4 +1,5 @@
 import data from "../data/expenses-categories.json";
+import { shuffle } from "./array";
 
 export type Cat = { name: string; parent: string | null };
 
@@ -12,4 +13,11 @@ export function getCategories() {
   });
 
   return map;
+}
+
+export function randomExpenseType() {
+  const X: ('G'|'S')[] = ['G', 'G', 'G', 'S'];
+  const randomIndex = Math.floor(Math.random() * X.length);
+
+  return shuffle(X)[randomIndex];
 }
