@@ -309,18 +309,21 @@ export type Database = {
       homes: {
         Row: {
           created_at: string
+          currency: Database["public"]["Enums"]["Currency"]
           id: string
           name: string
           owner_id: string
         }
         Insert: {
           created_at?: string
+          currency: Database["public"]["Enums"]["Currency"]
           id?: string
           name: string
           owner_id?: string
         }
         Update: {
           created_at?: string
+          currency?: Database["public"]["Enums"]["Currency"]
           id?: string
           name?: string
           owner_id?: string
@@ -379,7 +382,7 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      Currency: "MGA" | "EUR" | "USD"
     }
     CompositeTypes: {
       expense_group_item: {
@@ -518,7 +521,9 @@ export const Constants = {
     Enums: {},
   },
   public: {
-    Enums: {},
+    Enums: {
+      Currency: ["MGA", "EUR", "USD"],
+    },
   },
 } as const
 

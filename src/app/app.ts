@@ -5,10 +5,6 @@ import { Toast } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DarkModeSwitcher } from './services/dark-mode-switcher';
 import { Alert } from './services/alert';
-import { Auth } from './services/auth';
-import { Home } from './services/home';
-import { User } from './services/user';
-import { AutocompleteCategories } from './services/expense/autocomplete-categories';
 import { ConfirmDialog } from './services/confirm-dialog';
 
 @Component({
@@ -20,10 +16,6 @@ import { ConfirmDialog } from './services/confirm-dialog';
 })
 export class App implements OnInit {
   private darkModeSwitcher = inject(DarkModeSwitcher);
-  private auth$ = inject(Auth).isAuthenticated$;
-  private user = inject(User);
-  private home = inject(Home);
-  private autoComleteCategories = inject(AutocompleteCategories);
 
   constructor(
     alert: Alert,
@@ -45,17 +37,6 @@ export class App implements OnInit {
       if (dialog) {
         confirmSrv.confirm(dialog);
       }
-    });
-
-    // Auth Subscription
-    this.auth$.subscribe({
-      next: (authenticated) => {
-        if (!authenticated) {
-          this.user.resetCurrentUser();
-          this.home.resetCurrentHome();
-          this.autoComleteCategories.reset();
-        }
-      },
     });
   }
 

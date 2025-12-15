@@ -19,7 +19,7 @@ export const profileGuard: CanActivateFn = () => {
         router.navigate(['/login'], { replaceUrl: true });
         return of(false);
       }
-      return combineLatest([user.hasProfile(), home.hasHome()]).pipe(
+      return combineLatest([user.hasProfile$, home.hasHome$]).pipe(
         map(([hasProfile, hasHome]) => {
           if ((hasProfile && !hasHome) || (!hasProfile && hasHome)) {
             auth.logout().then(() => {

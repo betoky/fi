@@ -1,13 +1,20 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { filter, map } from 'rxjs/operators';
 import { Supabase } from './supabase';
 import { Tables } from '../../../database.types';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class User {
   private supabase = inject(Supabase).getInstance();
-  private currentUser?: Tables<'users'> | null;
+
+  instance = signal<Tables<'users'> | null | undefined>(undefined);
+  hasProfile$ = toObservable(this.instance).pipe(
+    filter((user) => user !== undefined),
+    map((user) => user !== null)
+  );
 
   async saveUser(auth_id: string, name: string) {
     const { error } = await this.supabase.from('users').insert([{ auth_id, name }]).select();
@@ -16,31 +23,9 @@ export class User {
     }
   }
 
-  async getCurrentUser() {    
-    if (this.currentUser !== undefined) {
-      return this.currentUser;
-    }
-
+  async getUser() {
     const { data, error } = await this.supabase.from('users').select('*').maybeSingle();
-    if (error) {
-      throw error;
-    }
-
-    this.currentUser = data;
+    if (error) throw error;
     return data;
-  }
-
-  resetCurrentUser() {
-    this.currentUser = undefined;
-  }
-
-  async hasProfile() {
-    if (this.currentUser !== undefined) {
-      return this.currentUser !== null;
-    }
-    
-    const user = await this.getCurrentUser();
-    this.currentUser = user;
-    return user !== null;
   }
 }

@@ -24,6 +24,7 @@ import { AutocompleteCategories } from '../../../services/expense/autocomplete-c
 import { AutocompleteItems } from '../../../services/expense/autocomplete-items';
 import { ExpenseGroup } from '../../../services/expense/expense-group';
 import { ExpenseListing } from '../../../services/expense/expense-listing';
+import { Home } from '../../../services/home';
 
 const prime = [
   AutoCompleteModule,
@@ -45,6 +46,7 @@ export class ExpenseForm implements OnInit {
   @Input('group') groupToEdit?: ExpenseGroupType;
   @Input('items') groupItems?: ExpGrpItemType[];
 
+  protected currentHome = inject(Home).instance;
   private alert = inject(Alert);
   private dialogRef = inject(DynamicDialogRef);
   protected autoCompleteCategories = inject(AutocompleteCategories);

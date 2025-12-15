@@ -1,6 +1,9 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { filter, map } from 'rxjs/operators';
 import { Supabase } from './supabase';
 import { HomeType } from '../domain/home';
+import { Enums } from '../../../database.types';
 
 @Injectable({
   providedIn: 'root',
@@ -8,39 +11,27 @@ import { HomeType } from '../domain/home';
 export class Home {
   private supabase = inject(Supabase).getInstance();
 
-  private currentHome?: HomeType|null;
+  instance = signal<HomeType | undefined | null>(undefined);
 
-  async saveHome(owner_id: string, name: string) {
-    const {error} = await this.supabase.from('homes').insert([{ owner_id, name }]).select();
+  hasHome$ = toObservable(this.instance).pipe(
+    filter((i) => i !== undefined),
+    map((i) => i !== null)
+  );
+
+  async saveHome(owner_id: string, name: string, currency: Enums<'Currency'>) {
+    const { error } = await this.supabase
+      .from('homes')
+      .insert([{ owner_id, name, currency }])
+      .select();
     if (error) {
       throw error;
     }
   }
 
-  async getHome(): Promise<HomeType|null> {
-    if (this.currentHome !== undefined) {
-      return this.currentHome;
-    }
-    
-    const {data, error} = await this.supabase.from('homes').select('*').maybeSingle();
+  async getHome(): Promise<HomeType | null> {
+    const { data, error } = await this.supabase.from('homes').select('*').maybeSingle();
+    if (error) throw error;
 
-    if (error) {
-      throw error;
-    }
     return data;
-  }
-
-  async hasHome() {
-    if (this.currentHome !== undefined) {
-      return this.currentHome !== null;
-    }
-
-    const home = await this.getHome();
-    this.currentHome = home;
-    return home !== null;
-  }
-
-  resetCurrentHome() {
-    this.currentHome = undefined;
   }
 }

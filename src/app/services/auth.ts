@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, filter } from 'rxjs';
 import { isAuthApiError, VerifyOtpParams } from '@supabase/supabase-js';
 import { Supabase } from './supabase';
+import { AutocompleteCategories } from './expense/autocomplete-categories';
+import { Home } from './home';
+import { User } from './user';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +13,9 @@ import { Supabase } from './supabase';
 export class Auth {
   private supabase = inject(Supabase).getInstance();
   private router = inject(Router);
+  private autoComleteCategories = inject(AutocompleteCategories);
+  private home = inject(Home);
+  private user = inject(User);
 
   private authenticated = new BehaviorSubject<boolean | undefined>(undefined);
 
@@ -17,9 +23,17 @@ export class Auth {
 
   constructor() {
     this.supabase.auth.onAuthStateChange((_, session) => {
+      console.log(_, session);
       const isAuthenticated = session ? true : false;
       this.authenticated.next(isAuthenticated);
-      console.log(_, session);
+      if (isAuthenticated) {
+        this.syncHome();
+        this.syncUser();
+      } else {
+        this.home.instance.set(undefined);
+        this.user.instance.set(undefined);
+        this.autoComleteCategories.reset();
+      }
     });
   }
 
@@ -67,5 +81,17 @@ export class Auth {
   async logout() {
     const { error } = await this.supabase.auth.signOut();
     if (error) throw error;
+  }
+
+  private syncUser() {
+    this.user.getUser()
+      .then(user => this.user.instance.set(user))
+      .catch(() => this.user.instance.set(undefined));
+  }
+
+  private syncHome() {
+    this.home.getHome()
+      .then(data => this.home.instance.set(data))
+      .catch(() => this.home.instance.set(undefined));
   }
 }

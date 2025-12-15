@@ -1,10 +1,6 @@
 <div class="min-h-dvh sm:grid sm:place-items-center sm:p-3.5">
   <p-card styleClass="pt-16 sm:pt-0 w-full sm:w-4/5 md:w-2/3 md:max-w-lg min-h-dvh sm:min-h-fit">
-    <h1
-      class="text-5xl lg:text-6xl text-center font-black my-auto pb-4 animate-pulse"
-    >
-      Fi
-    </h1>
+    <h1 class="text-5xl lg:text-6xl text-center font-black my-auto pb-4 animate-pulse">Fi</h1>
     <p class="text-sm text-center mb-4">
       {{
         isInvited
@@ -31,13 +27,7 @@
         <label for="home" class="block font-medium">Nom de votre foyer</label>
         <p-iconfield>
           <p-inputicon class="pi pi-home" />
-          <input
-            type="text"
-            id="home"
-            formControlName="home"
-            pInputText
-            fluid
-          />
+          <input type="text" id="home" formControlName="home" pInputText fluid />
         </p-iconfield>
       </div>
       <div class="space-y-1">
@@ -56,6 +46,17 @@
         </p-iconfield>
       </div>
       <div class="space-y-1">
+        <label for="currency">Devise</label>
+        <p-select
+          inputId='currency'
+          formControlName="currency"
+          [options]="currencies"
+          optionLabel="name"
+          placeholder="Sélectionner la devise"
+          fluid
+        />
+      </div>
+      <div class="space-y-1">
         <label for="password" class="block font-medium">Mot de passe</label>
         <p-iconfield>
           <p-inputicon class="pi pi-lock" />
@@ -66,7 +67,7 @@
             formControlName="password"
             toggleMask="true"
             fluid
-            [minlength]='6'
+            [minlength]="6"
           />
         </p-iconfield>
       </div>

@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { take } from 'rxjs';
 import { User } from '@supabase/supabase-js';
+import { Select } from 'primeng/select';
+import { Constants, Enums } from '../../../../database.types';
 import { Auth } from '../../services/auth';
 import { passwordsMatching } from '../../validators/passwords-matching';
 import { User as UserService } from '../../services/user';
@@ -11,7 +13,7 @@ import AuthFormModule from '../../imports/auth-form';
 
 @Component({
   selector: 'app-cofirm-profile',
-  imports: [ReactiveFormsModule, ...AuthFormModule],
+  imports: [ReactiveFormsModule, Select, ...AuthFormModule],
   templateUrl: './confirm-profile.html',
 })
 export class ConfirmProfile implements OnInit {
@@ -40,9 +42,17 @@ export class ConfirmProfile implements OnInit {
         ],
       ],
       confirm: ['', Validators.required],
+      currency: [undefined as Enums<'Currency'> | undefined, Validators.required],
     },
     { validators: passwordsMatching }
   );
+
+  get currencies() {
+    return Array.from(Constants.public.Enums.Currency.values()).map((code) => ({
+      name: new Intl.DisplayNames(['fr'], { type: 'currency' }).of(code),
+      value: code,
+    }));
+  }
 
   get name() {
     return this.registrationForm.get('name')!;
@@ -99,20 +109,21 @@ export class ConfirmProfile implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    const hasProfile = await this.userService.hasProfile();
-    const hasHome = await this.homeService.hasHome();
-
-    if (hasHome && hasProfile) {
+    if (this.homeService.instance() && this.userService.instance()) {
       this.router.navigate(['/'], { replaceUrl: true });
     }
   }
 
   async onSubmit() {
     const { id, email } = this.user()!;
-    const { name, home, password } = this.registrationForm.getRawValue();
+    const { name, home, password, currency } = this.registrationForm.getRawValue();
+    if (this.registrationForm.invalid || !currency) return;
     try {
       this.isLoading.set(true);
-      await Promise.all([this.userService.saveUser(id, name), this.homeService.saveHome(id, home)]);
+      await Promise.all([
+        this.userService.saveUser(id, name),
+        this.homeService.saveHome(id, home, currency),
+      ]);
       await this.auth.updatePassword(email!, password);
       await this.auth.logout();
       this.router.navigate(['/login'], { replaceUrl: true });

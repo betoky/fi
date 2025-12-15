@@ -11,7 +11,10 @@ export default async function mockUsersData() {
     users.map(({ id, email }) => ({ auth_id: id, name: dataMap.get(email!)!.name }))
   );
   const savedHomes = await saveHomes(
-    users.map(({ id, email }) => ({ owner_id: id, name: dataMap.get(email!)!.home }))
+    users.map(({ id, email }) => {
+      const { currency, home } = dataMap.get(email!)!;
+      return { owner_id: id, name: home, currency };
+    })
   );
   console.log('');
   return [savedUsers, savedHomes];

@@ -1,16 +1,27 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { inject, Pipe, PipeTransform } from '@angular/core';
+import { Enums } from '../../../database.types';
+import { Home } from '../services/home';
 
 @Pipe({
   name: 'appCurrency',
 })
 export class CurrencyPipe implements PipeTransform {
-  transform(value: number): string {
+  private home = inject(Home).instance;
+
+  transform(value: number, currency?: Enums<'Currency'>): string {
     if (value === null || value === undefined) {
       throw new Error('No value found');
     }
 
-    const formattedValue = new Intl.NumberFormat('fr-FR', { style: 'decimal' }).format(value);
+    const currentHome = this.home();
+    if (!currentHome) {
+      throw new Error('Permission denied');
+    }
 
-    return `${formattedValue} €`;
+    return Intl.NumberFormat(undefined, {
+      style: 'currency',
+      currency: currency ?? currentHome.currency,
+      currencyDisplay: 'narrowSymbol',
+    }).format(value);
   }
 }

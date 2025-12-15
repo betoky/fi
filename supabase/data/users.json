@@ -3,30 +3,35 @@
     "email": "paul.moreau@fi.com",
     "password": "Password123",
     "name": "Paul Moreau",
-    "home": "Chez Paul & Sophie"
+    "home": "Chez Paul & Sophie",
+    "currency": "EUR"
   },
   {
     "email": "lea.dubois@fi.com",
     "password": "Password123",
     "name": "Léa Dubois",
-    "home": "La tribu Dubois"
+    "home": "La tribu Dubois",
+    "currency": "EUR"
   },
   {
     "email": "thomas.riviere@fi.com",
     "password": "Password123",
     "name": "Thomas Rivière",
-    "home": "L’appart de Tom & co"
+    "home": "L’appart de Tom & co",
+    "currency": "EUR"
   },
   {
     "email": "camille.bernard@fi.com",
     "password": "Password123",
     "name": "Camille Bernard",
-    "home": "Maison Camille - Léo"
+    "home": "Maison Camille - Léo",
+    "currency": "EUR"
   },
   {
     "email": "julien.fontaine@fi.com",
     "password": "Password123",
     "name": "Julien Fontaine",
-    "home": "Le QG Fontaine"
+    "home": "Le QG Fontaine",
+    "currency": "EUR"
   }
 ]

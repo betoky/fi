@@ -1,8 +1,11 @@
+create type "public"."Currency" as enum ('MGA', 'EUR', 'USD');
+
 create table "public"."homes" (
     "id" uuid not null default gen_random_uuid (),
     "name" character varying not null,
     "created_at" timestamp with time zone not null default now(),
-    "owner_id" uuid not null default gen_random_uuid ()
+    "owner_id" uuid not null default gen_random_uuid (),
+    "currency" public."Currency" not null
 );
 
 alter table "public"."homes" enable row level security;

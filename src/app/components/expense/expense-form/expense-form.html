@@ -125,7 +125,7 @@
             <label class="block font-medium" [for]="'amount-' + $index">Prix (Ar)</label>
             <p-inputnumber
               mode="currency"
-              currency="MGA"
+              [currency]="currentHome()?.currency"
               fluid
               [inputId]="'amount-' + $index"
               formControlName="amount"
