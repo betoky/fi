@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Supabase } from '../supabase';
+import { Supabase } from '@/services/supabase';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +8,7 @@ export class Item {
   private supabase = inject(Supabase).getInstance();
 
   async fetchByCategory(...categories: string[]) {
-    const constraints = categories.map(id => `category_id.eq.${id}`);
+    const constraints = categories.map((id) => `category_id.eq.${id}`);
     const { data, error } = await this.supabase
       .from('expense_items')
       .select('*')

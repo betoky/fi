@@ -3,14 +3,14 @@ import { Subject, takeUntil } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Skeleton } from 'primeng/skeleton';
 import { TableModule } from 'primeng/table';
-import { CurrencyPipe } from '../../../pipes/currency-pipe';
-import { ExpenseGroupType, ExpGrpItemType } from '../../../domain/expense-group';
-import { Alert } from '../../../services/alert';
-import { ExpenseListing } from '../../../services/expense/expense-listing';
-import { ConfirmDialog } from '../../../services/confirm-dialog';
-import { ExpenseGroup } from '../../../services/expense/expense-group';
-import { ExpenseCard } from '../expense-card/expense-card';
-import { ExpenseForm } from '../expense-form/expense-form';
+import { ExpenseCard } from '@/components/expense/expense-card/expense-card';
+import { ExpenseForm } from '@/components/expense/expense-form/expense-form';
+import { ExpenseGroupType, ExpGrpItemType } from '@/domains/expense-group';
+import { CurrencyPipe } from '@/pipes/currency-pipe';
+import { Alert } from '@/services/alert';
+import { ConfirmDialog } from '@/services/confirm-dialog';
+import { ExpenseGroup } from '@/services/expense/expense-group';
+import { ExpenseListing } from '@/services/expense/expense-listing';
 
 @Component({
   selector: 'expense-group-card',

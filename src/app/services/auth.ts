@@ -1,11 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, filter } from 'rxjs';
 import { isAuthApiError, VerifyOtpParams } from '@supabase/supabase-js';
-import { Supabase } from './supabase';
-import { AutocompleteCategories } from './expense/autocomplete-categories';
-import { Home } from './home';
-import { User } from './user';
+import { BehaviorSubject, filter } from 'rxjs';
+import { AutocompleteCategories } from '@/services/expense/autocomplete-categories';
+import { Home } from '@/services/home';
+import { Supabase } from '@/services/supabase';
+import { User } from '@/services/user';
 
 @Injectable({
   providedIn: 'root',

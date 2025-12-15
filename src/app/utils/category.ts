@@ -1,4 +1,4 @@
-import { CategoryType, CategoryParentType, MappedCategories } from '../domain/expense-category';
+import { CategoryType, CategoryParentType, MappedCategories } from '../domains/expense-category';
 
 export function mapParentsAndChildren(array: CategoryType[]): MappedCategories {
   const categories = new Map<string, CategoryParentType>();

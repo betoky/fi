@@ -1,15 +1,15 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { take } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '@supabase/supabase-js';
 import { Select } from 'primeng/select';
-import { Constants, Enums } from '../../../../database.types';
-import { Auth } from '../../services/auth';
-import { passwordsMatching } from '../../validators/passwords-matching';
-import { User as UserService } from '../../services/user';
-import { Home as HomeService } from '../../services/home';
-import AuthFormModule from '../../imports/auth-form';
+import { take } from 'rxjs';
+import { Constants, Enums } from '@/database.types';
+import AuthFormModule from '@/imports/auth-form';
+import { Auth } from '@/services/auth';
+import { Home as HomeService } from '@/services/home';
+import { User as UserService } from '@/services/user';
+import { passwordsMatching } from '@/validators/passwords-matching';
 
 @Component({
   selector: 'app-cofirm-profile',

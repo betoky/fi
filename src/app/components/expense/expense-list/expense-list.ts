@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { ExpenseCardSkeleton } from '../expense-card-skeleton/expense-card-skeleton';
-import { ExpenseListing } from '../../../services/expense/expense-listing';
-import { AsSimpleExpensePipe } from '../../../pipes/expense/as-simple-expense-pipe';
-import { ExpenseSimpleCard } from '../expense-simple-card/expense-simple-card';
-import { AsGroupExpensePipe } from '../../../pipes/expense/as-group-expense-pipe';
-import { ExpenseGroupCard } from '../expense-group-card/expense-group-card';
+import { ExpenseCardSkeleton } from '@/components/expense/expense-card-skeleton/expense-card-skeleton';
+import { ExpenseGroupCard } from '@/components/expense/expense-group-card/expense-group-card';
+import { ExpenseSimpleCard } from '@/components/expense/expense-simple-card/expense-simple-card';
+import { AsGroupExpensePipe } from '@/pipes/expense/as-group-expense-pipe';
+import { AsSimpleExpensePipe } from '@/pipes/expense/as-simple-expense-pipe';
+import { ExpenseListing } from '@/services/expense/expense-listing';
 
 @Component({
   selector: 'app-expense-list',

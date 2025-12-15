@@ -1,11 +1,11 @@
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { Component, OnInit, effect, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ConfirmDialogModule } from "primeng/confirmdialog";
-import { Toast } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { DarkModeSwitcher } from './services/dark-mode-switcher';
-import { Alert } from './services/alert';
-import { ConfirmDialog } from './services/confirm-dialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { Toast } from 'primeng/toast';
+import { Alert } from '@/services/alert';
+import { ConfirmDialog } from '@/services/confirm-dialog';
+import { DarkModeSwitcher } from '@/services/dark-mode-switcher';
 
 @Component({
   selector: 'app-root',

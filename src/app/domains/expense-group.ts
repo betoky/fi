@@ -1,6 +1,6 @@
-import { Tables } from '../../../database.types';
-import { ExpenseItemType } from './expense-item';
-import { DatabaseProperties } from './utils';
+import { Tables } from '@/database.types';
+import { ExpenseItemType } from '@/domains/expense-item';
+import { DatabaseProperties } from '@/domains/utils';
 
 export type ExpenseGroupType = Tables<'expense_groups'>;
 
@@ -28,8 +28,9 @@ export type CreateExpenseGroupedType = Omit<
   DatabaseProperties | 'home_id' | 'group_id'
 >;
 
-export type UpdateExpenseGroupedType = 
-  Omit<CreateExpenseGroupedType, 'article_id'> & { id: string };
+export type UpdateExpenseGroupedType = Omit<CreateExpenseGroupedType, 'article_id'> & {
+  id: string;
+};
 
 export const isExpenseGroup = (object: unknown): object is ExpenseGroupType =>
   object !== null &&

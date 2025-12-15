@@ -3,13 +3,12 @@ import {
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from '@angular/core';
-import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withViewTransitions } from '@angular/router';
-import { providePrimeNG } from 'primeng/config';
 import { fr } from 'primelocale/fr.json';
-
-import { routes } from './app.routes';
-import PrimePreset from './prime-preset';
+import { providePrimeNG } from 'primeng/config';
+import { routes } from '@/app.routes';
+import PrimePreset from '@/prime-preset';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,7 +27,7 @@ export const appConfig: ApplicationConfig = {
           },
         },
       },
-      translation: fr
+      translation: fr,
     }),
   ],
 };

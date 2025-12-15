@@ -1,16 +1,16 @@
-import { Component, inject, Input, signal } from '@angular/core';
+import { Component, Input, inject, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
 import { BadgeModule } from 'primeng/badge';
+import { ButtonModule } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { TextareaModule } from 'primeng/textarea';
-import { Alert } from '../../../services/alert';
-import { ConfirmDialog } from '../../../services/confirm-dialog';
-import { ExpenseListing } from '../../../services/expense/expense-listing';
-import { ExpenseCard } from "../expense-card/expense-card";
-import { ExpenseArticleType } from '../../../domain/expense';
-import { DatePipe } from "../../../pipes/date-pipe";
+import { ExpenseCard } from '@/components/expense/expense-card/expense-card';
+import { ExpenseArticleType } from '@/domains/expense';
+import { DatePipe } from '@/pipes/date-pipe';
+import { Alert } from '@/services/alert';
+import { ConfirmDialog } from '@/services/confirm-dialog';
+import { ExpenseListing } from '@/services/expense/expense-listing';
 
 @Component({
   selector: 'expense-simple-card',
@@ -22,9 +22,9 @@ import { DatePipe } from "../../../pipes/date-pipe";
     InputNumberModule,
     TextareaModule,
     ExpenseCard,
-    DatePipe
-],
-  templateUrl: './expense-simple-card.html'
+    DatePipe,
+  ],
+  templateUrl: './expense-simple-card.html',
 })
 export class ExpenseSimpleCard {
   @Input({ required: true }) expense!: ExpenseArticleType;
@@ -40,7 +40,9 @@ export class ExpenseSimpleCard {
       confirmed &&
         this.listing
           .removeExpense(this.expense.id)
-          .then(() => this.alert.success({ detail: `${this.expense.article.name} a été supprimé.` }))
+          .then(() =>
+            this.alert.success({ detail: `${this.expense.article.name} a été supprimé.` })
+          )
           .catch(() => this.alert.error({ detail: 'Erreur de suppression' }));
     });
   }

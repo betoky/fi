@@ -1,11 +1,11 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { Expense } from './expense';
-import { ExpenseGroup } from './expense-group';
-import { Home } from '../home';
-import { buildExpenseGroup, buildExpenses, prepareExpGroupForUpdate } from '../../utils/expense';
-import { ExpenseArticleType, UpdateExpenseType } from '../../domain/expense';
-import { ExpenseGroupType, ExpGrpItemType } from '../../domain/expense-group';
-import { ExpenseFormType } from '../../domain/expense-form';
+import { ExpenseArticleType, UpdateExpenseType } from '@/domains/expense';
+import { ExpenseFormType } from '@/domains/expense-form';
+import { ExpenseGroupType, ExpGrpItemType } from '@/domains/expense-group';
+import { Expense } from '@/services/expense/expense';
+import { ExpenseGroup } from '@/services/expense/expense-group';
+import { Home } from '@/services/home';
+import { buildExpenseGroup, buildExpenses, prepareExpGroupForUpdate } from '@/utils/expense';
 
 @Injectable({
   providedIn: 'root',

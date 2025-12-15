@@ -1,8 +1,8 @@
-import { inject, Injectable, signal } from '@angular/core';
-import { CategoryParentType, CategoryType, MappedCategories } from '../../domain/expense-category';
-import { matching } from '../../utils/string';
-import { groupParentsAndChildren, mapParentsAndChildren } from '../../utils/category';
-import { Category } from './category';
+import { Injectable, inject, signal } from '@angular/core';
+import { CategoryParentType, CategoryType, MappedCategories } from '@/domains/expense-category';
+import { Category } from '@/services/expense/category';
+import { groupParentsAndChildren, mapParentsAndChildren } from '@/utils/category';
+import { matching } from '@/utils/string';
 
 @Injectable({
   providedIn: 'root',

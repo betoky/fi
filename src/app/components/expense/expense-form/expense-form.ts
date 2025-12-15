@@ -1,4 +1,5 @@
 import { Component, effect, inject, Input, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormArray,
   FormControl,
@@ -7,34 +8,31 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AutoCompleteModule } from 'primeng/autocomplete';
-import { ButtonModule } from 'primeng/button';
-import { DatePickerModule } from 'primeng/datepicker';
+import { AutoComplete } from 'primeng/autocomplete';
+import { Button } from 'primeng/button';
+import { DatePicker } from 'primeng/datepicker';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { SelectModule } from 'primeng/select';
-import { ToggleSwitchModule } from 'primeng/toggleswitch';
-import { TextareaModule } from 'primeng/textarea';
-import { ExpenseGroupType, ExpGrpItemType } from '../../../domain/expense-group';
-import { CurrencyPipe } from '../../../pipes/currency-pipe';
-import { Alert } from '../../../services/alert';
-import { AutocompleteCategories } from '../../../services/expense/autocomplete-categories';
-import { AutocompleteItems } from '../../../services/expense/autocomplete-items';
-import { ExpenseGroup } from '../../../services/expense/expense-group';
-import { ExpenseListing } from '../../../services/expense/expense-listing';
-import { Home } from '../../../services/home';
+import { InputNumber } from 'primeng/inputnumber';
+import { InputText } from 'primeng/inputtext';
+import { Textarea } from 'primeng/textarea';
+import { ToggleSwitch } from 'primeng/toggleswitch';
+import { ExpenseGroupType, ExpGrpItemType } from '@/domains/expense-group';
+import { CurrencyPipe } from '@/pipes/currency-pipe';
+import { Alert } from '@/services/alert';
+import { AutocompleteCategories } from '@/services/expense/autocomplete-categories';
+import { AutocompleteItems } from '@/services/expense/autocomplete-items';
+import { ExpenseGroup } from '@/services/expense/expense-group';
+import { ExpenseListing } from '@/services/expense/expense-listing';
+import { Home } from '@/services/home';
 
 const prime = [
-  AutoCompleteModule,
-  ButtonModule,
-  DatePickerModule,
-  InputNumberModule,
-  InputTextModule,
-  SelectModule,
-  TextareaModule,
-  ToggleSwitchModule,
+  AutoComplete,
+  Button,
+  DatePicker,
+  InputNumber,
+  InputText,
+  Textarea,
+  ToggleSwitch,
 ];
 
 @Component({

@@ -1,9 +1,9 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { filter, map } from 'rxjs/operators';
-import { Supabase } from './supabase';
-import { HomeType } from '../domain/home';
-import { Enums } from '../../../database.types';
+import { filter, map } from 'rxjs';
+import { Enums } from '@/database.types';
+import { HomeType } from '@/domains/home';
+import { Supabase } from '@/services/supabase';
 
 @Injectable({
   providedIn: 'root',

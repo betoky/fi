@@ -1,19 +1,19 @@
-import { ButtonModule } from "primeng/button";
-import { CardModule } from "primeng/card";
-import { IconFieldModule } from "primeng/iconfield";
-import { InputIconModule } from "primeng/inputicon";
-import { InputTextModule } from "primeng/inputtext";
-import { MessageModule } from "primeng/message";
-import { PasswordModule } from "primeng/password";
+import { Button } from 'primeng/button';
+import { Card } from 'primeng/card';
+import { IconField } from 'primeng/iconfield';
+import { InputIcon } from 'primeng/inputicon';
+import { InputText } from 'primeng/inputtext';
+import { Message } from 'primeng/message';
+import { Password } from 'primeng/password';
 
 const AuthFormModule = [
-  ButtonModule,
-  CardModule,
-  IconFieldModule,
-  InputIconModule,
-  InputTextModule,
-  MessageModule,
-  PasswordModule,
+  Button,
+  Card,
+  IconField,
+  InputIcon,
+  InputText,
+  Message,
+  Password,
 ];
 
 export default AuthFormModule;

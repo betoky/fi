@@ -1,16 +1,15 @@
-import { Component, inject, OnDestroy, signal } from '@angular/core';
-import { DialogService } from 'primeng/dynamicdialog';
-import { Button } from 'primeng/button';
-import { CardModule } from 'primeng/card';
+import { Component, OnDestroy, inject, signal } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { Button } from 'primeng/button';
+import { DialogService } from 'primeng/dynamicdialog';
 import { SpeedDial } from 'primeng/speeddial';
-import { ExpenseForm } from '../../components/expense/expense-form/expense-form';
-import { ExpenseList } from '../../components/expense/expense-list/expense-list';
-import { AutocompleteItems } from '../../services/expense/autocomplete-items';
+import { ExpenseForm } from '@/components/expense/expense-form/expense-form';
+import { ExpenseList } from '@/components/expense/expense-list/expense-list';
+import { AutocompleteItems } from '@/services/expense/autocomplete-items';
 
 @Component({
   selector: 'app-expenses',
-  imports: [Button, CardModule, SpeedDial, ExpenseList],
+  imports: [Button, SpeedDial, ExpenseList],
   providers: [DialogService],
   templateUrl: './expenses.html',
   styleUrl: './expenses.css',

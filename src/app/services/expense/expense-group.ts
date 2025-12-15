@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { Supabase } from '../supabase';
-import { CreateExpenseGroupType, UpdateExpenseGroupType } from '../../domain/expense-group';
+import { CreateExpenseGroupType, UpdateExpenseGroupType } from '@/domains/expense-group';
+import { Supabase } from '@/services/supabase';
 
 @Injectable({
   providedIn: 'root',

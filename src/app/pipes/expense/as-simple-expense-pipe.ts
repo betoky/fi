@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ExpenseArticleType, isExpense } from '../../domain/expense';
+import { ExpenseArticleType, isExpense } from '@/domains/expense';
 
 @Pipe({
   name: 'asSimpleExpense',

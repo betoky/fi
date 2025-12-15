@@ -1,11 +1,11 @@
-import { ExpenseFormType } from '../domain/expense-form';
-import { compareArray } from './object';
+import { ExpenseFormType } from '@/domains/expense-form';
 import {
   CreateExpenseGroupType,
   ExpGrpItemType,
-  UpdateExpenseGroupedType,
   UpdateExpenseGroupType,
-} from '../domain/expense-group';
+  UpdateExpenseGroupedType,
+} from '@/domains/expense-group';
+import { compareArray } from '@/utils/object';
 
 export const buildExpenses = ({ items, date, description }: ExpenseFormType, homeId: string) => {
   return items.map(({ amount, item, quantity }) => ({

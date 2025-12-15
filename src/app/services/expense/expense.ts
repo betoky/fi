@@ -1,16 +1,16 @@
-import { inject, Injectable } from '@angular/core';
-import { Supabase } from '../supabase';
-import { CreateExpenseType, UpdateExpenseType } from '../../domain/expense';
+import { Injectable, inject } from '@angular/core';
+import { CreateExpenseType, UpdateExpenseType } from '@/domains/expense';
+import { Supabase } from '@/services/supabase';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Expense {
   private supabase = inject(Supabase).getInstance();
-  
 
   async fetchExpenses(limit = 10) {
-    const { data, error } = await this.supabase.from('expenses')
+    const { data, error } = await this.supabase
+      .from('expenses')
       .select('*, article:expense_items(*)')
       .order('date', { ascending: false })
       .limit(limit);

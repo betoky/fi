@@ -1,14 +1,17 @@
-import { Tables } from '../../../database.types';
-import { ExpenseItemType } from './expense-item';
-import { DatabaseProperties } from './utils';
+import { Tables } from '@/database.types';
+import { ExpenseItemType } from '@/domains/expense-item';
+import { DatabaseProperties } from '@/domains/utils';
 
 export type ExpenseType = Tables<'expenses'>;
 
-export type ExpenseArticleType = ExpenseType & { article: ExpenseItemType }
+export type ExpenseArticleType = ExpenseType & { article: ExpenseItemType };
 
 export type CreateExpenseType = Omit<ExpenseType, DatabaseProperties>;
 
-export type UpdateExpenseType = Omit<ExpenseType, DatabaseProperties | 'home_id' | 'date' | 'article_id' | 'category_id'>;
+export type UpdateExpenseType = Omit<
+  ExpenseType,
+  DatabaseProperties | 'home_id' | 'date' | 'article_id' | 'category_id'
+>;
 
 export const isExpense = (object: unknown): object is ExpenseArticleType =>
   object !== null &&
@@ -25,4 +28,3 @@ export const isExpense = (object: unknown): object is ExpenseArticleType =>
   typeof object['quantity'] === 'number' &&
   'article' in object &&
   typeof object['article'] === 'object';
-

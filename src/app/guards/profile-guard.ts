@@ -1,10 +1,10 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { of, switchMap, combineLatest } from 'rxjs';
-import { distinctUntilChanged, map } from "rxjs/operators";
-import { Auth } from '../services/auth';
-import { User } from '../services/user';
-import { Home } from '../services/home';
+import { combineLatest, of } from 'rxjs';
+import { distinctUntilChanged, map, switchMap } from "rxjs/operators";
+import { Auth } from '@/services/auth';
+import { Home } from '@/services/home';
+import { User } from '@/services/user';
 
 export const profileGuard: CanActivateFn = () => {
   const router = inject(Router);

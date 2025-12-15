@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
+import { MenuItem } from 'primeng/api';
 import { Badge } from 'primeng/badge';
 import { Button } from 'primeng/button';
 import { Menu } from 'primeng/menu';
-import { MenuItem } from 'primeng/api';
-import { DatePipe } from '../../../pipes/date-pipe';
-import { CurrencyPipe } from '../../../pipes/currency-pipe';
+import { CurrencyPipe } from '@/pipes/currency-pipe';
+import { DatePipe } from '@/pipes/date-pipe';
 
 @Component({
   selector: 'expense-card',
@@ -50,14 +50,14 @@ export class ExpenseCard {
   @Input({ required: true }) name!: string;
   @Input({ required: true }) date!: string;
   @Input({ required: true }) amount!: number;
-  @Input() description: string|null = null;
+  @Input() description: string | null = null;
   @Input() badge?: string;
   @Input() hasCollapse = false;
-  
+
   @Output() onEdit = new EventEmitter<void>();
   @Output() onDelete = new EventEmitter<void>();
   @Output() onCollapse = new EventEmitter<boolean>();
-  
+
   protected controls: MenuItem[] = [
     {
       label: 'Modifier',

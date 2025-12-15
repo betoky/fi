@@ -1,8 +1,8 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
-import { Item } from './item';
-import { CategoryParentType, CategoryType, isParent } from '../../domain/expense-category';
-import { ExpenseItemType } from '../../domain/expense-item';
-import { matching } from '../../utils/string';
+import { matching } from '@/utils/string';
+import { Injectable, inject, signal, computed } from '@angular/core';
+import { CategoryParentType, CategoryType, isParent } from '@/domains/expense-category';
+import { ExpenseItemType } from '@/domains/expense-item';
+import { Item } from '@/services/expense/item';
 
 @Injectable({
   providedIn: 'root',

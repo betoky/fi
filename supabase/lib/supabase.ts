@@ -6,7 +6,7 @@ dotenv.config({ path: '.env.local' });
 
 console.log('');
 
-let supabaseClient: SupabaseClient<Database>|null = null;
+let supabaseClient: SupabaseClient<Database> | null = null;
 export function getSupabaseClient() {
   if (!supabaseClient) {
     const url = process.env.SUPABASE_URL;

@@ -1,10 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
-
-import { Auth } from '../../services/auth';
-import AuthFormModule from '../../imports/auth-form';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import AuthFormModule from '@/imports/auth-form';
+import { Auth } from '@/services/auth';
 
 @Component({
   selector: 'app-login',
@@ -18,8 +16,8 @@ export class Login {
 
   protected isLoading = signal(false);
 
-  errorMsg = signal<string|null>(null);
-  warningMsg = signal<string|null>(null);
+  errorMsg = signal<string | null>(null);
+  warningMsg = signal<string | null>(null);
 
   constructor() {
     const error = this.route.snapshot.paramMap.get('error');

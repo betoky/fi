@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ExpenseGroupType, isExpenseGroup } from '../../domain/expense-group';
+import { ExpenseGroupType, isExpenseGroup } from '@/domains/expense-group';
 
 @Pipe({
   name: 'asGroupExpense',
