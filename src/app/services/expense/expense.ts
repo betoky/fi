@@ -8,12 +8,14 @@ import { Supabase } from '@/services/supabase';
 export class Expense {
   private supabase = inject(Supabase).getInstance();
 
-  async fetchExpenses(limit = 10) {
+  async fetchExpenses(page = 1, limit = 10) {
+    const start = (page - 1) * limit;
+    const end = start + limit - 1;
     const { data, error } = await this.supabase
       .from('expenses')
       .select('*, article:expense_items(*)')
-      .order('date', { ascending: false })
-      .limit(limit);
+      .range(start, end)
+      .order('date', { ascending: false });
     if (error) throw error;
 
     return data;

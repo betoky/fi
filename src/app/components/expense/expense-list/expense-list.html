@@ -1,17 +1,28 @@
 <div class="space-y-3">
-  @if (expenses()) {
-    @for(expense of expenses(); track $index) {
-      @if(expense | asSimpleExpense; as simpleView) {
-      <expense-simple-card class="block" [expense]="simpleView" />
-      } @if(expense | asGroupExpense; as groupView) {
-      <expense-group-card class="block" [expense]="groupView" />
+  @let items = expenses();
+  @if (items) {
+    @for(item of items; track $index) {
+      @if(item | asSimpleExpense; as expense) {
+        <expense-simple-card class="block" [expense]="expense" />
+      } @if(item | asGroupExpense; as expense) {
+        <expense-group-card class="block" [expense]="expense" />
       }
     } @empty {
-    <div class="card py-6!">
-      <p class="font-medium text-center">Aucune dépense enregistrée.</p>
-    </div>
+      <div class="card py-6!">
+        <p class="font-medium text-center">Aucune dépense enregistrée.</p>
+      </div>
     }
-  } @else { @for (item of skeletons; track $index) {
-    <app-expense-card-skeleton class="block" />
-  }}
+    @if (items.length > 0) {
+      <div #exp_end class='w-full h-1 pointer-events-none'></div>
+      @if (isLoading()) {
+        <p class='text-center my-5'>
+          <i class="pi pi-spinner-dotted animate-spin" style="font-size: 1.5rem"></i>
+        </p>
+      }
+    }
+  } @else {
+    @for (item of skeletons; track $index) {
+      <app-expense-card-skeleton class="block" />
+    }
+  }
 </div>

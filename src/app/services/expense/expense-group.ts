@@ -8,12 +8,14 @@ import { Supabase } from '@/services/supabase';
 export class ExpenseGroup {
   private supabase = inject(Supabase).getInstance();
 
-  async fetchGroups(limit = 10) {
+  async fetchGroups(page = 1, limit = 10) {
+    const start = (page - 1) * limit;
+    const end = start + limit - 1;
     const { data, error } = await this.supabase
       .from('expense_groups')
       .select()
-      .order('date', { ascending: false })
-      .limit(limit);
+      .range(start, end)
+      .order('date', { ascending: false });
     if (error) throw error;
 
     return data;

@@ -17,14 +17,15 @@ export class ExpenseListing {
 
   expenses = signal<(ExpenseArticleType | ExpenseGroupType)[] | undefined>(undefined);
 
-  async fetchData() {
-    const simpleViewReq = this.expense.fetchExpenses();
-    const groupViewReq = this.expenseGroup.fetchGroups();
+  async fetchData(page = 1) {
+    const simpleViewReq = this.expense.fetchExpenses(page);
+    const groupViewReq = this.expenseGroup.fetchGroups(page);
     const [simples, groups] = await Promise.all([simpleViewReq, groupViewReq]);
     const data = [...simples, ...groups].sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
-    this.expenses.set(data);
+    const merged = [...Array.from(this.expenses() ?? []), ...data];
+    this.expenses.set(merged);
   }
 
   async updateExpGroup(id: string, value: ExpenseFormType, oldItems: ExpGrpItemType[]) {
