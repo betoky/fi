@@ -1,4 +1,4 @@
-import { Component, Input, inject, signal } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
@@ -27,7 +27,7 @@ import { ExpenseListing } from '@/services/expense/expense-listing';
   templateUrl: './expense-simple-card.html',
 })
 export class ExpenseSimpleCard {
-  @Input({ required: true }) expense!: ExpenseArticleType;
+  expense = input.required<ExpenseArticleType>();
 
   private alert = inject(Alert);
   private dialogSrv = inject(ConfirmDialog);
@@ -39,9 +39,9 @@ export class ExpenseSimpleCard {
     this.dialogSrv.confirmDelete('Allez-vous supprimer cette dépense?').then((confirmed) => {
       confirmed &&
         this.listing
-          .removeExpense(this.expense.id)
+          .removeExpense(this.expense().id)
           .then(() =>
-            this.alert.success({ detail: `${this.expense.article.name} a été supprimé.` })
+            this.alert.success({ detail: `${this.expense().article.name} a été supprimé.` })
           )
           .catch(() => this.alert.error({ detail: 'Erreur de suppression' }));
     });
@@ -50,8 +50,8 @@ export class ExpenseSimpleCard {
   updateExp(event: NgForm) {
     if (event.valid) {
       this.listing
-        .updateExpense(this.expense.id, event.value)
-        .then(() => this.alert.success({ detail: `${this.expense.article.name} a été modifié.` }))
+        .updateExpense(this.expense().id, event.value)
+        .then(() => this.alert.success({ detail: `${this.expense().article.name} a été modifié.` }))
         .catch(() => this.alert.error({ detail: 'La modification a échoué.' }))
         .finally(() => this.isEdit.set(false));
     }

@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, inject, input, OnDestroy, OnInit, signal } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Skeleton } from 'primeng/skeleton';
@@ -18,7 +18,7 @@ import { ExpenseListing } from '@/services/expense/expense-listing';
   templateUrl: './expense-group-card.html',
 })
 export class ExpenseGroupCard implements OnInit, OnDestroy {
-  @Input({ required: true }) expense!: ExpenseGroupType;
+  expense = input.required<ExpenseGroupType>();
 
   private alert = inject(Alert);
   private dialogSrv = inject(ConfirmDialog);
@@ -29,7 +29,7 @@ export class ExpenseGroupCard implements OnInit, OnDestroy {
   protected fetched = signal(false);
 
   ngOnInit() {
-    this.items.set(Array.from({ length: this.expense.count }).map(() => ({} as ExpGrpItemType)));
+    this.items.set(Array.from({ length: this.expense().count }).map(() => ({} as ExpGrpItemType)));
   }
 
   private unsubForm = new Subject<void>();
@@ -45,7 +45,7 @@ export class ExpenseGroupCard implements OnInit, OnDestroy {
 
   fetchGroupItems() {
     this.expenseGroup
-      .fetchGroupItems(this.expense.id)
+      .fetchGroupItems(this.expense().id)
       .then((data) => this.items.set(data))
       .catch(() => {
         this.alert.error({ detail: 'Erreur lors de la récupération des détails des dépenses.' });
@@ -65,7 +65,7 @@ export class ExpenseGroupCard implements OnInit, OnDestroy {
         draggable: false,
         styleClass: 'mx-4',
         inputValues: {
-          group: this.expense,
+          group: this.expense(),
           items: this.fetched() ? this.items() : undefined,
         },
       })
@@ -82,7 +82,7 @@ export class ExpenseGroupCard implements OnInit, OnDestroy {
     this.dialogSrv.confirmDelete('Allez-vous supprimer cette dépense?').then((confirmed) => {
       confirmed &&
         this.listing
-          .removeGroupExpense(this.expense.id)
+          .removeGroupExpense(this.expense().id)
           .then(() => this.alert.success({ detail: 'Une dépense a été supprimée.' }))
           .catch(() => this.alert.error({ detail: 'Erreur de suppression' }));
     });

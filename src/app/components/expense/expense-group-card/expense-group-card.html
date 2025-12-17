@@ -1,8 +1,8 @@
 <expense-card
-  [date]="expense.date"
-  [name]="expense.name"
-  [description]="expense.description"
-  [amount]="expense.total"
+  [date]="expense().date"
+  [name]="expense().name"
+  [description]="expense().description"
+  [amount]="expense().total"
   [hasCollapse]="true"
   (onEdit)="editExpGroup()"
   (onDelete)="deleteExpGroup()"

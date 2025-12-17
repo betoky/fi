@@ -1,13 +1,13 @@
-@let unit = expense.article.unit;
-@let quantity = expense.quantity;
+@let unit = expense().article.unit;
+@let quantity = expense().quantity;
 @let displayBadge = unit && (quantity > 1 || (quantity > 0 && quantity < 1));
-@let hasDescription = expense.description ? expense.description.length > 0 : false;
-@let date = expense.date | appDate;
+@let hasDescription = expense().description ? expense().description!.length > 0 : false;
+@let date = expense().date | appDate;
 <expense-card
-  [date]="expense.date"
-  [name]="expense.article.name"
-  [description]="expense.description"
-  [amount]="expense.amount"
+  [date]="expense().date"
+  [name]="expense().article.name"
+  [description]="expense().description"
+  [amount]="expense().amount"
   [hasCollapse]="hasDescription"
   [badge]="displayBadge ? quantity + ' ' + unit : undefined"
   (onEdit)="isEdit.set(true)"
@@ -20,7 +20,7 @@
   [resizable]="false"
   [closable]="false"
   [visible]="isEdit()"
-  [header]="expense.article.name + ' (' + date + ')' "
+  [header]="expense().article.name + ' (' + date + ')' "
 >
   <form class="space-y-3" #expForm="ngForm">
     <div class="flex justify-stretch items-center gap-2">
@@ -35,7 +35,7 @@
           [min]="0"
           #quantiy="ngModel"
           name="quantity"
-          [ngModel]="expense.quantity"
+          [ngModel]="expense().quantity"
           required
         />
       </div>
@@ -48,7 +48,7 @@
           inputId="amount"
           #amount="ngModel"
           name="amount"
-          [ngModel]="expense.amount"
+          [ngModel]="expense().amount"
           required
         />
       </div>
@@ -64,7 +64,7 @@
         ngModel="description"
         name="description"
         [autoResize]="true"
-        [ngModel]="expense.description"
+        [ngModel]="expense().description"
       ></textarea>
     </div>
   </form>
