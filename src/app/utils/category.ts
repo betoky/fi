@@ -1,8 +1,8 @@
 import { CategoryType, CategoryParentType, MappedCategories } from '../domains/expense-category';
 
 export function mapParentsAndChildren(array: CategoryType[]): MappedCategories {
-  const categories = new Map<string, CategoryParentType>();
-  const subCategories = new Map<string, CategoryType[]>();
+  const categories = new Map<number, CategoryParentType>();
+  const subCategories = new Map<number, CategoryType[]>();
   for (const category of array) {
     const { parent, ...rest } = category;
     if (!parent) {

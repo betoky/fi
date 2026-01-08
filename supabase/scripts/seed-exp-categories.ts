@@ -27,7 +27,7 @@ function getRandomCat(entries: Map<string, Cat>) {
   return result;
 }
 
-async function saveCategories(entries: (Cat & { home_id: string })[]) {
+async function saveCategories(entries: { home_id: string, name: string, parent: number | null }[]) {
   const { data, error } = await getSupabaseClient()
     .from('expense_categories')
     .insert(entries)

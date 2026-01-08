@@ -4,8 +4,12 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { Toast } from 'primeng/toast';
 import { Alert } from '@/services/alert';
+import { Auth } from '@/services/auth';
+import { Categories } from '@/services/expense/categories';
 import { ConfirmDialog } from '@/services/confirm-dialog';
 import { DarkModeSwitcher } from '@/services/dark-mode-switcher';
+import { Home } from '@/services/supabase/home';
+import { User } from '@/services/supabase/user';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +20,10 @@ import { DarkModeSwitcher } from '@/services/dark-mode-switcher';
 })
 export class App implements OnInit {
   private darkModeSwitcher = inject(DarkModeSwitcher);
+  private categories = inject(Categories);
+  private home = inject(Home);
+  private user = inject(User);
+  private isAuth$ = inject(Auth).isAuthenticated$
 
   constructor(
     alert: Alert,
@@ -38,9 +46,39 @@ export class App implements OnInit {
         confirmSrv.confirm(dialog);
       }
     });
+
+    this.isAuth$.subscribe({
+      next: isAuth => {
+        if (isAuth) {
+          this.syncHome();
+          this.syncUser();
+        } else {
+          this.home.instance.set(undefined);
+          this.user.instance.set(undefined);
+          this.categories.reset();
+        }
+      }
+    })
   }
 
   ngOnInit(): void {
     this.darkModeSwitcher.init();
+  }
+
+  private syncUser() {
+    this.user
+      .getUser()
+      .then((user) => this.user.instance.set(user))
+      .catch(() => this.user.instance.set(undefined));
+  }
+
+  private syncHome() {
+    this.home
+      .getHome()
+      .then((data) => {
+        this.home.instance.set(data);
+        console.log(data);
+      })
+      .catch(() => this.home.instance.set(undefined));
   }
 }

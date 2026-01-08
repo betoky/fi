@@ -1,6 +1,6 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
 import { Enums } from '@/database.types';
-import { Home } from '@/services/home';
+import { Home } from '@/services/supabase/home';
 
 @Pipe({
   name: 'appCurrency',

@@ -1,8 +1,8 @@
 create table "public"."users" (
     "id" uuid not null default gen_random_uuid (),
+    "name" character varying not null,
     "auth_id" uuid not null,
-    "created_at" timestamp with time zone not null default now(),
-    "name" character varying not null
+    "created_at" timestamp with time zone not null default now()
 );
 
 alter table "public"."users" enable row level security;
@@ -21,3 +21,11 @@ alter table "public"."users"
 add constraint "users_auth_id_fkey" FOREIGN KEY (auth_id) REFERENCES auth.users (id) ON DELETE CASCADE not valid;
 
 alter table "public"."users" validate constraint "users_auth_id_fkey";
+
+create policy "Users can only manage their profile." on "public"."users" as permissive for all to authenticated using (
+    (
+        auth_id = (
+            SELECT auth.uid () AS uid
+        )
+    )
+);

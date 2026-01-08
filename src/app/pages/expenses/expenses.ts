@@ -3,9 +3,9 @@ import { MenuItem } from 'primeng/api';
 import { Button } from 'primeng/button';
 import { DialogService } from 'primeng/dynamicdialog';
 import { SpeedDial } from 'primeng/speeddial';
-import { ExpenseForm } from '@/components/expense/expense-form/expense-form';
-import { ExpenseList } from '@/components/expense/expense-list/expense-list';
-import { AutocompleteItems } from '@/services/expense/autocomplete-items';
+import { ExpenseForm } from '@/components/expense/form/expense-form';
+import { ExpenseList } from '@/components/expense/list/expense-list';
+import { Items } from '@/services/expense/items';
 
 @Component({
   selector: 'app-expenses',
@@ -16,7 +16,7 @@ import { AutocompleteItems } from '@/services/expense/autocomplete-items';
 })
 export class Expenses implements OnDestroy {
   public dialog = inject(DialogService);
-  public autoCompleteExpItems = inject(AutocompleteItems);
+  public items = inject(Items);
 
   protected panelOpened = signal(false);
   protected asideOpened = signal(false);
@@ -32,7 +32,7 @@ export class Expenses implements OnDestroy {
   ];
 
   ngOnDestroy(): void {
-    this.autoCompleteExpItems.reset();
+    this.items.reset();
   }
 
   protected openExpenseForm() {

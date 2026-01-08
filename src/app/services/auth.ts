@@ -1,11 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { isAuthApiError, VerifyOtpParams } from '@supabase/supabase-js';
-import { BehaviorSubject, filter } from 'rxjs';
-import { AutocompleteCategories } from '@/services/expense/autocomplete-categories';
-import { Home } from '@/services/home';
+import { BehaviorSubject, distinctUntilChanged, filter } from 'rxjs';
 import { Supabase } from '@/services/supabase';
-import { User } from '@/services/user';
 
 @Injectable({
   providedIn: 'root',
@@ -13,27 +10,18 @@ import { User } from '@/services/user';
 export class Auth {
   private supabase = inject(Supabase).getInstance();
   private router = inject(Router);
-  private autoComleteCategories = inject(AutocompleteCategories);
-  private home = inject(Home);
-  private user = inject(User);
 
   private authenticated = new BehaviorSubject<boolean | undefined>(undefined);
 
-  isAuthenticated$ = this.authenticated.asObservable().pipe(filter((auth) => auth !== undefined));
+  isAuthenticated$ = this.authenticated.asObservable().pipe(
+    distinctUntilChanged(),
+    filter((auth) => auth !== undefined)
+  );
 
   constructor() {
     this.supabase.auth.onAuthStateChange((_, session) => {
       console.log(_, session);
-      const isAuthenticated = session ? true : false;
-      this.authenticated.next(isAuthenticated);
-      if (isAuthenticated) {
-        this.syncHome();
-        this.syncUser();
-      } else {
-        this.home.instance.set(undefined);
-        this.user.instance.set(undefined);
-        this.autoComleteCategories.reset();
-      }
+      this.authenticated.next(session ? true : false);
     });
   }
 
@@ -81,17 +69,5 @@ export class Auth {
   async logout() {
     const { error } = await this.supabase.auth.signOut();
     if (error) throw error;
-  }
-
-  private syncUser() {
-    this.user.getUser()
-      .then(user => this.user.instance.set(user))
-      .catch(() => this.user.instance.set(undefined));
-  }
-
-  private syncHome() {
-    this.home.getHome()
-      .then(data => this.home.instance.set(data))
-      .catch(() => this.home.instance.set(undefined));
   }
 }

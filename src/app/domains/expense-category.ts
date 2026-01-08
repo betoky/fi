@@ -11,6 +11,6 @@ export const isParent = (
 ): category is CategoryParentType => 'children' in category;
 
 export type MappedCategories = {
-  categories: Map<string, CategoryParentType>;
-  subCategories: Map<string, CategoryType[]>;
+  categories: Map<number, CategoryParentType>;
+  subCategories: Map<number, CategoryType[]>;
 };

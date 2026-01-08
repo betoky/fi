@@ -1,0 +1,23 @@
+<div class="space-y-2">
+  @let items = listing.expenses();
+  @if (items) {
+    @for(item of items; track item.id) {
+      <expense-card class="block" [expense]="item" />
+    } @empty {
+      <div class="card py-6!">
+        <p class="font-medium text-center">Aucune dépense enregistrée.</p>
+      </div>
+    }
+    @if (listing.hasNext()) {
+      <div #is_trigger class='my-5 pb-5 w-full min-h-1 text-center pointer-events-none'>
+        @if (isLoading()) {
+          <i class="pi pi-spinner-dotted animate-spin" style="font-size: 1.5rem"></i>
+        }
+      </div>
+    }
+  } @else {
+    @for (item of skeletons; track $index) {
+      <expense-skeleton-card class="block" />
+    }
+  }
+</div>

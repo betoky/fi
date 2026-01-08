@@ -1,30 +1,15 @@
 import { Tables } from '@/database.types';
+import { ExpenseDetail } from '@/domains/expense-detail';
 import { ExpenseItemType } from '@/domains/expense-item';
-import { DatabaseProperties } from '@/domains/utils';
 
 export type ExpenseType = Tables<'expenses'>;
 
 export type ExpenseArticleType = ExpenseType & { article: ExpenseItemType };
 
-export type CreateExpenseType = Omit<ExpenseType, DatabaseProperties>;
-
-export type UpdateExpenseType = Omit<
-  ExpenseType,
-  DatabaseProperties | 'home_id' | 'date' | 'article_id' | 'category_id'
+export type UpdateExpenseType = Partial<
+  Pick<ExpenseType, 'name' | 'description' | 'amount' | 'count'>
 >;
 
-export const isExpense = (object: unknown): object is ExpenseArticleType =>
-  object !== null &&
-  typeof object === 'object' &&
-  'id' in object &&
-  typeof object['id'] === 'string' &&
-  'date' in object &&
-  typeof object['date'] === 'string' &&
-  'article_id' in object &&
-  typeof object['article_id'] === 'string' &&
-  'amount' in object &&
-  typeof object['amount'] === 'number' &&
-  'quantity' in object &&
-  typeof object['quantity'] === 'number' &&
-  'article' in object &&
-  typeof object['article'] === 'object';
+export type EditableExpense = Pick<ExpenseType, 'name' | 'description' | 'amount' | 'count'> & {
+  items: ExpenseDetail[];
+};

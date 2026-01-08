@@ -1,10 +1,20 @@
-export type ExpenseFormType = {
+import { PriceInfo } from "@/domains/expense-detail";
+
+type ExpenseFormBase = {
   date: Date;
-  description: string | null;
-  name: string | null;
+  name?: string;
+  description?: string;
+}
+
+export type ExpenseFormType = ExpenseFormBase & {
   items: {
-    item?: { id: string, category_id: string, name: string } | null;
-    amount?: number | null;
-    quantity?: number | null;
+    item: { id: number, category_id: number, name: string };
+    amount: number;
+    quantity: number;
   }[];
 };
+
+export type ExpenseFormData  = Omit<ExpenseFormBase, 'name'> & {
+  name: string;
+  items: (PriceInfo & { article_id: number })[]
+}

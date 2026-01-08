@@ -4,16 +4,16 @@ import { getCategoriesFor } from './seed-exp-categories';
 import { Cat, getCategories } from '../utils/expenses';
 import { sequenceBlock } from '../utils/array';
 
-function getIncludedKeys<T extends { id: string; name: string }>(
+function getIncludedKeys<T extends { id: number; name: string }>(
   categories: T[],
   allCategories: Map<string, Cat>
 ) {
   const catMap = categories.reduce((map, { id, name }) => {
     map.set(name, id);
     return map;
-  }, new Map<string, string>());
+  }, new Map<string, number>());
 
-  const includeKeys = new Map<string, string>();
+  const includeKeys = new Map<string, number>();
   const catNames = Array.from(catMap.keys());
   allCategories.forEach((category, key) => {
     if (catNames.includes(category.name)) {
@@ -27,7 +27,7 @@ function getIncludedKeys<T extends { id: string; name: string }>(
 type ExpItem = {
   name: string;
   unit: string | null;
-  category_id: string;
+  category_id: number;
   home_id: string;
 };
 

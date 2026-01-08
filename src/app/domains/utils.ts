@@ -1,1 +1,0 @@
-export type DatabaseProperties = 'id' | 'created_at';

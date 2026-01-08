@@ -1,7 +1,7 @@
 import { getSupabaseClient } from './supabase';
 import { Tables } from '../../database.types';
 
-export async function saveHomes(homes: Tables<'homes'>[]) {
+export async function saveHomes(homes: Omit<Tables<'homes'>, 'created_at' | 'id'>[]) {
   const { data, error } = await getSupabaseClient().from('homes').insert(homes).select('*');
 
   if (error) {

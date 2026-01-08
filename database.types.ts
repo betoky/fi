@@ -38,23 +38,23 @@ export type Database = {
         Row: {
           created_at: string
           home_id: string
-          id: string
+          id: number
           name: string
-          parent: string | null
+          parent: number | null
         }
         Insert: {
           created_at?: string
           home_id: string
-          id?: string
+          id?: number
           name: string
-          parent?: string | null
+          parent?: number | null
         }
         Update: {
           created_at?: string
           home_id?: string
-          id?: string
+          id?: number
           name?: string
-          parent?: string | null
+          parent?: number | null
         }
         Relationships: [
           {
@@ -73,132 +73,48 @@ export type Database = {
           },
         ]
       }
-      expense_grouped: {
+      expense_details: {
         Row: {
           amount: number
-          article_id: string
-          created_at: string
-          group_id: string
+          article_id: number
+          expense_id: number
           home_id: string
-          id: string
+          id: number
           quantity: number
         }
         Insert: {
           amount: number
-          article_id: string
-          created_at?: string
-          group_id: string
+          article_id: number
+          expense_id: number
           home_id: string
-          id?: string
+          id?: number
           quantity?: number
         }
         Update: {
           amount?: number
-          article_id?: string
-          created_at?: string
-          group_id?: string
+          article_id?: number
+          expense_id?: number
           home_id?: string
-          id?: string
+          id?: number
           quantity?: number
         }
         Relationships: [
           {
-            foreignKeyName: "expense_grouped_article_id_fkey"
+            foreignKeyName: "expense_details_article_id_fkey"
             columns: ["article_id"]
             isOneToOne: false
             referencedRelation: "expense_items"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "expense_grouped_group_id_fkey"
-            columns: ["group_id"]
+            foreignKeyName: "expense_details_expense_id_fkey"
+            columns: ["expense_id"]
             isOneToOne: false
-            referencedRelation: "expense_groups"
+            referencedRelation: "expenses"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "expense_grouped_home_id_fkey"
-            columns: ["home_id"]
-            isOneToOne: false
-            referencedRelation: "homes"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      expense_groups: {
-        Row: {
-          count: number
-          created_at: string
-          date: string
-          description: string | null
-          home_id: string
-          id: string
-          name: string
-          total: number
-        }
-        Insert: {
-          count?: number
-          created_at?: string
-          date: string
-          description?: string | null
-          home_id: string
-          id?: string
-          name: string
-          total: number
-        }
-        Update: {
-          count?: number
-          created_at?: string
-          date?: string
-          description?: string | null
-          home_id?: string
-          id?: string
-          name?: string
-          total?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "expense_groups_home_id_fkey"
-            columns: ["home_id"]
-            isOneToOne: false
-            referencedRelation: "homes"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      expense_groups_categories: {
-        Row: {
-          category_id: string
-          group_id: string
-          home_id: string
-        }
-        Insert: {
-          category_id: string
-          group_id: string
-          home_id: string
-        }
-        Update: {
-          category_id?: string
-          group_id?: string
-          home_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "expense_groups_categories_category_id_fkey"
-            columns: ["category_id"]
-            isOneToOne: false
-            referencedRelation: "expense_categories"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "expense_groups_categories_group_id_fkey"
-            columns: ["group_id"]
-            isOneToOne: false
-            referencedRelation: "expense_groups"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "expense_groups_categories_home_id_fkey"
+            foreignKeyName: "expense_details_home_id_fkey"
             columns: ["home_id"]
             isOneToOne: false
             referencedRelation: "homes"
@@ -208,26 +124,26 @@ export type Database = {
       }
       expense_items: {
         Row: {
-          category_id: string
+          category_id: number
           created_at: string
           home_id: string
-          id: string
+          id: number
           name: string
           unit: string | null
         }
         Insert: {
-          category_id: string
+          category_id: number
           created_at?: string
-          home_id?: string
-          id?: string
+          home_id: string
+          id?: number
           name: string
           unit?: string | null
         }
         Update: {
-          category_id?: string
+          category_id?: number
           created_at?: string
           home_id?: string
-          id?: string
+          id?: number
           name?: string
           unit?: string | null
         }
@@ -251,54 +167,83 @@ export type Database = {
       expenses: {
         Row: {
           amount: number
-          article_id: string
-          category_id: string | null
+          as_group: boolean
+          count: number
           created_at: string
           date: string
           description: string | null
           home_id: string
-          id: string
-          quantity: number
+          id: number
+          name: string
         }
         Insert: {
           amount: number
-          article_id: string
-          category_id?: string | null
+          as_group?: boolean
+          count?: number
           created_at?: string
           date: string
           description?: string | null
           home_id: string
-          id?: string
-          quantity: number
+          id?: number
+          name: string
         }
         Update: {
           amount?: number
-          article_id?: string
-          category_id?: string | null
+          as_group?: boolean
+          count?: number
           created_at?: string
           date?: string
           description?: string | null
           home_id?: string
-          id?: string
-          quantity?: number
+          id?: number
+          name?: string
         }
         Relationships: [
           {
-            foreignKeyName: "expenses_article_id_fkey"
-            columns: ["article_id"]
+            foreignKeyName: "expenses_home_id_fkey"
+            columns: ["home_id"]
             isOneToOne: false
-            referencedRelation: "expense_items"
+            referencedRelation: "homes"
             referencedColumns: ["id"]
           },
+        ]
+      }
+      expenses_categories: {
+        Row: {
+          category_id: number
+          expense_id: number
+          home_id: string
+          id: number
+        }
+        Insert: {
+          category_id: number
+          expense_id: number
+          home_id: string
+          id?: number
+        }
+        Update: {
+          category_id?: number
+          expense_id?: number
+          home_id?: string
+          id?: number
+        }
+        Relationships: [
           {
-            foreignKeyName: "expenses_category_id_fkey"
+            foreignKeyName: "expenses_categories_category_id_fkey"
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "expense_categories"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "expenses_home_id_fkey"
+            foreignKeyName: "expenses_categories_expense_id_fkey"
+            columns: ["expense_id"]
+            isOneToOne: false
+            referencedRelation: "expenses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expenses_categories_home_id_fkey"
             columns: ["home_id"]
             isOneToOne: false
             referencedRelation: "homes"
@@ -319,7 +264,7 @@ export type Database = {
           currency: Database["public"]["Enums"]["Currency"]
           id?: string
           name: string
-          owner_id?: string
+          owner_id: string
         }
         Update: {
           created_at?: string
@@ -356,42 +301,47 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      create_expense_group_with_items: {
-        Args: {
-          p_categories: string[]
-          p_date?: string
-          p_description?: string
-          p_items?: Database["public"]["CompositeTypes"]["expense_group_item"][]
-          p_name: string
+      get_categories: {
+        Args: never
+        Returns: {
+          created_at: string
+          home_id: string
+          id: number
+          name: string
+          parent: number | null
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "expense_categories"
+          isOneToOne: false
+          isSetofReturn: true
         }
-        Returns: string
       }
       get_request_home: { Args: never; Returns: string }
-      update_expense_group_with_items: {
+      save_expenses: {
         Args: {
+          p_date?: string
           p_description?: string
-          p_id: string
-          p_name?: string
-          p_new_categories?: string[]
-          p_new_items?: Database["public"]["CompositeTypes"]["expense_group_item"][]
-          p_old_categories?: string[]
-          p_old_items?: string[]
-          p_update_items?: Database["public"]["CompositeTypes"]["update_exp_groupd_item"][]
+          p_items: Database["public"]["CompositeTypes"]["exp_input_item"][]
         }
-        Returns: string
+        Returns: undefined
+      }
+      save_expenses_as_group: {
+        Args: {
+          p_date?: string
+          p_description?: string
+          p_items: Database["public"]["CompositeTypes"]["exp_input_item"][]
+          p_name: string
+        }
+        Returns: number
       }
     }
     Enums: {
       Currency: "MGA" | "EUR" | "USD"
     }
     CompositeTypes: {
-      expense_group_item: {
-        article_id: string | null
-        amount: number | null
-        quantity: number | null
-      }
-      update_exp_groupd_item: {
-        id: string | null
+      exp_input_item: {
+        article_id: number | null
         amount: number | null
         quantity: number | null
       }

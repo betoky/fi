@@ -7,8 +7,8 @@ import { take } from 'rxjs';
 import { Constants, Enums } from '@/database.types';
 import AuthFormModule from '@/imports/auth-form';
 import { Auth } from '@/services/auth';
-import { Home as HomeService } from '@/services/home';
-import { User as UserService } from '@/services/user';
+import { Home as HomeService } from '@/services/supabase/home';
+import { User as UserService } from '@/services/supabase/user';
 import { passwordsMatching } from '@/validators/passwords-matching';
 
 @Component({

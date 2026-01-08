@@ -13,7 +13,7 @@ export default async function mockUsersData() {
   const savedHomes = await saveHomes(
     users.map(({ id, email }) => {
       const { currency, home } = dataMap.get(email!)!;
-      return { owner_id: id, name: home, currency };
+      return { owner_id: id, name: home, currency: currency as 'EUR' | 'MGA' | 'USD' };
     })
   );
   console.log('');

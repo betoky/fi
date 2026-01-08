@@ -1,0 +1,1 @@
+export const hasMoreElement = (n: number) =>  n > 1 || (n > 0 && n < 1);

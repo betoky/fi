@@ -5,69 +5,91 @@ import { getRandom, sequenceBlock, shuffle } from '../utils/array';
 import { randomExpenseType } from '../utils/expenses';
 import { randomDateSeries, randomNumber } from '../utils/random';
 import { getExpItems } from './seed-exp-items';
+import { Tables } from '../../database.types';
 
-type CreateExpense = {
-  date: string;
-  article_id: string;
-  category_id: string;
-  amount: number;
-  home_id: string;
-  quantity: number;
+type ExpenseType = Tables<'expenses'>;
+
+type CreateExpense = Omit<ExpenseType, 'id' | 'created_at' | 'description'>;
+
+type CreateSimpleExp = Omit<CreateExpense, 'count'> & {
+  article_id: number;
+  category_id: number;
+  quantity: number | null;
 };
 
-type GroupItem = {
+type InputItem = {
   amount: number;
-  article_id: string;
+  article_id: number;
   quantity: number;
 };
 
 type ExpGroup = {
   date: Date;
   name: string;
-  items: GroupItem[];
-  categories: string[];
+  items: InputItem[];
+  categories: number[];
   home_id: string;
 };
 
-async function saveExpenses(expenses: CreateExpense[]) {
-  const { error } = await getSupabaseClient().from('expenses').insert(expenses);
+async function saveExpSimple(exp: CreateSimpleExp) {
+  const { category_id, quantity, article_id, ...data } = exp;
+  const supabase = getSupabaseClient();
+  const { data: expense, error } = await supabase
+    .from('expenses')
+    .insert(data)
+    .select('id')
+    .single();
+
   if (error) throw error;
+
+  const expense_id = expense.id;
+  const { as_group, ...details } = data;
+
+  await Promise.all([
+    supabase
+      .from('expense_details')
+      .insert({ expense_id, quantity: quantity ?? undefined, article_id, ...details }),
+    supabase
+      .from('expenses_categories')
+      .insert({ category_id, expense_id, home_id: details.home_id })
+  ])
 }
 
 async function saveExpGroup({ categories, date, home_id, items, name }: ExpGroup) {
   const supabase = getSupabaseClient();
-  const { data: group, error } = await supabase
-    .from('expense_groups')
+  const { data: expense, error } = await supabase
+    .from('expenses')
     .insert({
       date: date.toISOString(),
       home_id,
       name,
-      total: items.reduce((sum, { amount }) => sum + amount, 0),
+      amount: items.reduce((sum, { amount }) => sum + amount, 0),
       count: items.length,
+      as_group: true,
     })
-    .select('id');
+    .select('id')
+    .single();
 
   if (error) throw error;
 
-  const saveGroupCategories = supabase.from('expense_groups_categories').insert(
-    categories.map((category_id) => ({
-      category_id,
-      group_id: group[0].id,
-      home_id,
-    }))
-  );
-  
-  const saveitems = supabase.from('expense_grouped').insert(
-    items.map(({amount, article_id, quantity}) => ({
-      amount,
-      article_id,
-      group_id: group[0].id,
-      home_id,
-      quantity
-    }))
-  );
-
-  await Promise.all([saveGroupCategories, saveitems]);
+  await Promise.all([
+    supabase.from('expense_details').insert(
+      items.map(({ amount, article_id, quantity }) => ({
+        amount,
+        article_id,
+        expense_id: expense.id,
+        home_id,
+        quantity,
+      }))
+    ),
+    supabase.from('expenses_categories').insert(
+      categories.map((category_id) => ({
+        category_id,
+        expense_id: expense.id,
+        home_id,
+      }))
+    )
+  ]);
 }
 
 type MinMax = {
@@ -78,12 +100,12 @@ type MinMax = {
 function randomGroup(
   date: Date,
   home_id: string,
-  ownItems: { id: string; category_id: string; name: string }[],
+  ownItems: { id: number; category_id: number; name: string }[],
   rawMapById: Map<string, { prices: MinMax; quantities: MinMax; name: string; unit: string | null }>
 ): ExpGroup {
   let groupName: string | undefined = undefined;
-  let relatedItems = [] as GroupItem[];
-  const categories = [] as string[];
+  let relatedItems = [] as InputItem[];
+  const categories = [] as number[];
 
   do {
     const randIndex = Math.floor(Math.random() * expGroupRaw.length);
@@ -113,10 +135,10 @@ function randomGroup(
 function randomSimpleExp(
   date: Date,
   homeId: string,
-  ownItems: { id: string; category_id: string; name: string }[],
+  ownItems: { id: number; category_id: number; name: string }[],
   rawMapByName: Map<string, { prices: MinMax; quantities: MinMax; unit: string | null }>,
   maxItems = 8
-): CreateExpense[] {
+): CreateSimpleExp[] {
   const n = Math.floor(Math.random() * maxItems) + 1;
   const randomItems = getRandom(ownItems, 1, n);
 
@@ -128,9 +150,11 @@ function randomSimpleExp(
       article_id: id,
       category_id,
       home_id: homeId,
+      name,
       date: date.toISOString(),
       amount: randomPrice * quantity,
       quantity,
+      as_group: false,
     };
   });
 }
@@ -156,7 +180,7 @@ export default async function mockExpenses(homes: { id: string; name: string }[]
     const intervals = randomDateSeries(new Date());
 
     const groupExpenses = [] as ExpGroup[];
-    const simpleExpenses = [] as CreateExpense[][];
+    const simpleExpenses = [] as CreateSimpleExp[][];
 
     for (const date of intervals) {
       if (randomExpenseType() === 'G') {
@@ -170,13 +194,13 @@ export default async function mockExpenses(homes: { id: string; name: string }[]
       }
     }
 
-    for (const sequence of sequenceBlock(simpleExpenses)) {
-      const simpleExpRequest = sequence.map((block) => saveExpenses(block));
+    for (const sequence of sequenceBlock(simpleExpenses.flat())) {
+      const simpleExpRequest = sequence.map((block) => saveExpSimple(block));
       await Promise.all(simpleExpRequest);
     }
 
     for (const sequence of sequenceBlock(groupExpenses)) {
-      const groupExpRequest = sequence.map(group => saveExpGroup(group));
+      const groupExpRequest = sequence.map((group) => saveExpGroup(group));
       await Promise.all(groupExpRequest);
     }
 

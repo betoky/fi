@@ -1,10 +1,4 @@
-export function mapById<T>(data: (T & { id: string })[]) {
-  const mapped = new Map<string, T>();
-  data.forEach((i) => mapped.set(i.id, i));
-  return mapped;
-}
-
-export const compareArray = <T, K extends keyof T>(old: T[], current: T[], key: K) => {
+export const compareArray = <T, K extends keyof T>(current: T[], old: T[], key: K) => {
   const oldMap = new Map(old.map((item) => [item[key], item]));
   const currentMap = new Map(current.map((item) => [item[key], item]));
 

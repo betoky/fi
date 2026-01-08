@@ -15,7 +15,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { PopoverModule } from 'primeng/popover';
 import { Auth } from '@/services/auth';
 import { DarkModeSwitcher } from '@/services/dark-mode-switcher';
-import { User } from '@/services/user';
+import { User } from '@/services/supabase/user';
 
 const primeModule = [ButtonModule, PopoverModule, MenubarModule];
 

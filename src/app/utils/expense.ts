@@ -1,80 +1,95 @@
+import { EditableExpense, UpdateExpenseType } from '@/domains/expense';
+import { PriceInfo, ExpenseDetail, UpdateExpDetail } from '@/domains/expense-detail';
 import { ExpenseFormType } from '@/domains/expense-form';
-import {
-  CreateExpenseGroupType,
-  ExpGrpItemType,
-  UpdateExpenseGroupType,
-  UpdateExpenseGroupedType,
-} from '@/domains/expense-group';
+import { hasMoreElement } from '@/utils/number';
 import { compareArray } from '@/utils/object';
 
-export const buildExpenses = ({ items, date, description }: ExpenseFormType, homeId: string) => {
-  return items.map(({ amount, item, quantity }) => ({
-    amount: amount!,
-    article_id: item!.id,
-    quantity: quantity ?? 1,
-    home_id: homeId,
-    date: date.toISOString(),
-    description: description && description.length > 0 ? description : null,
-    category_id: item!.category_id,
-  }));
-};
+export function getExpenseChange(formData: ExpenseFormType, oldData: EditableExpense) {
+  const expenseChange: UpdateExpenseType = {};
+  if (oldData.name !== formData.name) {
+    expenseChange.name = formData.name;
+  }
+  if (formData.description && oldData.description !== formData.description) {
+    const lenght = formData.description.length;
+    expenseChange.description = lenght === 0 ? null : formData.description;
+  }
+  if (formData.items.length !== oldData.count) {
+    expenseChange.count = formData.items.length;
+  }
+  const total = formData.items.reduce((a, b) => a + b.amount, 0);
+  if (total !== oldData.amount) {
+    expenseChange.amount = total;
+  }
+  return expenseChange;
+}
 
-export const buildExpenseGroup = ({
-  date,
-  description,
-  name,
-  items,
-}: ExpenseFormType): CreateExpenseGroupType => {
-  const categories = new Set<string>();
-  const buildItems = items.map(({ amount, item, quantity }) => {
-    categories.add(item!.category_id);
-    return {
-      amount: amount!,
-      article_id: item!.id,
-      quantity: quantity ?? 1,
-    };
+function getDetailsFieldChange(actual: PriceInfo, old: PriceInfo) {
+  const data = {} as UpdateExpDetail;
+  if (actual.amount !== old.amount) {
+    data.amount = actual.amount;
+  }
+  if (actual.quantity !== old.quantity) {
+    data.quantity = actual.quantity;
+  }
+  return data;
+}
+
+export function getDetailsChange(
+  detailsChange: ExpenseFormType['items'],
+  oldDetails: ExpenseDetail[]
+) {
+  const idMapByItem = new Map<number, number>();
+  const detailsMapByItem = new Map<number, PriceInfo>();
+  const oldDetailsMapById = new Map<number, PriceInfo>();
+  const oldData = oldDetails.map((i) => {
+    idMapByItem.set(i.article_id, i.id);
+    oldDetailsMapById.set(i.id, { amount: i.amount, quantity: i.quantity });
+    return { articleId: i.article_id, categoryId: i.article.category_id };
   });
-  return {
-    date: date.toISOString(),
-    description: description && description.length > 0 ? description : null,
-    name: name!,
-    items: buildItems,
-    categories: Array.from(categories),
-  };
-};
-
-export const prepareExpGroupForUpdate = (
-  { name, description, items: formItems }: ExpenseFormType,
-  groupItems: ExpGrpItemType[]
-): UpdateExpenseGroupType => {
-  const expGroupedIdsMap = new Map<string, string>();
-  const newValueMap = new Map<string, { amount: number; quantity: number }>();
-
-  const currentItems = groupItems.map((i) => {
-    expGroupedIdsMap.set(i.article_id, i.id);
-    return { articleId: i.article_id, category: i.article.category_id };
-  });
-
-  const newItems = formItems.map((i) => {
-    newValueMap.set(i.item!.id, { amount: i.amount!, quantity: i.quantity! });
-    return { articleId: i.item!.id, category: i.item!.category_id };
+  const formData = detailsChange.map((i) => {
+    detailsMapByItem.set(i.item.id, { amount: i.amount, quantity: i.quantity });
+    return { articleId: i.item.id, categoryId: i.item.category_id };
   });
 
-  const [kept, missing, added] = compareArray(currentItems, newItems, 'articleId');
+  const [kept, missing, added] = compareArray(formData, oldData, 'articleId');
 
-  const updateItems: UpdateExpenseGroupedType[] = [];
+  const changedDetails = [] as (UpdateExpDetail & { id: number })[];
   for (const { articleId } of kept) {
-    const id = expGroupedIdsMap.get(articleId)!;
-    updateItems.push({ id, ...newValueMap.get(articleId)! });
+    const id = idMapByItem.get(articleId)!;
+    const formData = detailsMapByItem.get(articleId)!;
+    const oldData = oldDetailsMapById.get(id)!;
+    const changed = getDetailsFieldChange(formData, oldData);
+
+    if (Array.from(Object.keys(changed)).length > 0) {
+      changedDetails.push({ id, ...changed });
+    }
   }
 
   return {
-    name: name!,
-    description: description && description.length > 0 ? description : null,
-    updateItems,
-    newCategories: added.map((i) => i.category),
-    newItems: added.map((i) => ({ article_id: i.articleId, ...newValueMap.get(i.articleId)! })),
-    oldCategories: missing.map((i) => i.category),
-    oldItems: missing.map((i) => expGroupedIdsMap.get(i.articleId)!),
+    addedCategories: added.map((i) => i.categoryId),
+    removedCategories: missing.map((i) => i.categoryId),
+    addedDetails: added.map((i) => ({
+      article_id: i.articleId,
+      ...detailsMapByItem.get(i.articleId)!,
+    })),
+    removedDetails: missing.map((i) => idMapByItem.get(i.articleId)!),
+    changedDetails,
   };
-};
+}
+
+export function formatBadge(count: number, quantity?: number, unit?: string | null) {
+  const isToDisplay = !!quantity && hasMoreElement(quantity);
+  if (unit && isToDisplay) {
+    return quantity + ' ' + unit;
+  }
+
+  if (isToDisplay) {
+    return quantity + ' unités';
+  }
+
+  if (!quantity && hasMoreElement(count)) {
+    return count + ' unités';
+  }
+
+  return undefined;
+}
