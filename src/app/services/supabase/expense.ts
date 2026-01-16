@@ -3,11 +3,15 @@ import { UpdateExpenseType } from '@/domains/expense';
 import { Supabase } from '@/services/supabase';
 import { ExpenseFormData } from '@/domains/expense-form';
 import { PriceInfo, UpdateExpDetail } from '@/domains/expense-detail';
+import { Home } from '@/services/supabase/home';
 
 export type ExpFetchParams = {
   type: 'all' | 'group' | 'simple';
   cursor?: Date;
-  categories?: string[];
+  categories?: {
+    ids: number[];
+    cursor?: number;
+  };
   dateInterval?: {
     min: Date;
     max: Date;
@@ -25,6 +29,38 @@ export type ExpFetchParams = {
 export class Expense {
   private supabase = inject(Supabase).getInstance();
 
+  private home = inject(Home).instance;
+
+  async fetch4GivenCategories(
+    categories: {
+      ids: number[];
+      cursor?: number | null;
+    },
+    ascending: boolean,
+    limit: number
+  ): Promise<{ ids: number[]; cursor: number | null }> {
+    const query = this.supabase.from('expenses_categories').select('id, expense_id');
+
+    const { ids, cursor } = categories;
+
+    if (cursor) {
+      ascending ? query.gt('id', cursor) : query.lt('id', cursor);
+    }
+
+    const { data, error } = await query
+      .eq('home_id', this.home()!.id)
+      .in('category_id', ids)
+      .order('id', { ascending })
+      .limit(limit);
+
+    if (error) throw error;
+
+    return {
+      cursor: data.length > 0 ? data[data.length - 1].id : null,
+      ids: data.map((i) => i.expense_id),
+    };
+  }
+
   async fetch({ order, type, categories, cursor, dateInterval, limit = 10 }: ExpFetchParams) {
     const query = this.supabase.from('expenses').select();
 
@@ -41,7 +77,11 @@ export class Expense {
       query.eq('as_group', type === 'group');
     }
 
-    // TODO filter by categories
+    if (categories) {
+      const { cursor: catCursor, ids: catIds } = await this.fetch4GivenCategories(categories, false, limit);
+      query.in('categories', catIds);
+      // TODO filter by categories
+    }
 
     query.order('date', { ascending: false });
     if (order) {
@@ -88,11 +128,7 @@ export class Expense {
     if (error) throw error;
   }
 
-  async saveDetail(
-    expense_id: number,
-    data: PriceInfo & { article_id: number },
-    home_id: string
-  ) {
+  async saveDetail(expense_id: number, data: PriceInfo & { article_id: number }, home_id: string) {
     const { error } = await this.supabase
       .from('expense_details')
       .insert([{ expense_id, home_id, ...data }])
