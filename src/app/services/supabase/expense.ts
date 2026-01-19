@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { UpdateExpenseType } from '@/domains/expense';
+import { UpdateExpenseType, ExpenseType } from '@/domains/expense';
 import { Supabase } from '@/services/supabase';
 import { ExpenseFormData } from '@/domains/expense-form';
 import { PriceInfo, UpdateExpDetail } from '@/domains/expense-detail';
@@ -7,10 +7,10 @@ import { Home } from '@/services/supabase/home';
 
 export type ExpFetchParams = {
   type: 'all' | 'group' | 'simple';
-  cursor?: Date;
+  cursor?: Date | null;
   categories?: {
     ids: number[];
-    cursor?: number;
+    cursor?: number | null;
   };
   dateInterval?: {
     min: Date;
@@ -32,13 +32,10 @@ export class Expense {
   private home = inject(Home).instance;
 
   async fetch4GivenCategories(
-    categories: {
-      ids: number[];
-      cursor?: number | null;
-    },
+    categories: NonNullable<ExpFetchParams['categories']>,
     ascending: boolean,
     limit: number
-  ): Promise<{ ids: number[]; cursor: number | null }> {
+  ): Promise<{ ids: number[]; cursor: number | null; hasNext: boolean }> {
     const query = this.supabase.from('expenses_categories').select('id, expense_id');
 
     const { ids, cursor } = categories;
@@ -55,15 +52,19 @@ export class Expense {
 
     if (error) throw error;
 
+    const hasNext = data.length === limit;
+
     return {
-      cursor: data.length > 0 ? data[data.length - 1].id : null,
+      hasNext,
+      cursor: hasNext ? data[data.length - 1].id : null,
       ids: data.map((i) => i.expense_id),
     };
   }
 
-  async fetch({ order, type, categories, cursor, dateInterval, limit = 10 }: ExpFetchParams) {
+  async fetch(params: ExpFetchParams): Promise<[ExpenseType[], ExpFetchParams, boolean]> {
     const query = this.supabase.from('expenses').select();
 
+    const { order, type, categories, cursor, dateInterval, limit = 10 } = params;
     if (cursor && !dateInterval) {
       query.lt('date', cursor.toISOString());
     }
@@ -77,10 +78,16 @@ export class Expense {
       query.eq('as_group', type === 'group');
     }
 
+    let hasNext = false;
     if (categories) {
-      const { cursor: catCursor, ids: catIds } = await this.fetch4GivenCategories(categories, false, limit);
-      query.in('categories', catIds);
-      // TODO filter by categories
+      const {
+        cursor: catCursor,
+        ids,
+        hasNext: next,
+      } = await this.fetch4GivenCategories(categories, false, limit);
+      query.in('id', ids);
+      params['categories'] = { ids: categories.ids, cursor: catCursor };
+      hasNext = next;
     }
 
     query.order('date', { ascending: false });
@@ -93,7 +100,12 @@ export class Expense {
 
     if (error) throw error;
 
-    return data;
+    if (!categories) {
+      hasNext = data.length === limit;
+      params['cursor'] = hasNext ? new Date(data[data.length - 1].date) : null;
+    }
+
+    return [data, params, hasNext];
   }
 
   async fetchDetails(id: number) {

@@ -18,16 +18,11 @@ export class Expenses {
   hasNext = signal(false);
 
   async load() {
-    const data = await this.expense.fetch(this.listingState);
+    const [data, state, next] = await this.expense.fetch(this.listingState);
     const old = this.expenses();
     this.expenses.set(old ? [...old, ...data] : data);
-
-    const moreData = data.length === this.listingState.limit;
-    this.hasNext.set(moreData);
-    if (moreData) {
-      const last = data[data.length - 1];
-      this.listingState = { ...this.listingState, cursor: new Date(last.date) };
-    }
+    this.listingState = state;
+    this.hasNext.set(next);
   }
 
   async reset(andFetch = false) {

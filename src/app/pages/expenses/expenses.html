@@ -2,9 +2,28 @@
   <!-- Control panel -->
   <div
     [class.active]="panelOpened()"
-    class="card h-fit control-panel fixed xl:sticky xl:top-(--offset-top) z-20"
+    class="card h-fit control-panel fixed xl:sticky xl:top-(--offset-top) z-20 space-y-3"
   >
-    <p-button fluid severity="primary" label="Ajouter une dépense" (onClick)="openExpenseForm()" />
+    <p-button
+      class="block"
+      fluid
+      severity="primary"
+      label="Ajouter une dépense"
+      (onClick)="openExpenseForm()"
+    />
+    <p-autocomplete
+      fluid
+      multiple
+      [dropdown]="true"
+      [forceSelection]="true"
+      [group]="true"
+      optionValue="id"
+      optionLabel="name"
+      optionGroupLabel="name"
+      optionGroupChildren="children"
+      [suggestions]="categories.categories()"
+      (completeMethod)="categories.filter($event.query)"
+    />
   </div>
   <!-- Listing -->
   <div class="listing">
@@ -23,12 +42,8 @@
   </div>
 </div>
 
-<p-speeddial
-  direction="up"
-  class="xl:hidden fixed bottom-5 right-5"
-  [model]="mobileToggleMenu"
-/>
+<p-speeddial direction="up" class="xl:hidden fixed bottom-5 right-5" [model]="mobileToggleMenu" />
 
 @if (panelOpened() || asideOpened()) {
-<div (click)="panelOpened.set(false); asideOpened.set(false)" class="xl:hidden overlay"></div>
+  <div (click)="panelOpened.set(false); asideOpened.set(false)" class="xl:hidden overlay"></div>
 }
