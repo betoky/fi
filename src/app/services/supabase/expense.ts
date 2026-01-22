@@ -8,6 +8,7 @@ import { Home } from '@/services/supabase/home';
 export type ExpFetchParams = {
   type: 'all' | 'group' | 'simple';
   cursor?: Date | null;
+  keyword?: string;
   categories?: {
     ids: number[];
     cursor?: number | null;
@@ -34,7 +35,7 @@ export class Expense {
   async fetch4GivenCategories(
     categories: NonNullable<ExpFetchParams['categories']>,
     ascending: boolean,
-    limit: number
+    limit: number,
   ): Promise<{ ids: number[]; cursor: number | null; hasNext: boolean }> {
     const query = this.supabase.from('expenses_categories').select('id, expense_id');
 
@@ -64,7 +65,12 @@ export class Expense {
   async fetch(params: ExpFetchParams): Promise<[ExpenseType[], ExpFetchParams, boolean]> {
     const query = this.supabase.from('expenses').select();
 
-    const { order, type, categories, cursor, dateInterval, limit = 10 } = params;
+    const { order, type, categories, cursor, dateInterval, limit = 10, keyword } = params;
+
+    if (keyword && keyword.trim().length > 0) {
+      query.ilike('name', `%${keyword.trim()}%`);
+    }
+
     if (cursor && !dateInterval) {
       query.lt('date', cursor.toISOString());
     }

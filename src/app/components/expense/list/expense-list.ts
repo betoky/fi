@@ -1,21 +1,21 @@
-import { Component, effect, ElementRef, inject, signal, viewChild } from '@angular/core';
-import { ExpenseCardSkeleton } from '@/components/expense/card/skeleton';
+import { ExpenseActionPanel } from '@/components/expense/action-panel/expense-action-panel';
 import { ExpenseCard } from '@/components/expense/card/expense';
+import { ExpenseCardSkeleton } from '@/components/expense/card/skeleton';
 import { Expenses } from '@/services/expense/expenses';
+import { Component, inject, signal, viewChild, ElementRef, effect } from '@angular/core';
+import { DialogService } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-expense-list',
-  imports: [
-    ExpenseCardSkeleton,
-    ExpenseCard,
-  ],
+  imports: [ExpenseActionPanel, ExpenseCard, ExpenseCardSkeleton],
+  providers: [DialogService],
   templateUrl: './expense-list.html',
 })
 export class ExpenseList {
   listing = inject(Expenses);
-  protected isLoading = signal(false);
+  isLoading = signal(false);
   private observer?: IntersectionObserver;
-  
+
   // Infinite scroll trigger
   infiniteTriggerEl = viewChild<ElementRef<HTMLDivElement>>('is_trigger');
 
@@ -35,6 +35,11 @@ export class ExpenseList {
     this.listing.load();
   }
 
+  private fetchData() {
+    this.isLoading.set(true);
+    this.listing.load().finally(() => this.isLoading.set(false));
+  }
+
   private listenToInfiniteScroll() {
     effect(() => {
       const infiniteScroll = this.infiniteTriggerEl();
@@ -47,12 +52,5 @@ export class ExpenseList {
         this.observer.observe(infiniteScroll.nativeElement);
       }
     });
-  }
-
-  private fetchData() {
-    this.isLoading.set(true);
-    this.listing
-      .load()
-      .finally(() => this.isLoading.set(false));
   }
 }

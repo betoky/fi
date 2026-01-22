@@ -1,31 +1,10 @@
 <div class="layout relative pb-4">
-  <!-- Control panel -->
-  <div
-    [class.active]="panelOpened()"
-    class="card h-fit control-panel fixed xl:sticky xl:top-(--offset-top) z-20 space-y-3"
-  >
-    <p-button
-      class="block"
-      fluid
-      severity="primary"
-      label="Ajouter une dépense"
-      (onClick)="openExpenseForm()"
-    />
-    <p-button
-      fluid
-      severity="secondary"
-      label="Appliquer des filtres"
-      (onClick)="displayModalFilter()"
-    />
-  </div>
-  <!-- Listing -->
-  <div class="listing">
-    <div class="max-w-xl mx-auto">
-      <app-expense-list />
-    </div>
-  </div>
   <!-- Resume -->
-  <div class="card h-fit chart md:sticky top-(--offset-top)">Fonctionnalité bientôt disponible</div>
+  <div class="card h-fit md:sticky top-(--offset-top)">Fonctionnalité bientôt disponible</div>
+  <!-- Listing -->
+  <div class="max-w-xl w-full mx-auto">
+    <app-expense-list />
+  </div>
   <!-- Aside -->
   <div
     [class.active]="asideOpened()"
@@ -35,8 +14,7 @@
   </div>
 </div>
 
-<p-speeddial direction="up" class="xl:hidden fixed bottom-5 right-5" [model]="mobileToggleMenu" />
 
-@if (panelOpened() || asideOpened()) {
-  <div (click)="panelOpened.set(false); asideOpened.set(false)" class="xl:hidden overlay"></div>
+@if (asideOpened()) {
+  <div (click)="asideOpened.set(false)" class="xl:hidden overlay"></div>
 }

@@ -11,7 +11,7 @@ import { inject, Injectable, signal } from '@angular/core';
 export class Expenses {
   private expense = inject(Expense);
   private home = inject(Home);
-  private listingState: ExpFetchParams = { type: 'all', limit: 15 };
+  private listingState: ExpFetchParams = { type: 'all', limit: 12 };
 
   expenses = signal<ExpenseType[] | undefined>(undefined);
   hasNext = signal(false);
@@ -26,7 +26,18 @@ export class Expenses {
     this.expenses.set(old ? [...old, ...data] : data);
   }
 
+  search(keyword: string) {
+    // Only cursor state was reset
+    this.listingState = {
+      ...this.listingState,
+      cursor: null,
+      keyword: keyword.length > 0 ? keyword : undefined
+    };
+    this.load({ reset: true });
+  }
+
   filterByCategories(categories: number[]) {
+    // reset all state
     this.reset();
     this.listingState = {
       ...this.listingState,
@@ -36,7 +47,7 @@ export class Expenses {
   }
 
   reset(andFetch = false) {
-    this.listingState = { type: 'all', limit: 15 };
+    this.listingState = { type: 'all', limit: 12 };
     andFetch && this.load();
   }
 

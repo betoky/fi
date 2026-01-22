@@ -1,0 +1,24 @@
+<div class="sticky top-(--offset-top) w-full z-50">
+  <div class="card shadow mb-3 flex items-center space-x-2">
+    <p-inputgroup>
+      <p-inputgroup-addon>
+        <i class="pi pi-search"></i>
+      </p-inputgroup-addon>
+      <input
+        pInputText
+        type="search"
+        size="small"
+        placeholder="Recherche..."
+        (change)="expService.search($event.target.value)"
+      />
+    </p-inputgroup>
+    <p-button
+      icon="pi pi-filter"
+      severity="secondary"
+      [rounded]="true"
+      (onClick)="openModalFilter()"
+    />
+    <p-button icon="pi pi-plus" [rounded]="true" (onClick)="openModalForm()" />
+  </div>
+</div>
+
