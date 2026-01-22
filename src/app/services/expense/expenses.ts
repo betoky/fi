@@ -1,5 +1,4 @@
 import { EditableExpense, ExpenseType, UpdateExpenseType } from '@/domains/expense';
-import { UpdateExpDetail } from '@/domains/expense-detail';
 import { ExpenseFormType } from '@/domains/expense-form';
 import { Expense, ExpFetchParams } from '@/services/supabase/expense';
 import { Home } from '@/services/supabase/home';
@@ -17,15 +16,26 @@ export class Expenses {
   expenses = signal<ExpenseType[] | undefined>(undefined);
   hasNext = signal(false);
 
-  async load() {
+  async load(options?: { reset?: boolean }) {
     const [data, state, next] = await this.expense.fetch(this.listingState);
-    const old = this.expenses();
-    this.expenses.set(old ? [...old, ...data] : data);
+
     this.listingState = state;
     this.hasNext.set(next);
+    const old = options?.reset ? [] : this.expenses();
+
+    this.expenses.set(old ? [...old, ...data] : data);
   }
 
-  async reset(andFetch = false) {
+  filterByCategories(categories: number[]) {
+    this.reset();
+    this.listingState = {
+      ...this.listingState,
+      categories: { ids: categories }
+    };
+    this.load({ reset: true });
+  }
+
+  reset(andFetch = false) {
     this.listingState = { type: 'all', limit: 15 };
     andFetch && this.load();
   }

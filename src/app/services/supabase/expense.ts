@@ -79,7 +79,7 @@ export class Expense {
     }
 
     let hasNext = false;
-    if (categories) {
+    if (categories && categories.ids.length > 0) {
       const {
         cursor: catCursor,
         ids,

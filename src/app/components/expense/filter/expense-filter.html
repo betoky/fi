@@ -1,0 +1,21 @@
+<div class="min-w-sm max-w-4xl">
+  <p-autocomplete
+    fluid
+    multiple
+    appendTo="body"
+    [dropdown]="true"
+    [forceSelection]="true"
+    [group]="true"
+    dataKey="id"
+    optionLabel="name"
+    optionGroupLabel="name"
+    optionGroupChildren="children"
+    [suggestions]="suggestions()"
+    (completeMethod)="catService.filter($event.query)"
+    [(ngModel)]="selectedItems"
+  />
+  <div class="mt-3 space-x-2.5 text-end">
+    <p-button label="Réinitialiser" severity="secondary" (onClick)="onReset()" />
+    <p-button label="Appliquer" (onClick)="onApply()" />
+  </div>
+</div>

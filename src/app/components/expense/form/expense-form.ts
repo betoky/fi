@@ -81,6 +81,7 @@ export class ExpenseForm implements OnInit {
   }
 
   ngOnInit(): void {
+    this.categories.init();
     if (this.expense) {
       this.fillFormFromData();
     }

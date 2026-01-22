@@ -11,18 +11,11 @@
       label="Ajouter une dépense"
       (onClick)="openExpenseForm()"
     />
-    <p-autocomplete
+    <p-button
       fluid
-      multiple
-      [dropdown]="true"
-      [forceSelection]="true"
-      [group]="true"
-      optionValue="id"
-      optionLabel="name"
-      optionGroupLabel="name"
-      optionGroupChildren="children"
-      [suggestions]="categories.categories()"
-      (completeMethod)="categories.filter($event.query)"
+      severity="secondary"
+      label="Appliquer des filtres"
+      (onClick)="displayModalFilter()"
     />
   </div>
   <!-- Listing -->
