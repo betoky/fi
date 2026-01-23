@@ -1,9 +1,12 @@
-import { EditableExpense, ExpenseType, UpdateExpenseType } from '@/domains/expense';
+import { EditableExpense, ExpenseFilter, ExpenseType, ExpFetchParams, UpdateExpenseType } from '@/domains/expense';
 import { ExpenseFormType } from '@/domains/expense-form';
-import { Expense, ExpFetchParams } from '@/services/supabase/expense';
+import { Expense } from '@/services/supabase/expense';
 import { Home } from '@/services/supabase/home';
+import { dailyRange } from '@/utils/date';
 import { getDetailsChange, getExpenseChange } from '@/utils/expense';
 import { inject, Injectable, signal } from '@angular/core';
+
+
 
 @Injectable({
   providedIn: 'root',
@@ -31,18 +34,40 @@ export class Expenses {
     this.listingState = {
       ...this.listingState,
       cursor: null,
-      keyword: keyword.length > 0 ? keyword : undefined
+      keyword: keyword.length > 0 ? keyword : undefined,
     };
     this.load({ reset: true });
   }
 
-  filterByCategories(categories: number[]) {
-    // reset all state
+  applyFilter({
+    type,
+    amount,
+    date,
+    order,
+    categorieIds,
+  }: ExpenseFilter) {
     this.reset();
-    this.listingState = {
-      ...this.listingState,
-      categories: { ids: categories }
-    };
+    if (type) {
+      this.listingState.type = type;
+    }
+    if (categorieIds && categorieIds.length > 0) {
+      this.listingState.categories = {
+        ids: categorieIds,
+      };
+    }
+    if (order) {
+      this.listingState.order = order;
+    }
+    if (date) {
+      const asTuple = Array.isArray(date);
+      this.listingState.date = {
+        min: asTuple ? dailyRange(date[0])[0] : dailyRange(date)[0],
+        max: asTuple ? dailyRange(date[1])[1] : dailyRange(date)[1],
+      };
+    }
+    if (amount) {
+      this.listingState.amount = amount;
+    }
     this.load({ reset: true });
   }
 
@@ -81,10 +106,10 @@ export class Expenses {
     const res = await Promise.all([
       this.expense.updateExpense(id, expenseChange),
       ...addedCategories.map((categoryId) =>
-        this.expense.addExpCategoryRelation(id, categoryId, homeId)
+        this.expense.addExpCategoryRelation(id, categoryId, homeId),
       ),
       ...removedCategories.map((categoryId) =>
-        this.expense.deleteExpCategoryRelation(id, categoryId)
+        this.expense.deleteExpCategoryRelation(id, categoryId),
       ),
       ...addedDetails.map((data) => this.expense.saveDetail(id, data, homeId)),
       ...changedDetails.map(({ id, ...data }) => this.expense.updateDetail(id, data)),
@@ -105,7 +130,7 @@ export class Expenses {
 
   private syncExpenses(update: ExpenseType) {
     const list = this.expenses()!;
-    const index = list.findIndex(i => i.id === update.id);
+    const index = list.findIndex((i) => i.id === update.id);
     list[index] = update;
 
     this.expenses.set(list);

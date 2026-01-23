@@ -1,28 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { UpdateExpenseType, ExpenseType } from '@/domains/expense';
+import { UpdateExpenseType, ExpenseType, ExpFetchParams } from '@/domains/expense';
 import { Supabase } from '@/services/supabase';
 import { ExpenseFormData } from '@/domains/expense-form';
 import { PriceInfo, UpdateExpDetail } from '@/domains/expense-detail';
 import { Home } from '@/services/supabase/home';
-
-export type ExpFetchParams = {
-  type: 'all' | 'group' | 'simple';
-  cursor?: Date | null;
-  keyword?: string;
-  categories?: {
-    ids: number[];
-    cursor?: number | null;
-  };
-  dateInterval?: {
-    min: Date;
-    max: Date;
-  };
-  order?: {
-    field: 'categories' | 'amount';
-    ascending: boolean;
-  };
-  limit?: number;
-};
 
 @Injectable({
   providedIn: 'root',
@@ -65,19 +46,21 @@ export class Expense {
   async fetch(params: ExpFetchParams): Promise<[ExpenseType[], ExpFetchParams, boolean]> {
     const query = this.supabase.from('expenses').select();
 
-    const { order, type, categories, cursor, dateInterval, limit = 10, keyword } = params;
+    const { order, type, categories, cursor, date, limit = 10, keyword } = params;
 
     if (keyword && keyword.trim().length > 0) {
       query.ilike('name', `%${keyword.trim()}%`);
     }
 
-    if (cursor && !dateInterval) {
+    if (cursor && !date) {
       query.lt('date', cursor.toISOString());
     }
 
-    if (dateInterval) {
-      query.gt('date', dateInterval.min.toISOString());
-      query.lt('date', cursor?.toISOString() ?? dateInterval.max.toISOString());
+    if (date) {
+      query.gt('date', date.min.toISOString());
+      if (date.min) {
+      }
+      query.lt('date', cursor?.toISOString() ?? date.max.toISOString());
     }
 
     if (type !== 'all') {

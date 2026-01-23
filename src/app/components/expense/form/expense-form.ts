@@ -26,12 +26,13 @@ import { ExpenseType } from '@/domains/expense';
 import { ExpenseDetail } from '@/domains/expense-detail';
 import { Expense } from '@/services/supabase/expense';
 import { ExpenseFormType } from '@/domains/expense-form';
+import { DatepickerFocusFix } from '@/directives/datepicker-focus-fix';
 
 const prime = [AutoComplete, Button, DatePicker, InputNumber, InputText, Textarea, ToggleSwitch];
 
 @Component({
   selector: 'app-expense-form',
-  imports: [FormsModule, ReactiveFormsModule, ...prime, CurrencyPipe],
+  imports: [FormsModule, ReactiveFormsModule, ...prime, CurrencyPipe, DatepickerFocusFix],
   templateUrl: './expense-form.html',
 })
 export class ExpenseForm implements OnInit {
@@ -103,7 +104,7 @@ export class ExpenseForm implements OnInit {
     }
     this.itemsControls.clear();
     this.details.forEach((i) =>
-      this.itemsControls.push(this.createItem(i.article, i.amount, i.quantity))
+      this.itemsControls.push(this.createItem(i.article, i.amount, i.quantity)),
     );
   }
 
@@ -170,12 +171,12 @@ export class ExpenseForm implements OnInit {
   private createItem(
     item?: { id: number; category_id: number; name: string },
     amount?: number,
-    quantity = 1
+    quantity = 1,
   ) {
     return this.fb.group({
       item: this.fb.control(
         { value: item, disabled: item !== undefined },
-        { validators: Validators.required }
+        { validators: Validators.required },
       ),
       amount: this.fb.control(amount, { validators: [Validators.required, Validators.min(0)] }),
       quantity,

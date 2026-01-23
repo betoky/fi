@@ -18,8 +18,8 @@ export class ExpenseActionPanel {
   public dialog = inject(DialogService);
   private firstOpenFilterModal = true;
   private modalOption = {
-    modal: true,
     draggable: false,
+    modal: true,
     styleClass: 'mx-4',
   };
 
