@@ -4,6 +4,7 @@ import { Supabase } from '@/services/supabase';
 import { ExpenseFormData } from '@/domains/expense-form';
 import { PriceInfo, UpdateExpDetail } from '@/domains/expense-detail';
 import { Home } from '@/services/supabase/home';
+import { getMaxDate, getMinDate, isDate, isTheSameWithoutTime } from '@/utils/date';
 
 @Injectable({
   providedIn: 'root',
@@ -46,21 +47,39 @@ export class Expense {
   async fetch(params: ExpFetchParams): Promise<[ExpenseType[], ExpFetchParams, boolean]> {
     const query = this.supabase.from('expenses').select();
 
-    const { order, type, categories, cursor, date, limit = 10, keyword } = params;
+    const { amount, categories, cursor, date, exclude, order, type, limit = 10, keyword } = params;
 
-    if (keyword && keyword.trim().length > 0) {
-      query.ilike('name', `%${keyword.trim()}%`);
-    }
-
-    if (cursor && !date) {
-      query.lt('date', cursor.toISOString());
+    const ascending = Boolean(order?.ascending);
+    if (cursor) {
+      if (isDate(cursor)) {
+        ascending
+          ? query.gte('date', (date ? getMaxDate(cursor, date.min) : cursor).toISOString())
+          : query.lte('date', (date ? getMinDate(cursor, date.max) : cursor).toISOString());
+      } else {
+        ascending
+          ? query.gte('amount', Math.max(cursor, amount?.min ?? 0))
+          : query.lte('amount', Math.min(cursor, amount?.max ?? Number.POSITIVE_INFINITY));
+      }
     }
 
     if (date) {
-      query.gt('date', date.min.toISOString());
-      if (date.min) {
+      const cursorNotDate = !isDate(cursor);
+      if (!ascending || cursorNotDate) {
+        query.gte('date', date.min.toISOString());
       }
-      query.lt('date', cursor?.toISOString() ?? date.max.toISOString());
+      if (ascending || cursorNotDate) {
+        query.lte('date', date.max.toISOString());
+      }
+    }
+
+    if (amount) {
+      const cursorNotAmount = isDate(cursor) || typeof cursor !== 'number';
+      if (amount.min && (!ascending || cursorNotAmount)) {
+        query.gte('amount', amount.min);
+      }
+      if (amount.max && (ascending || cursorNotAmount)) {
+        query.lte('amount', amount.max);
+      }
     }
 
     if (type !== 'all') {
@@ -79,10 +98,20 @@ export class Expense {
       hasNext = next;
     }
 
-    query.order('date', { ascending: false });
+    if (keyword && keyword.trim().length > 0) {
+      query.ilike('name', `%${keyword.trim()}%`);
+    }
+
+    if (exclude) {
+      query.not('id', 'in', `(${exclude.join(',')})`);
+    }
+
     if (order) {
       const { field, ascending } = order;
       query.order(field, { ascending });
+    }
+    if (!order) {
+      query.order('date', { ascending: false });
     }
 
     const { data, error } = await query.limit(limit);
@@ -91,7 +120,19 @@ export class Expense {
 
     if (!categories) {
       hasNext = data.length === limit;
-      params['cursor'] = hasNext ? new Date(data[data.length - 1].date) : null;
+      const lastItem = data[data.length - 1];
+      if (hasNext) {
+        params['cursor'] = order?.field === 'amount' ? lastItem.amount : new Date(lastItem.date);
+        params['exclude'] =
+          order?.field === 'amount'
+            ? data.filter((i) => i.amount === lastItem.amount).map(({ id }) => id)
+            : data
+                .filter((i) => isTheSameWithoutTime(new Date(i.date), new Date(lastItem.date)))
+                .map(({ id }) => id);
+      } else {
+        params['cursor'] = null;
+        params['exclude'] = null;
+      }
     }
 
     return [data, params, hasNext];

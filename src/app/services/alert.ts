@@ -9,11 +9,15 @@ export class Alert {
 
   object = this._message.asReadonly();
 
-  success({ summary, detail }: { summary?: string; detail: string }) {
-    this._message.set({ summary: summary ?? 'Succès', detail, severity: 'success' });
+  success({ detail, life, summary }: ToastMessageOptions) {
+    this._message.set({ summary: summary ?? 'Succès', detail, severity: 'success', life: life ?? 3000 });
   }
 
-  error({ summary, detail }: { summary?: string; detail: string }) {
-    this._message.set({ summary: summary ?? 'Erreur', detail, severity: 'error' });
+  error({ detail, life, summary }: ToastMessageOptions) {
+    this._message.set({ summary: summary ?? 'Erreur', detail, severity: 'error', life: life ?? 3000 });
+  }
+
+  warn({ detail, life, summary }: ToastMessageOptions) {
+    this._message.set({ summary: summary ?? 'Warning', detail, severity: 'warn', life: life ?? 3000 });
   }
 }

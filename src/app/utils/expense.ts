@@ -20,7 +20,7 @@ export function getExpenseChange(formData: ExpenseFormType, oldData: EditableExp
   if (total !== oldData.amount) {
     expenseChange.amount = total;
   }
-  return expenseChange;
+  return Object.keys(expenseChange).length > 0 ? expenseChange : null;
 }
 
 function getDetailsFieldChange(actual: PriceInfo, old: PriceInfo) {

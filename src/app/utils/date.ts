@@ -9,16 +9,16 @@ export function formatDate(
     throw new Error('Invalid date');
   }
 
-  options = {
-    weekday: 'long',
+  const defaultOptions: Intl.DateTimeFormatOptions = {
+    weekday: 'short',
     day: '2-digit',
+    month: 'short',
+    year: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
   };
 
-  return new Intl.DateTimeFormat(locale, options || { hourCycle: 'h23', timeStyle: 'long' }).format(
-    value,
-  );
+  return new Intl.DateTimeFormat(locale, options || defaultOptions).format(value);
 }
 
 export const dailyRange = (date: Date): [Date, Date] => {
@@ -29,3 +29,17 @@ export const dailyRange = (date: Date): [Date, Date] => {
 
   return [start, end];
 };
+
+export const isDate = (entry: unknown): entry is Date =>
+  entry instanceof Date && !Number.isNaN(entry.getTime());
+
+export const isTheSameWithoutTime = (a: Date, b: Date) => {
+  a.setHours(0, 0, 0, 0);
+  b.setHours(0, 0, 0, 0);
+
+  return a.getTime() === b.getTime();
+};
+
+export const getMinDate = (a: Date, b: Date) => (a.getTime() <= b.getTime() ? a : b);
+
+export const getMaxDate = (a: Date, b: Date) => (a.getTime() >= b.getTime() ? a : b);

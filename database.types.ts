@@ -301,22 +301,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      get_categories: {
-        Args: never
-        Returns: {
-          created_at: string
-          home_id: string
-          id: number
-          name: string
-          parent: number | null
-        }[]
-        SetofOptions: {
-          from: "*"
-          to: "expense_categories"
-          isOneToOne: false
-          isSetofReturn: true
-        }
-      }
       get_request_home: { Args: never; Returns: string }
       save_expenses: {
         Args: {

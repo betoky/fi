@@ -20,8 +20,8 @@ import { InputGroup } from 'primeng/inputgroup';
 import { InputGroupAddon } from 'primeng/inputgroupaddon';
 import { InputNumber } from 'primeng/inputnumber';
 import { Select } from 'primeng/select';
+import { SelectButton } from 'primeng/selectbutton';
 import { ToggleButton } from 'primeng/togglebutton';
-import { distinctUntilChanged } from 'rxjs/operators';
 
 const FILTER_KEY = 'exp-c-f';
 
@@ -38,6 +38,7 @@ const FILTER_KEY = 'exp-c-f';
     InputNumber,
     ReactiveFormsModule,
     Select,
+    SelectButton,
     ToggleButton,
   ],
   templateUrl: './expense-filter.html',
@@ -49,6 +50,8 @@ export class ExpenseFilter implements OnInit {
   currentHome = inject(Home).instance;
   private expService = inject(Expenses);
   private dialogRef = inject(DynamicDialogRef);
+  private hasValue = false;
+  private wasReset = false;
 
   private fb = inject(NonNullableFormBuilder);
   form = this.fb.group({
@@ -63,7 +66,7 @@ export class ExpenseFilter implements OnInit {
     }),
     categories: this.fb.control<CategoryParentType[]>([]),
     order: this.fb.group({
-      field: this.fb.control<'category' | 'amount' | 'date'>('date'),
+      field: this.fb.control<'amount' | 'date'>('date'),
       ascending: this.fb.control(false),
     }),
   });
@@ -83,7 +86,6 @@ export class ExpenseFilter implements OnInit {
   sortingOptions = [
     { label: 'Date', value: 'date' },
     { label: 'Montant', value: 'amount' },
-    { label: 'Catégorie', value: 'category' },
   ];
 
   get now() {
@@ -120,15 +122,26 @@ export class ExpenseFilter implements OnInit {
     }
     const cached = localStorage.getItem(FILTER_KEY);
     if (cached) {
-      const data = JSON.parse(cached) as CategoryParentType[];
-      // this.selectedCategories.set(data);
+      this.hasValue = true;
+      const { date, ...data } = JSON.parse(cached) as typeof this.form.value;
+      this.form.patchValue(data);
+      if (date) {
+        const { asRange, values } = date;
+        const dates = values
+          ? asRange
+            ? ([new Date((values as [Date, Date])[0]), new Date((values as [Date, Date])[1])] as [
+                Date,
+                Date,
+              ])
+            : new Date(date.values as Date)
+          : undefined;
+        this.form.patchValue({ date: { asRange, values: dates } });
+      }
     }
   }
 
   changeDateMode() {
     const currentValue = this.form.value.date?.asRange ?? false;
-    console.log(currentValue);
-
     this.form.patchValue({
       date: {
         values: undefined,
@@ -138,22 +151,27 @@ export class ExpenseFilter implements OnInit {
   }
 
   onReset() {
+    localStorage.removeItem(FILTER_KEY);
     this.form.reset();
+    this.wasReset = true;
   }
 
   onApply() {
-    console.log(this.form.value);
-    localStorage.setItem(FILTER_KEY, JSON.stringify(this.form.value));
+    if (this.form.dirty) {
+      localStorage.setItem(FILTER_KEY, JSON.stringify(this.form.value));
+      const { date, order, amount, type } = this.form.getRawValue();
+      this.expService.applyFilter({
+        type,
+        date: date?.values,
+        amount,
+        categorieIds: this.selectedCatIds,
+        order: date.asRange ? order : undefined,
+      });
+    } else {
+      if (this.wasReset) this.expService.reset(true);
+    }
 
-    const { date, order, amount, type } = this.form.getRawValue();
-    this.expService.applyFilter({
-      type,
-      date: date?.values,
-      amount,
-      categorieIds: this.selectedCatIds,
-      order: date.asRange ? order : undefined,
-    });
-    this.dialogRef.close();
+    this.dialogRef.close(this.form.dirty || this.hasValue);
   }
 
   private updateSelectedCatIds(categories: CategoryParentType[]): void {

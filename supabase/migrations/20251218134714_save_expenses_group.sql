@@ -3,7 +3,7 @@ set check_function_bodies = off;
 create type public.exp_input_item as (
   "article_id" bigint,
   "amount" numeric,
-  "quantity" smallint
+  "quantity" numeric
 );
 
 CREATE OR REPLACE FUNCTION public.save_expenses_as_group(

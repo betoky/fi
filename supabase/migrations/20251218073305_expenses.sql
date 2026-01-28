@@ -4,7 +4,7 @@ create table "public"."expenses" (
     "name" character varying not null,
     "amount" numeric not null,
     "description" text,
-    "count" smallint not null default '1'::smallint,
+    "count" numeric not null default '1'::numeric,
     "as_group" boolean not null default false,
     "home_id" uuid not null,
     "created_at" timestamp with time zone not null default now()

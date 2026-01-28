@@ -16,7 +16,7 @@ export type EditableExpense = Pick<ExpenseType, 'name' | 'description' | 'amount
 
 export type ExpFetchParams = {
   type: 'all' | 'group' | 'simple';
-  cursor?: Date | null;
+  cursor?: Date | number | null;
   keyword?: string;
   categories?: {
     ids: number[];
@@ -31,9 +31,10 @@ export type ExpFetchParams = {
     max?: number;
   }
   order?: {
-    field: 'category' | 'amount' | 'date';
+    field: 'amount' | 'date';
     ascending: boolean;
   };
+  exclude?: number[] | null;
   limit?: number;
 };
 

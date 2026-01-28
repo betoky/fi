@@ -14,8 +14,9 @@
     </p-inputgroup>
     <p-button
       icon="pi pi-filter"
-      severity="secondary"
+      [severity]="hasFilter() ? 'primary' : 'secondary'"
       [rounded]="true"
+      [outlined]="true"
       (onClick)="openModalFilter()"
     />
     <p-button icon="pi pi-plus" [rounded]="true" (onClick)="openModalForm()" />

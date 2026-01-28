@@ -1,12 +1,16 @@
-import { EditableExpense, ExpenseFilter, ExpenseType, ExpFetchParams, UpdateExpenseType } from '@/domains/expense';
+import {
+  EditableExpense,
+  ExpenseFilter,
+  ExpenseType,
+  ExpFetchParams,
+  UpdateExpenseType,
+} from '@/domains/expense';
 import { ExpenseFormType } from '@/domains/expense-form';
 import { Expense } from '@/services/supabase/expense';
 import { Home } from '@/services/supabase/home';
-import { dailyRange } from '@/utils/date';
+import { dailyRange, isTheSameWithoutTime } from '@/utils/date';
 import { getDetailsChange, getExpenseChange } from '@/utils/expense';
 import { inject, Injectable, signal } from '@angular/core';
-
-
 
 @Injectable({
   providedIn: 'root',
@@ -22,10 +26,10 @@ export class Expenses {
   async load(options?: { reset?: boolean }) {
     const [data, state, next] = await this.expense.fetch(this.listingState);
 
-    this.listingState = state;
     this.hasNext.set(next);
-    const old = options?.reset ? [] : this.expenses();
+    this.updateListingState(state);
 
+    const old = options?.reset ? [] : this.expenses();
     this.expenses.set(old ? [...old, ...data] : data);
   }
 
@@ -39,13 +43,7 @@ export class Expenses {
     this.load({ reset: true });
   }
 
-  applyFilter({
-    type,
-    amount,
-    date,
-    order,
-    categorieIds,
-  }: ExpenseFilter) {
+  applyFilter({ type, amount, date, order, categorieIds }: ExpenseFilter) {
     this.reset();
     if (type) {
       this.listingState.type = type;
@@ -73,7 +71,7 @@ export class Expenses {
 
   reset(andFetch = false) {
     this.listingState = { type: 'all', limit: 12 };
-    andFetch && this.load();
+    andFetch && this.load({ reset: true });
   }
 
   async save(value: ExpenseFormType, asGroup: boolean) {
@@ -102,9 +100,11 @@ export class Expenses {
       getDetailsChange(formData.items, oldData.items);
 
     const homeId = this.home.instance()!.id;
+    if (expenseChange) {
+      this.expense.updateExpense(id, expenseChange).then((data) => this.syncExpenses(data));
+    }
     // Update request
-    const res = await Promise.all([
-      this.expense.updateExpense(id, expenseChange),
+    await Promise.all([
       ...addedCategories.map((categoryId) =>
         this.expense.addExpCategoryRelation(id, categoryId, homeId),
       ),
@@ -115,7 +115,6 @@ export class Expenses {
       ...changedDetails.map(({ id, ...data }) => this.expense.updateDetail(id, data)),
       ...removedDetails.map((id) => this.expense.deleteDetail(id)),
     ]);
-    this.syncExpenses(res[0]);
   }
 
   async updateExpense(id: number, data: UpdateExpenseType) {
@@ -134,5 +133,28 @@ export class Expenses {
     list[index] = update;
 
     this.expenses.set(list);
+  }
+
+  private hasDuplicateCursor(prev: ExpFetchParams['cursor'], cursor: ExpFetchParams['cursor']) {
+    if (!prev || !cursor) return false;
+
+    if (typeof prev !== typeof cursor) return false;
+
+    if (typeof prev === 'number') {
+      return prev === cursor;
+    }
+
+    return isTheSameWithoutTime(prev, cursor as Date);
+  }
+
+  private updateListingState(current: ExpFetchParams) {
+    const { cursor: prevCursor, exclude: prevExclude } = this.listingState;
+    const { cursor, exclude } = current;
+
+    if (exclude && prevExclude && this.hasDuplicateCursor(prevCursor, cursor)) {
+      current.exclude = [...prevExclude, ...exclude];
+    }
+
+    this.listingState = current;
   }
 }
