@@ -6,6 +6,7 @@ import {
   UpdateExpenseType,
 } from '@/domains/expense';
 import { ExpenseFormType } from '@/domains/expense-form';
+import { Period } from '@/domains/period';
 import { Expense } from '@/services/supabase/expense';
 import { Home } from '@/services/supabase/home';
 import { dailyRange, isTheSameWithoutTime } from '@/utils/date';
@@ -125,6 +126,10 @@ export class Expenses {
   async removeExpense(id: number) {
     await this.expense.deleteExpense(id);
     this.reset(true);
+  }
+
+  async summary(date: Date, period: Period) {
+    return this.expense.getExpSummary(date, period);
   }
 
   private syncExpenses(update: ExpenseType) {

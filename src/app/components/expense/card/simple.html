@@ -40,7 +40,7 @@
         <label for="amount" class="font-semibold w-24">Prix</label>
         <p-inputnumber
           mode="currency"
-          currency="MGA"
+          [currency]="currentHome()?.currency"
           fluid
           inputId="amount"
           #amount="ngModel"

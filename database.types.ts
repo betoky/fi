@@ -301,6 +301,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_expenses_summary: {
+        Args: { p_date: string; p_mode: string }
+        Returns: {
+          category: string
+          id: number
+          parent: number
+          total: number
+        }[]
+      }
       get_request_home: { Args: never; Returns: string }
       save_expenses: {
         Args: {

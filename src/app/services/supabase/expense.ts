@@ -5,6 +5,7 @@ import { ExpenseFormData } from '@/domains/expense-form';
 import { PriceInfo, UpdateExpDetail } from '@/domains/expense-detail';
 import { Home } from '@/services/supabase/home';
 import { getMaxDate, getMinDate, isDate, isTheSameWithoutTime } from '@/utils/date';
+import { Period } from '@/domains/period';
 
 @Injectable({
   providedIn: 'root',
@@ -225,5 +226,16 @@ export class Expense {
       .insert([{ expense_id, category_id, home_id }])
       .select();
     if (error) throw error;
+  }
+
+  async getExpSummary(date: Date, period: Period) {
+    const { data, error } = await this.supabase.rpc('get_expenses_summary', {
+      p_date: date.toISOString(),
+      p_mode: period,
+    });
+
+    if (error) throw error;
+
+    return data;
   }
 }

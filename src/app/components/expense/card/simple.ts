@@ -5,6 +5,7 @@ import { DatePipe } from '@/pipes/date-pipe';
 import { Alert } from '@/services/alert';
 import { Expenses } from '@/services/expense/expenses';
 import { Expense } from '@/services/supabase/expense';
+import { Home } from '@/services/supabase/home';
 import { formatBadge } from '@/utils/expense';
 import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -33,6 +34,7 @@ export class ExpenseSimpleCard implements OnInit {
   private alert = inject(Alert);
   private database = inject(Expense);
   private listing = inject(Expenses);
+  protected currentHome = inject(Home).instance;
 
   ngOnInit(): void {
     this.database
