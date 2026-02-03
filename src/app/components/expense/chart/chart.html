@@ -1,4 +1,4 @@
-<div class="flex flex-col-reverse 2xl:flex-row items-center justify-between gap-x-3 gap-y-2">
+<div class="mb-4 flex flex-col-reverse 2xl:flex-row items-center justify-between gap-x-3 gap-y-2">
   <div class="space-x-5">
     <p-button
       class="inline-block"
@@ -8,7 +8,9 @@
       [text]="true"
       (onClick)="charts.previous()"
     />
-    <p class="inline-block min-w-24 text-center font-semibold capitalize">{{ charts.displayDate() }}</p>
+    <p class="inline-block min-w-24 text-center font-semibold capitalize">
+      {{ charts.displayDate() }}
+    </p>
     <p-button
       class="inline-block"
       severity="secondary"
@@ -27,11 +29,9 @@
     (onChange)="charts.changePeriod($event.value)"
   />
 </div>
-<div class="p-4">
-  <p-chart
-    type="doughnut"
-    [data]="pieData()"
-    [options]="chartOptions()"
-    class="w-full max-w-md mx-auto"
-  />
-</div>
+<p-chart
+  type="doughnut"
+  [data]="pieData()"
+  [options]="chartOptions()"
+  class="w-full max-w-md mx-auto"
+/>
