@@ -1,5 +1,5 @@
 import { DarkModeSwitcher } from '@/services/dark-mode-switcher';
-import { CategoryDataChart, Charts } from '@/services/expense/charts';
+import { CategoryDataChart, CategoriesSummary } from '@/services/expense/categories-summary';
 import { Home } from '@/services/supabase/home';
 import { formatCurrency } from '@/utils/number';
 import { PeriodMap } from '@/utils/period';
@@ -10,12 +10,12 @@ import { ChartModule } from 'primeng/chart';
 import { SelectButton } from 'primeng/selectbutton';
 
 @Component({
-  selector: 'exp-charts',
+  selector: 'exp-cat-summary',
   imports: [Button, ChartModule, FormsModule, SelectButton],
-  templateUrl: './chart.html',
+  templateUrl: './categories.html',
 })
-export class ExpenseChart {
-  charts = inject(Charts);
+export class ExpenseCatSummary {
+  catSummary = inject(CategoriesSummary);
   private color = inject(DarkModeSwitcher).textColor;
   private home = inject(Home).instance;
 
@@ -80,7 +80,7 @@ export class ExpenseChart {
 
   constructor() {
     effect(() => {
-      const data = this.charts.categories();
+      const data = this.catSummary.categories();
       if (!data) return;
       const root = [] as CategoryDataChart;
       const childs = new Map<number, CategoryDataChart>();

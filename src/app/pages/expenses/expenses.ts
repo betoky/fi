@@ -1,11 +1,11 @@
 import { ExpenseList } from '@/components/expense/list/expense-list';
 import { Items } from '@/services/expense/items';
 import { Component, OnDestroy, inject, signal } from '@angular/core';
-import { ExpenseChart } from "@/components/expense/chart/chart";
+import { ExpenseCatSummary } from "@/components/expense/chart/categories";
 
 @Component({
   selector: 'app-expenses',
-  imports: [ExpenseList, ExpenseChart],
+  imports: [ExpenseList, ExpenseCatSummary],
   templateUrl: './expenses.html',
   styleUrl: './expenses.css',
 })

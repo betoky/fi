@@ -9,7 +9,7 @@ export type CategoryDataChart = Database['public']['Functions']['get_expenses_su
 @Injectable({
   providedIn: 'root',
 })
-export class Charts {
+export class CategoriesSummary {
   private expense = inject(Expense);
   private date = signal(new Date());
   private _period = signal<Period>('month');

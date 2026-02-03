@@ -6,10 +6,10 @@
       icon="pi pi-chevron-left"
       [rounded]="true"
       [text]="true"
-      (onClick)="charts.previous()"
+      (onClick)="catSummary.previous()"
     />
     <p class="inline-block min-w-24 text-center font-semibold capitalize">
-      {{ charts.displayDate() }}
+      {{ catSummary.displayDate() }}
     </p>
     <p-button
       class="inline-block"
@@ -17,7 +17,7 @@
       icon="pi pi-chevron-right"
       [rounded]="true"
       [text]="true"
-      (onClick)="charts.next()"
+      (onClick)="catSummary.next()"
     />
   </div>
   <p-selectButton
@@ -25,13 +25,13 @@
     optionValue="value"
     size="small"
     [options]="periodOptions"
-    [ngModel]="charts.period()"
-    (onChange)="charts.changePeriod($event.value)"
+    [ngModel]="catSummary.period()"
+    (onChange)="catSummary.changePeriod($event.value)"
   />
 </div>
 <p-chart
   type="doughnut"
   [data]="pieData()"
   [options]="chartOptions()"
-  class="w-full max-w-md mx-auto"
+  class="w-full max-w-sm mx-auto"
 />
