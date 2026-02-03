@@ -1,4 +1,3 @@
-import { DarkModeSwitcher } from '@/services/dark-mode-switcher';
 import { CategoryDataChart, CategoriesSummary } from '@/services/expense/categories-summary';
 import { Home } from '@/services/supabase/home';
 import { formatCurrency } from '@/utils/number';
@@ -16,26 +15,24 @@ import { SelectButton } from 'primeng/selectbutton';
 })
 export class ExpenseCatSummary {
   catSummary = inject(CategoriesSummary);
-  private color = inject(DarkModeSwitcher).textColor;
   private home = inject(Home).instance;
 
   get periodOptions() {
     return [...PeriodMap.values()];
   }
 
-  chartOptions = computed(() => ({
+  chartOptions = {
     plugins: {
       legend: {
         labels: {
           usePointStyle: true,
-          color: this.color(),
         },
       },
       tooltip: {
         usePointStyle: true,
       },
     },
-  }));
+  };
 
   root = signal([] as CategoryDataChart);
   childs = signal(new Map<number, CategoryDataChart>());

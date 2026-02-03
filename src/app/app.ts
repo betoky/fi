@@ -10,6 +10,7 @@ import { ConfirmDialog } from '@/services/confirm-dialog';
 import { DarkModeSwitcher } from '@/services/dark-mode-switcher';
 import { Home } from '@/services/supabase/home';
 import { User } from '@/services/supabase/user';
+import { ExpenseSummary } from '@/services/expense/annual-summary';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,7 @@ import { User } from '@/services/supabase/user';
 export class App implements OnInit {
   private darkModeSwitcher = inject(DarkModeSwitcher);
   private categories = inject(Categories);
+  private expSummary = inject(ExpenseSummary);
   private home = inject(Home);
   private user = inject(User);
   private isAuth$ = inject(Auth).isAuthenticated$
@@ -56,6 +58,7 @@ export class App implements OnInit {
           this.home.instance.set(undefined);
           this.user.instance.set(undefined);
           this.categories.reset();
+          this.expSummary.reset();
         }
       }
     })

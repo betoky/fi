@@ -5,10 +5,8 @@ import { Injectable, signal } from '@angular/core';
 })
 export class DarkModeSwitcher {
   private readonly KEY = 'dark-mode';
-  private _color = signal(getComputedStyle(document.documentElement).color);
 
   isDarkMode = signal(false);
-  textColor = this._color.asReadonly();
 
   init() {
     const savedMode = localStorage.getItem(this.KEY);
@@ -20,7 +18,6 @@ export class DarkModeSwitcher {
       this.setMode(prefersDark);
       this.listenToSystemChanges();
     }
-    this._color.set(getComputedStyle(document.documentElement).color);
   }
 
   toggle() {
@@ -29,8 +26,6 @@ export class DarkModeSwitcher {
     const nextMode = !this.isDarkMode();
     this.isDarkMode.set(nextMode);
     localStorage.setItem(this.KEY, JSON.stringify(nextMode));
-
-    this._color.set(getComputedStyle(document.documentElement).color);
   }
 
   private setMode(isDark: boolean) {

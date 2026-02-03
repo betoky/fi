@@ -1,7 +1,12 @@
 <div class="layout relative pb-4">
   <!-- Resume -->
-  <div class="card h-fit md:sticky top-(--offset-top)">
-    <exp-cat-summary />
+  <div class="space-y-5">
+    <div class="card h-fit md:sticky top-(--offset-top)">
+      <exp-cat-summary />
+    </div>
+    <div class="card w-full h-fit md:sticky top-(--offset-top)">
+      <exp-annual-summary />
+    </div>
   </div>
   <!-- Listing -->
   <div class="max-w-xl w-full mx-auto">
@@ -15,7 +20,6 @@
     Fonctionnalité bientôt disponible
   </div>
 </div>
-
 
 @if (asideOpened()) {
   <div (click)="asideOpened.set(false)" class="xl:hidden overlay"></div>

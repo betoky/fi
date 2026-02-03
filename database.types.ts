@@ -301,6 +301,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_annual_exp_summary: {
+        Args: { p_year: number }
+        Returns: {
+          month: string
+          total: number
+        }[]
+      }
       get_expenses_summary: {
         Args: { p_date: string; p_mode: string }
         Returns: {

@@ -238,4 +238,12 @@ export class Expense {
 
     return data;
   }
+
+  async getAnnualSummary(p_year: number) {
+    const { data, error } = await this.supabase.rpc('get_annual_exp_summary', { p_year });
+    
+    if (error) throw error;
+
+    return data;
+  }
 }
