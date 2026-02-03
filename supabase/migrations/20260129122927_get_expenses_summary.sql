@@ -19,6 +19,7 @@ begin
   left join public.expenses exp
     on exp_cat.expense_id = exp.id
   where date_trunc(p_mode, exp.date) = date_trunc(p_mode, p_date)
-  group by parent.id, parent.name, parent.parent;
+  group by parent.id, parent.name, parent.parent
+  order by category;
 end;
 $function$;

@@ -128,10 +128,6 @@ export class Expenses {
     this.reset(true);
   }
 
-  async summary(date: Date, period: Period) {
-    return this.expense.getExpSummary(date, period);
-  }
-
   private syncExpenses(update: ExpenseType) {
     const list = this.expenses()!;
     const index = list.findIndex((i) => i.id === update.id);

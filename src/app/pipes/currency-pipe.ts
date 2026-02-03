@@ -1,6 +1,7 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
 import { Enums } from '@/database.types';
 import { Home } from '@/services/supabase/home';
+import { formatCurrency } from '@/utils/number';
 
 @Pipe({
   name: 'appCurrency',
@@ -18,10 +19,6 @@ export class CurrencyPipe implements PipeTransform {
       throw new Error('Permission denied');
     }
 
-    return Intl.NumberFormat(undefined, {
-      style: 'currency',
-      currency: currency ?? currentHome.currency,
-      currencyDisplay: 'narrowSymbol',
-    }).format(value);
+    return formatCurrency(value, currency ?? currentHome.currency);
   }
 }
