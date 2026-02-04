@@ -1,29 +1,33 @@
-<div class="mb-3 space-x-3 w-fit mx-auto md:mx-[unset]">
-  <p-button
-    class="inline-block"
-    severity="secondary"
-    icon="pi pi-chevron-left"
-    [rounded]="true"
-    [text]="true"
-    (onClick)="summary.previous()"
-  />
-  <span class="font-semibold text-lg">{{ summary.year() }}</span>
-  <p-button
-    class="inline-block"
-    severity="secondary"
-    icon="pi pi-chevron-right"
-    [rounded]="true"
-    [text]="true"
-    (onClick)="summary.next()"
-  />
-</div>
+<div class="h-full flex flex-col justify-stretch gap-4">
+  <div class="space-x-3 w-fit mx-auto md:mx-[unset]">
+    <p-button
+      class="inline-block"
+      severity="secondary"
+      icon="pi pi-chevron-left"
+      [rounded]="true"
+      [text]="true"
+      (onClick)="summary.previous()"
+    />
+    <span class="font-semibold text-lg">{{ summary.year() }}</span>
+    <p-button
+      class="inline-block"
+      severity="secondary"
+      icon="pi pi-chevron-right"
+      [rounded]="true"
+      [text]="true"
+      (onClick)="summary.next()"
+    />
+  </div>
 
-@let data = dataChart();
-@if (data) {
-  <p-chart type="line" [data]="dataChart()" [options]="chartOptions" />
-} @else {
-  <p-skeleton class="w-full" height="18rem" />
-}
-<p class="mt-4 text-center text-sm md:text-end text-(--p-text-muted-color)">
-  Synthèse des dépenses annuelles
-</p>
+  @let data = dataChart();
+  <div class="flex-1">
+    @if (data) {
+      <p-chart height="100%" type="line" [data]="dataChart()" [options]="chartOptions" />
+    } @else {
+      <p-skeleton class="w-full h-full" />
+    }
+  </div>
+  <p class="text-center text-sm md:text-end text-(--p-text-muted-color)">
+    Synthèse des dépenses annuelles
+  </p>
+</div>

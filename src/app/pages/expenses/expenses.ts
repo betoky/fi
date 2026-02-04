@@ -8,12 +8,9 @@ import { ExpAnnualSummary } from "@/components/expense/chart/annual";
   selector: 'app-expenses',
   imports: [ExpenseList, ExpenseCatSummary, ExpAnnualSummary],
   templateUrl: './expenses.html',
-  styleUrl: './expenses.css',
 })
 export class Expenses implements OnDestroy {
   public items = inject(Items);
-
-  protected asideOpened = signal(false);
 
   ngOnDestroy(): void {
     this.items.reset();

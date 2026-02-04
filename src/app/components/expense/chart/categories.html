@@ -1,38 +1,39 @@
-<div class="mb-4 flex flex-col-reverse 2xl:flex-row items-center justify-between gap-x-3 gap-y-2">
-  <div class="space-x-5">
-    <p-button
-    class="inline-block"
-    severity="secondary"
-    icon="pi pi-chevron-left"
-    [rounded]="true"
-    [text]="true"
-      (onClick)="catSummary.previous()"
-    />
-    <p class="inline-block min-w-24 text-center font-semibold capitalize">
-      {{ catSummary.displayDate() }}
-    </p>
-    <p-button
-      class="inline-block"
-      severity="secondary"
-      icon="pi pi-chevron-right"
-      [rounded]="true"
-      [text]="true"
-      (onClick)="catSummary.next()"
+<div class="flex flex-col h-full justify-stretch gap-5">
+  <div class="flex flex-col-reverse 2xl:flex-row items-center justify-between gap-x-3 gap-y-2">
+    <div class="space-x-5">
+      <p-button
+        class="inline-block"
+        severity="secondary"
+        icon="pi pi-chevron-left"
+        [rounded]="true"
+        [text]="true"
+        (onClick)="catSummary.previous()"
+      />
+      <p class="inline-block min-w-24 text-center font-semibold capitalize">
+        {{ catSummary.displayDate() }}
+      </p>
+      <p-button
+        class="inline-block"
+        severity="secondary"
+        icon="pi pi-chevron-right"
+        [rounded]="true"
+        [text]="true"
+        (onClick)="catSummary.next()"
+      />
+    </div>
+    <p-selectButton
+      optionLabel="label"
+      optionValue="value"
+      size="small"
+      [options]="periodOptions"
+      [ngModel]="catSummary.period()"
+      (onChange)="catSummary.changePeriod($event.value)"
     />
   </div>
-  <p-selectButton
-  optionLabel="label"
-    optionValue="value"
-    size="small"
-    [options]="periodOptions"
-    [ngModel]="catSummary.period()"
-    (onChange)="catSummary.changePeriod($event.value)"
-  />
+  <div class="flex-1">
+    <p-chart type="doughnut" [data]="pieData()" [options]="chartOptions" height="100%" />
+  </div>
+  <p class="text-center text-sm md:text-end text-(--p-text-muted-color)">
+    Synthèse des dépenses par catégories
+  </p>
 </div>
-<p-chart
-  type="doughnut"
-  [data]="pieData()"
-  [options]="chartOptions"
-  class="w-full max-w-xs 2xl:max-w-md mx-auto"
-/>
-<p class="mt-4 text-center text-sm md:text-end text-(--p-text-muted-color)">Synthèse des dépenses par catégories</p>

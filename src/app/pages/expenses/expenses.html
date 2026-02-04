@@ -1,26 +1,22 @@
-<div class="layout relative pb-4">
-  <!-- Resume -->
-  <div class="space-y-5">
-    <div class="card h-fit md:sticky top-(--offset-top)">
+<div class="relative md:grid grid-cols-3 gap-4 max-md:max-w-xl mx-auto">
+  <!--  -->
+  <div
+    class="max-xl:col-span-2 md:pb-4 space-y-4 md:sticky top-(--offset-top) md:h-(--dvh) md:flex md:flex-col justify-stretch"
+  >
+    <div class="card h-full">
       <exp-cat-summary />
     </div>
-    <div class="card w-full h-fit md:sticky top-(--offset-top)">
+    <div class="card h-full">
       <exp-annual-summary />
     </div>
   </div>
-  <!-- Listing -->
-  <div class="max-w-xl w-full mx-auto">
+  <!--  -->
+  <div class="max-md:mt-5">
     <app-expense-list />
   </div>
-  <!-- Aside -->
-  <div
-    [class.active]="asideOpened()"
-    class="card h-fit aside fixed xl:sticky xl:top-(--offset-top) z-20"
-  >
-    Fonctionnalité bientôt disponible
+  <!--  -->
+  <div class="card h-96 hidden xl:grid place-items-center md:sticky top-(--offset-top)">
+    <p class="text-2xl font-medium">Fonctionnalité bientôt disponible</p>
   </div>
+  <!--  -->
 </div>
-
-@if (asideOpened()) {
-  <div (click)="asideOpened.set(false)" class="xl:hidden overlay"></div>
-}
